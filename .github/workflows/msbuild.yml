@@ -1,0 +1,47 @@
+
+name : MSBuild
+
+env :
+  SOLUTION_FILE_PREFIX : WpfControl
+
+jobs :
+  build :
+    runs-on : windows-latest
+
+    strategy :
+      fail-fast : false
+
+      matrix :
+        build-type : [ Release, Debug ]
+        target-ver : [ "" ]
+
+    steps :
+      - name : Checkout
+        uses : actions/checkout@v6
+        with :
+          submodules : recursive
+
+      - name : Setup MSBuild
+        uses : microsoft/setup-msbuild@v3
+        with :
+          msbuild-architecture : x64
+
+      - name : Check
+        run  : |
+          msbuild  --version
+        shell : pwsh
+
+      - name : Build
+        working-directory : ${{ github.workspace }}
+        run  : >
+          msbuild -restore -t:Rebuild -p:Platform=x64 -p:Configuration="${{ matrix.build-type }}" "${{ env.solution-file }}"
+        env  :
+          solution-file : "${{ env.SOLUTION_FILE_PREFIX }}${{ matrix.target-ver }}.sln"
+        shell : pwsh
+
+on :
+  push :
+    branches : [ "master", "develop" ]
+  pull_request :
+    branches : [ "master", "develop" ]
+  workflow_dispatch :
