@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <OBJ_BASE_DIR>$(SolutionDir)Objs</OBJ_BASE_DIR>
+    <LIB_BASE_DIR>$(SolutionDir)Libs</LIB_BASE_DIR>
+    <CONFIG_NAME>$(Platform)-$(Configuration)</CONFIG_NAME>
+
+    <IntDir>$(OBJ_BASE_DIR)\$(CONFIG_NAME)\$(ProjectName)\</IntDir>
+    <IntermediateOutputPath>$(IntDir)</IntermediateOutputPath>
+    <OutDir>$(LIB_BASE_DIR)\$(CONFIG_NAME)\$(ProjectName)\</OutDir>
+  </PropertyGroup>
+
+</Project>
