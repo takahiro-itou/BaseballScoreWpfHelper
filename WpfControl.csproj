@@ -13,7 +13,7 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <Import Project="..\Props\OutputLibs.props" />
+  <Import Project="Props\OutputLibs.props" />
 
   <ItemGroup>
     <Compile Include="Common\AbstractSimpleCommand.cs" />
