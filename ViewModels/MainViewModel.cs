@@ -13,7 +13,9 @@
 *************************************************************************/
 
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
+using WpfControl.Common;
 using BaseballScoreHelper.Document;
 
 
@@ -41,6 +43,19 @@ MainViewModel()
         new LeagueInfo { LeagueName = "LeagueA", NumPlayOff = 3 });
     this.m_leagueInfos.Add(
         new LeagueInfo { LeagueName = "LeagueB", NumPlayOff = 3 });
+
+    m_windowCaption = "成績／順位";
+
+    //  コマンドを実装する。    //
+    this.FileOpenCommand = new SimpleCommand(
+        () => executeFileOpenCommand()
+    );
+    this.FileSaveCommand = new SimpleCommand(
+        () => executeFileSaveCommand()
+    );
+    this.FileSaveAsCommand = new SimpleCommand(
+        () => executeFileSaveAsCommand()
+    );
 }
 
 
@@ -49,9 +64,94 @@ MainViewModel()
 //    Properties.
 //
 
+public  ICommand  FileOpenCommand { get; }
+
+public  ICommand  FileSaveCommand { get; }
+
+public  ICommand  FileSaveAsCommand { get; }
+
+
+//----------------------------------------------------------------
+/**
+**
+**/
+
 public  virtual  ObservableCollection<LeagueInfo>
 Leagues {
     get { return  this.m_leagueInfos; }
+}
+
+//----------------------------------------------------------------
+/**
+**
+**/
+
+public  virtual  System.String
+WindowCaption  {
+    get { return  this.m_windowCaption; }
+    set {
+        this.m_windowCaption = value;
+        raisePropertyChanged();
+    }
+}
+
+
+//========================================================================
+//
+//    Protected Member Functions.
+//
+
+//----------------------------------------------------------------
+/**
+**
+**/
+
+protected  virtual  void
+executeFileOpenCommand()
+{
+    Microsoft.Win32.OpenFileDialog  dlgOpenFile;
+
+    dlgOpenFile = new Microsoft.Win32.OpenFileDialog {
+        DefaultExt = ".gsr",
+        FileName = "*.gsr",
+        Filter = "Game Score Record(*.gsr)|*.gsr|All Files(*.*)|*.*",
+        FilterIndex = 1
+    };
+    if ( dlgOpenFile.ShowDialog() == false ) {
+        return;
+    }
+}
+
+//----------------------------------------------------------------
+/**
+**
+**/
+
+protected  virtual  void
+executeFileSaveCommand()
+{
+    WindowCaption = "上書き保存";
+}
+
+//----------------------------------------------------------------
+/**
+**
+**/
+
+protected  virtual  void
+executeFileSaveAsCommand()
+{
+    Microsoft.Win32.SaveFileDialog  dlgSaveFile;
+
+    dlgSaveFile = new Microsoft.Win32.SaveFileDialog {
+        DefaultExt = ".gsr",
+        FileName = "*.gsr",
+        Filter = "Game Score Record(*.gsr)|*.gsr|All Files(*.*)|*.*",
+        FilterIndex = 1
+    };
+    if ( dlgSaveFile.ShowDialog() == false ) {
+        return;
+    }
 }
 
 
@@ -59,6 +159,8 @@ Leagues {
 //
 //    Member Variables.
 //
+
+private  System.String      m_windowCaption;
 
 private  ObservableCollection<LeagueInfo>   m_leagueInfos;
 
