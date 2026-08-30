@@ -12,14 +12,10 @@
 **                                                                      **
 *************************************************************************/
 
-using System.Collections.ObjectModel;
 
-using BaseballScoreHelper.Document;
+namespace  BaseballScoreHelper.Document  {
 
-
-namespace  BaseballScoreHelper.ViewModels  {
-
-public  class  RankingViewModel : ViewModelBase
+public  class  LeagueInfo
 {
 
 //========================================================================
@@ -32,15 +28,8 @@ public  class  RankingViewModel : ViewModelBase
 **
 **/
 public
-RankingViewModel()
+LeagueInfo()
 {
-
-    //  ダミーデータを準備する。    //
-    this.m_leagueInfos = new ObservableCollection<LeagueInfo>();
-    this.m_leagueInfos.Add(
-        new LeagueInfo { LeagueName = "LeagueA", NumPlayOff = 3 });
-    this.m_leagueInfos.Add(
-        new LeagueInfo { LeagueName = "LeagueB", NumPlayOff = 3 });
 }
 
 
@@ -49,20 +38,11 @@ RankingViewModel()
 //    Properties.
 //
 
-public  virtual  ObservableCollection<LeagueInfo>
-Leagues {
-    get { return  this.m_leagueInfos; }
-}
+public  System.String   LeagueName { get; set; } = "";
+
+public  int             NumPlayOff { get; set; } = 1;
 
 
-//========================================================================
-//
-//    Member Variables.
-//
-
-private  ObservableCollection<LeagueInfo>   m_leagueInfos;
-
-
-}   //  End class  RankingViewModel
+}   //  End struct  LeagueInfo
 
 }   //  End of namespace  BaseballScoreHelper.ViewModels

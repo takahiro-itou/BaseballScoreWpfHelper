@@ -19,6 +19,8 @@
     <Compile Include="Common\AbstractSimpleCommand.cs" />
     <Compile Include="Common\SimpleCommand.cs" />
 
+    <Compile Include="Document\LeagueInfo.cs" />
+
     <Compile Include="ViewModels\DetailViewModel.cs" />
     <Compile Include="ViewModels\ExtraInfoViewModel.cs" />
     <Compile Include="ViewModels\RankingViewModel.cs" />
