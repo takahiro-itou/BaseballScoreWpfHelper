@@ -20,6 +20,18 @@
   <ItemGroup>
     <Compile Include="Common\AbstractSimpleCommand.cs" />
     <Compile Include="Common\SimpleCommand.cs" />
+
+    <Compile Include="Document\LeagueInfo.cs" />
+
+    <Compile Include="Models\RankingModel.cs" />
+
+    <Compile Include="ViewModels\DetailViewModel.cs" />
+    <Compile Include="ViewModels\ExtraInfoViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RankingViewModel.cs" />
+    <Compile Include="ViewModels\ScoreEditorViewModel.cs" />
+    <Compile Include="ViewModels\VictoryLineViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
 
 </Project>
