@@ -41,6 +41,7 @@ RankingViewModel()
             NumLost   = 3,
             NumDraw   = 1,
             NumGames  = 14,
+            GameDiff  = "---",
             Percent   = ".769",
             MagicText = "9",
             RankRange = "1-6"
@@ -53,6 +54,7 @@ RankingViewModel()
             NumLost   = 3,
             NumDraw   = 2,
             NumGames  = 14,
+            GameDiff  = "0.5",
             Percent   = ".750",
             MagicText = "8",
             RankRange = "1-6"

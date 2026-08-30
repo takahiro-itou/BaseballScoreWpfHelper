@@ -35,6 +35,7 @@ RankingModel()
     this.NumWons    = 0;
     this.NumLost    = 0;
     this.NumDraw    = 0;
+    this.GameDiff   = "";
     this.Percent    = "";
     this.MagicText  = "";
     this.RankRange  = "";
@@ -55,6 +56,8 @@ public  int             NumLost   { get; set; }
 public  int             NumDraw   { get; set; }
 
 public  int             NumGames  { get; set; }
+
+public  System.String   GameDiff  { get; set; }
 
 public  System.String   Percent   { get; set; }
 
