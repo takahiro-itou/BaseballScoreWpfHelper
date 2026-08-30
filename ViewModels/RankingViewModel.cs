@@ -14,8 +14,7 @@
 
 using System.Collections.ObjectModel;
 
-using BaseballScoreHelper.Document;
-
+using BaseballScoreHelper.Models;
 
 namespace  BaseballScoreHelper.ViewModels  {
 
@@ -34,6 +33,31 @@ public  class  RankingViewModel : ViewModelBase
 public
 RankingViewModel()
 {
+    this.m_rankingData  = new ObservableCollection<RankingModel>();
+    this.m_rankingData.Add(
+        new  RankingModel {
+            TeamName  = "Team 1",
+            NumWons   = 10,
+            NumLost   = 3,
+            NumDraw   = 1,
+            NumGames  = 14,
+            Percent   = ".769",
+            MagicText = "9",
+            RankRange = "1-6"
+        }
+    );
+    this.m_rankingData.Add(
+        new  RankingModel {
+            TeamName  = "Team 2",
+            NumWons   = 9,
+            NumLost   = 3,
+            NumDraw   = 2,
+            NumGames  = 14,
+            Percent   = ".750",
+            MagicText = "8",
+            RankRange = "1-6"
+        }
+    );
 }
 
 
@@ -42,11 +66,23 @@ RankingViewModel()
 //    Properties.
 //
 
+//----------------------------------------------------------------
+/**
+**
+**/
+
+public  virtual  ObservableCollection<RankingModel>
+RankingData {
+    get { return  this.m_rankingData; }
+}
+
 
 //========================================================================
 //
 //    Member Variables.
 //
+
+private   ObservableCollection<RankingModel>    m_rankingData;
 
 
 }   //  End class  RankingViewModel

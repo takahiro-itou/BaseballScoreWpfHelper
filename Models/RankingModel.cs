@@ -46,21 +46,21 @@ RankingModel()
 //    Properties.
 //
 
-public  System.String   TeamName { get; }
+public  System.String   TeamName  { get; set; }
 
-public  int             NumWons  { get; }
+public  int             NumWons   { get; set; }
 
-public  int             NumLost  { get; }
+public  int             NumLost   { get; set; }
 
-public  int             NumDraw  { get; }
+public  int             NumDraw   { get; set; }
 
-public  int             NumGames { get; }
+public  int             NumGames  { get; set; }
 
-public  System.String   Percent  { get; }
+public  System.String   Percent   { get; set; }
 
-public  System.String   MagicText { get; }
+public  System.String   MagicText { get; set; }
 
-public  System.String   RankRange { get; }
+public  System.String   RankRange { get; set; }
 
 
 //========================================================================
