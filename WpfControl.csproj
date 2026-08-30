@@ -21,6 +21,8 @@
 
     <Compile Include="Document\LeagueInfo.cs" />
 
+    <Compile Include="Models\RankingModel.cs" />
+
     <Compile Include="ViewModels\DetailViewModel.cs" />
     <Compile Include="ViewModels\ExtraInfoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

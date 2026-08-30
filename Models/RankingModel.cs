@@ -12,14 +12,10 @@
 **                                                                      **
 *************************************************************************/
 
-using System.Collections.ObjectModel;
 
-using BaseballScoreHelper.Document;
+namespace  BaseballScoreHelper.Models  {
 
-
-namespace  BaseballScoreHelper.ViewModels  {
-
-public  class  RankingViewModel : ViewModelBase
+public  class  RankingModel
 {
 
 //========================================================================
@@ -31,9 +27,17 @@ public  class  RankingViewModel : ViewModelBase
 /**   コンストラクタ。
 **
 **/
+
 public
-RankingViewModel()
+RankingModel()
 {
+    this.TeamName   = "";
+    this.NumWons    = 0;
+    this.NumLost    = 0;
+    this.NumDraw    = 0;
+    this.Percent    = "";
+    this.MagicText  = "";
+    this.RankRange  = "";
 }
 
 
@@ -42,6 +46,22 @@ RankingViewModel()
 //    Properties.
 //
 
+public  System.String   TeamName { get; }
+
+public  int             NumWons  { get; }
+
+public  int             NumLost  { get; }
+
+public  int             NumDraw  { get; }
+
+public  int             NumGames { get; }
+
+public  System.String   Percent  { get; }
+
+public  System.String   MagicText { get; }
+
+public  System.String   RankRange { get; }
+
 
 //========================================================================
 //
@@ -49,6 +69,6 @@ RankingViewModel()
 //
 
 
-}   //  End class  RankingViewModel
+}   //  End class  RankingModel
 
-}   //  End of namespace  BaseballScoreHelper.ViewModels
+}   //  End of namespace  BaseballScoreHelper.Models

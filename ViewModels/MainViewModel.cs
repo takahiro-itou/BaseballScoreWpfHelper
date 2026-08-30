@@ -46,7 +46,11 @@ MainViewModel()
 
     m_windowCaption = "成績／順位";
 
-    //  コマンドを実装する。    //
+    //  内部のビューモデルを構築。  //
+    this.m_vmRanking = new RankingViewModel();
+    this.m_vmExtras  = new ExtraInfoViewModel();
+
+    //  コマンドを実装する。      //
     this.FileOpenCommand = new SimpleCommand(
         () => executeFileOpenCommand()
     );
@@ -71,6 +75,11 @@ public  ICommand  FileSaveCommand { get; }
 public  ICommand  FileSaveAsCommand { get; }
 
 
+public  virtual  ExtraInfoViewModel
+ExtraSource  {
+    get { return  this.m_vmExtras; }
+}
+
 //----------------------------------------------------------------
 /**
 **
@@ -79,6 +88,11 @@ public  ICommand  FileSaveAsCommand { get; }
 public  virtual  ObservableCollection<LeagueInfo>
 Leagues {
     get { return  this.m_leagueInfos; }
+}
+
+public  virtual  RankingViewModel
+RankingSource  {
+    get { return  this.m_vmRanking; }
 }
 
 //----------------------------------------------------------------
@@ -160,9 +174,13 @@ executeFileSaveAsCommand()
 //    Member Variables.
 //
 
-private  System.String      m_windowCaption;
+private   readonly  RankingViewModel        m_vmRanking;
 
-private  ObservableCollection<LeagueInfo>   m_leagueInfos;
+private   readonly  ExtraInfoViewModel      m_vmExtras;
+
+private   System.String                     m_windowCaption;
+
+private   ObservableCollection<LeagueInfo>  m_leagueInfos;
 
 
 }   //  End class  MainViewModel
