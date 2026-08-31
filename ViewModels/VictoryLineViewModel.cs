@@ -56,6 +56,7 @@ VictoryLineViewModel()
             row["Team 2"] = $"{i}-{6-i}: {(i + 4)/20}";
         }
         row["Team 3"] = $"{i}-{10-i}: {(i + 1)/20}";
+        this.m_dtLines.Rows.Add(row);
     }
 }
 
