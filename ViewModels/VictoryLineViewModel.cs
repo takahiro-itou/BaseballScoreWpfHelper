@@ -48,14 +48,14 @@ VictoryLineViewModel()
         if ( i >= 5 ) {
             row["Team 1"] = "";
         } else {
-            row["Team 1"] = $"{i}-{5-i}: {(i + 5)/20}"
+            row["Team 1"] = $"{i}-{5-i}: {(i + 5)/20}";
         }
         if ( i >= 6 ) {
             row["Team 2"] = "";
         } else {
-            row["Team 2"] = $"{i}-{6-i}: {(i + 4)/20}"
+            row["Team 2"] = $"{i}-{6-i}: {(i + 4)/20}";
         }
-        row["Team 3"] = $"{i}-{10-i}: {(i + 1)/20}"
+        row["Team 3"] = $"{i}-{10-i}: {(i + 1)/20}";
     }
 }
 
