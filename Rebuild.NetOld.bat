@@ -1,5 +1,5 @@
 
-set  solution=WpfControl
+set  solution=WpfHelper
 set  target=Rebuild
 set  config="Debug"
 

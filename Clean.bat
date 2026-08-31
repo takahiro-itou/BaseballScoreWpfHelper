@@ -1,5 +1,5 @@
 
-set  solution=WpfControl
+set  solution=WpfHelper
 set  target=Clean
 set  config="Debug"
 

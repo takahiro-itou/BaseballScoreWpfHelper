@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 
 using BaseballScoreHelper.Models;
 
+
 namespace  BaseballScoreHelper.ViewModels  {
 
 public  class  RankingViewModel : ViewModelBase
