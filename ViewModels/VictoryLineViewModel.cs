@@ -12,11 +12,53 @@
 **                                                                      **
 *************************************************************************/
 
+using System.Data;
+
 
 namespace  BaseballScoreHelper.ViewModels  {
 
 public  class  VictoryLineViewModel : ViewModelBase
 {
+
+//========================================================================
+//
+//    Constructor(s) and Destructor.
+//
+
+//----------------------------------------------------------------
+/**   コンストラクタ。
+**
+**/
+
+public
+VictoryLineViewModel()
+{
+}
+
+
+//========================================================================
+//
+//    Properties.
+//
+
+//----------------------------------------------------------------
+/**
+**
+**/
+
+public  virtual  DataTable
+LineDataTable  {
+    get { return  this.m_dtLines; }
+}
+
+
+//========================================================================
+//
+//    Member Variables.
+//
+
+private   DataTable     m_dtLines;
+
 
 }   //  End class  VictoryLineViewModel
 
