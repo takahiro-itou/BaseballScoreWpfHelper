@@ -1,7 +1,7 @@
 
 set  solution=WpfHelper
 set  target=Rebuild
-set  config="Debug"
+set  config="Release"
 
 
 msbuild  -restore  -t:Clean     ^
