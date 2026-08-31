@@ -2,7 +2,7 @@
 name : MSBuild
 
 env :
-  SOLUTION_FILE_PREFIX : WpfControl
+  SOLUTION_FILE_PREFIX : WpfHelper
 
 jobs :
   build :

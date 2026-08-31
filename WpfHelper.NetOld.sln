@@ -4,33 +4,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.14.36915.13 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControl", "WpfControl.csproj", "{1C4736DE-C7DE-1784-8A00-BDB97629D0AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfHelper", "WpfHelper.NetOld.csproj", "{1C4736DE-C7DE-1784-8A00-BDB97629D0AA}"
 EndProject
 
 Global
 
     GlobalSection(SolutionConfigurationPlatforms) = preSolution
-        Debug|Any CPU = Debug|Any CPU
         Debug|x64 = Debug|x64
         Debug|x86 = Debug|x86
-        Release|Any CPU = Release|Any CPU
         Release|x64 = Release|x64
         Release|x86 = Release|x86
     EndGlobalSection
 
     GlobalSection(ProjectConfigurationPlatforms) = postSolution
-        {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Debug|Any CPU.ActiveCfg = Debug|x64
-        {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Debug|Any CPU.Build.0 = Debug|x64
         {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Debug|x64.ActiveCfg = Debug|x64
-        {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Debug|x64.Build.0 = Debug|x64
+        {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Debug|x64.Build.0   = Debug|x64
         {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Debug|x86.ActiveCfg = Debug|x86
-        {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Debug|x86.Build.0 = Debug|x86
-        {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Release|Any CPU.ActiveCfg = Release|x64
-        {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Release|Any CPU.Build.0 = Release|x64
+        {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Debug|x86.Build.0   = Debug|x86
         {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Release|x64.ActiveCfg = Release|x64
-        {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Release|x64.Build.0 = Release|x64
+        {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Release|x64.Build.0   = Release|x64
         {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Release|x86.ActiveCfg = Release|x86
-        {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Release|x86.Build.0 = Release|x86
+        {1C4736DE-C7DE-1784-8A00-BDB97629D0AA}.Release|x86.Build.0   = Release|x86
     EndGlobalSection
 
     GlobalSection(SolutionProperties) = preSolution
