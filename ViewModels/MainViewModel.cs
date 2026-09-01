@@ -15,7 +15,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-using WpfControl.Common;
+using BaseballScoreHelper.Common;
 using BaseballScoreHelper.Document;
 using BaseballScoreHelper.Services;
 
