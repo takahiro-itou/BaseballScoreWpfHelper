@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Compile Include="Common\AbstractSimpleCommand.cs" />
+    <Compile Include="Common\INotifyCanExecuteChanged.cs" />
     <Compile Include="Common\SimpleCommand.cs" />
 
     <Compile Include="Document\LeagueInfo.cs" />

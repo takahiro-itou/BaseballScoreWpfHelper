@@ -1,9 +1,9 @@
-﻿//  -*-  coding: utf-8-with-signature  -*-  //
+﻿//  -*-  coding: utf-8-with-signature-unix     -*-  //
 /*************************************************************************
 **                                                                      **
-**                  ---  WPF UserControl Library.  ---                  **
+**                  ---  Baseball  Score  Project  ---                  **
 **                                                                      **
-**          Copyright (C), 2026-2026, Takahiro Itou                     **
+**          Copyright (C), 2017-2026, Takahiro Itou                     **
 **          All Rights Reserved.                                        **
 **                                                                      **
 **          License: (See COPYING or LICENSE files)                     **
@@ -17,14 +17,16 @@ using System.Windows.Input;
 
 using ExecPred = System.Predicate<object?>;
 
-namespace  WpfControl.Common  {
+
+namespace  BaseballScoreHelper.Common  {
 
 //========================================================================
 //
 //    AbstractSimpleCommand  class.
 //
 
-public abstract class  AbstractSimpleCommand<TDlgAct> : ICommand
+public abstract class  AbstractSimpleCommand<TDlgAct>
+    : INotifyCanExecuteChanged
     where TDlgAct : System.Delegate
 {
 
@@ -119,4 +121,4 @@ private   readonly  ExecPred?   m_canExec;
 
 }   //  End class  AbstractSimpleCommand
 
-}   //  End of namespace  WpfControl.Common
+}   //  End of namespace  BaseballScoreHelper.Common

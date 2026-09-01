@@ -14,6 +14,9 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
+
+using BaseballScoreHelper.Common;
 
 
 namespace  BaseballScoreHelper.ViewModels  {
@@ -52,6 +55,24 @@ public  event PropertyChangedEventHandler?  PropertyChanged;
 //
 //    Protected Member Functions.
 //
+
+//----------------------------------------------------------------
+/**
+**
+**/
+protected  virtual  INotifyCanExecuteChanged
+getCommand(
+        ICommand  command,
+        [CallerArgumentExpression("command")] string  paramName = "")
+{
+    if ( command is INotifyCanExecuteChanged raiseableCommand ) {
+        return ( raiseableCommand );
+    }
+
+    throw new ArgumentException(
+        $"指定されたコマンドは {nameof(INotifyCanExecuteChanged)} を実装していません。プロパティ名: {paramName}",
+        paramName);
+}
 
 //----------------------------------------------------------------
 /**

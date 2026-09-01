@@ -15,8 +15,9 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-using WpfControl.Common;
+using BaseballScoreHelper.Common;
 using BaseballScoreHelper.Document;
+using BaseballScoreHelper.Services;
 
 
 namespace  BaseballScoreHelper.ViewModels  {
@@ -33,9 +34,12 @@ public  class  MainViewModel : ViewModelBase
 /**   コンストラクタ。
 **
 **/
+
 public
-MainViewModel()
+MainViewModel(
+        IWindowService  windowService)
 {
+    this.m_windowService  = windowService;
 
     //  ダミーデータを準備する。    //
     this.m_leagueInfos = new ObservableCollection<LeagueInfo>();
@@ -55,10 +59,15 @@ MainViewModel()
         () => executeFileOpenCommand()
     );
     this.FileSaveCommand = new SimpleCommand(
-        () => executeFileSaveCommand()
+        () => executeFileSaveCommand(),
+        _  => this.IsEnabled
     );
     this.FileSaveAsCommand = new SimpleCommand(
         () => executeFileSaveAsCommand()
+    );
+    this.m_cmdMagicLine = new SimpleCommand(
+        () => executeMagicLineCommand(),
+        _  => this.IsEnabled
     );
 }
 
@@ -68,17 +77,33 @@ MainViewModel()
 //    Properties.
 //
 
-public  ICommand  FileOpenCommand { get; }
+public  virtual  ICommand  FileOpenCommand { get; }
 
-public  ICommand  FileSaveCommand { get; }
+public  virtual  ICommand  FileSaveCommand { get; }
 
-public  ICommand  FileSaveAsCommand { get; }
+public  virtual  ICommand  FileSaveAsCommand { get; }
 
+public  virtual  ICommand  MagicLineComand {
+    get { return  this.m_cmdMagicLine; }
+}
 
 public  virtual  ExtraInfoViewModel
 ExtraSource  {
     get { return  this.m_vmExtras; }
 }
+
+public  virtual  System.Boolean
+IsEnabled  {
+    get { return  this.m_isEnabled; }
+    set {
+        if ( this.m_isEnabled != value ) {
+            this.m_isEnabled = value;
+            raisePropertyChanged();
+            this.m_cmdMagicLine.raiseCanExecuteChanged();
+        }
+    }
+}
+
 
 //----------------------------------------------------------------
 /**
@@ -131,9 +156,12 @@ executeFileOpenCommand()
         Filter = "Game Score Record(*.gsr)|*.gsr|All Files(*.*)|*.*",
         FilterIndex = 1
     };
+
+    this.IsEnabled  = false;
     if ( dlgOpenFile.ShowDialog() == false ) {
         return;
     }
+    this.IsEnabled  = true;
 }
 
 //----------------------------------------------------------------
@@ -168,20 +196,36 @@ executeFileSaveAsCommand()
     }
 }
 
+//----------------------------------------------------------------
+/**
+**
+**/
+protected  virtual  void
+executeMagicLineCommand()
+{
+    VictoryLineViewModel    vm  = new VictoryLineViewModel();
+    this.m_windowService.showLineView(vm);
+}
+
 
 //========================================================================
 //
 //    Member Variables.
 //
 
+private   readonly  IWindowService          m_windowService;
+
 private   readonly  RankingViewModel        m_vmRanking;
 
 private   readonly  ExtraInfoViewModel      m_vmExtras;
 
+private   readonly  SimpleCommand           m_cmdMagicLine;
+
+private   System.Boolean                    m_isEnabled;
+
 private   System.String                     m_windowCaption;
 
 private   ObservableCollection<LeagueInfo>  m_leagueInfos;
-
 
 }   //  End class  MainViewModel
 

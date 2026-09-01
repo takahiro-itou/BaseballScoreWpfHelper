@@ -12,21 +12,38 @@
 **                                                                      **
 *************************************************************************/
 
-using BaseballScoreHelper.ViewModels;
+using System.Windows.Input;
 
 
-namespace  BaseballScoreHelper.Services  {
+namespace  BaseballScoreHelper.Common  {
 
-public  interface  IWindowService  {
+//========================================================================
+//
+//    INotifyCanExecuteChanged  interface.
+//
+
+public  interface  INotifyCanExecuteChanged : ICommand
+{
+
+//========================================================================
+//
+//    Public Events.
+
+
+//========================================================================
+//
+//    Public Member Functions.
+//
 
 //----------------------------------------------------------------
-/**
+/**   CanExecuteChanged イベントを発生させる。
 **
 **/
+
 public  void
-showLineView(VictoryLineViewModel viewModel);
+raiseCanExecuteChanged();
 
 
-}   //  End interface  IWindowService
+}   //  End class  AbstractSimpleCommand
 
-}   //  End of namespace  BaseballScoreHelper.Services
+}   //  End of namespace  WpfControl.Common
