@@ -12,6 +12,7 @@
 **                                                                      **
 *************************************************************************/
 
+using System.Collections.ObjectModel;
 using System.Data;
 
 using BaseballScoreHelper.Document;
