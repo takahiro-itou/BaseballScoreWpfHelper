@@ -58,6 +58,13 @@ VictoryLineViewModel()
         row["Team 3"] = $"{i}-{10-i}: {(i + 1)/20}";
         this.m_dtLines.Rows.Add(row);
     }
+
+    //  ダミーデータを準備する。    //
+    this.m_leagueInfos = new ObservableCollection<LeagueInfo>();
+    this.m_leagueInfos.Add(
+        new LeagueInfo { LeagueName = "LeagueA", NumPlayOff = 3 });
+    this.m_leagueInfos.Add(
+        new LeagueInfo { LeagueName = "LeagueB", NumPlayOff = 3 });
 }
 
 
@@ -65,6 +72,16 @@ VictoryLineViewModel()
 //
 //    Properties.
 //
+
+//----------------------------------------------------------------
+/**
+**
+**/
+
+public  virtual  ObservableCollection<LeagueInfo>
+Leagues {
+    get { return  this.m_leagueInfos; }
+}
 
 //----------------------------------------------------------------
 /**
@@ -83,6 +100,8 @@ LineDataTable  {
 //
 
 private   DataTable     m_dtLines;
+
+private   ObservableCollection<LeagueInfo>  m_leagueInfos;
 
 
 }   //  End class  VictoryLineViewModel
