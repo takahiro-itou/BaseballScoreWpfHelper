@@ -59,7 +59,8 @@ MainViewModel(
         () => executeFileOpenCommand()
     );
     this.FileSaveCommand = new SimpleCommand(
-        () => executeFileSaveCommand()
+        () => executeFileSaveCommand(),
+        _  => this.IsEnabled
     );
     this.FileSaveAsCommand = new SimpleCommand(
         () => executeFileSaveAsCommand()
@@ -155,9 +156,12 @@ executeFileOpenCommand()
         Filter = "Game Score Record(*.gsr)|*.gsr|All Files(*.*)|*.*",
         FilterIndex = 1
     };
+
+    this.IsEnabled  = false;
     if ( dlgOpenFile.ShowDialog() == false ) {
         return;
     }
+    this.IsEnabled  = true;
 }
 
 //----------------------------------------------------------------
@@ -200,7 +204,7 @@ protected  virtual  void
 executeMagicLineCommand()
 {
     VictoryLineViewModel    vm  = new VictoryLineViewModel();
-    this.m_windowService.showLineView();
+    this.m_windowService.showLineView(vm);
 }
 
 
