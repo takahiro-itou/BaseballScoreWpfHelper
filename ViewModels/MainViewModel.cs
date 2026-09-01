@@ -64,6 +64,10 @@ MainViewModel(
     this.FileSaveAsCommand = new SimpleCommand(
         () => executeFileSaveAsCommand()
     );
+    this.m_cmdMagicLine = new SimpleCommand(
+        () => executeMagicLineCommand(),
+        _  => this.IsEnabled
+    );
 }
 
 
@@ -72,17 +76,33 @@ MainViewModel(
 //    Properties.
 //
 
-public  ICommand  FileOpenCommand { get; }
+public  virtual  ICommand  FileOpenCommand { get; }
 
-public  ICommand  FileSaveCommand { get; }
+public  virtual  ICommand  FileSaveCommand { get; }
 
-public  ICommand  FileSaveAsCommand { get; }
+public  virtual  ICommand  FileSaveAsCommand { get; }
 
+public  virtual  ICommand  MagicLineComand {
+    get { return  this.m_cmdMagicLine; }
+}
 
 public  virtual  ExtraInfoViewModel
 ExtraSource  {
     get { return  this.m_vmExtras; }
 }
+
+public  virtual  System.Boolean
+IsEnabled  {
+    get { return  this.m_isEnabled; }
+    set {
+        if ( this.m_isEnabled != value ) {
+            this.m_isEnabled = value;
+            raisePropertyChanged();
+            this.m_cmdMagicLine.raiseCanExecuteChanged();
+        }
+    }
+}
+
 
 //----------------------------------------------------------------
 /**
@@ -172,6 +192,17 @@ executeFileSaveAsCommand()
     }
 }
 
+//----------------------------------------------------------------
+/**
+**
+**/
+protected  virtual  void
+executeMagicLineCommand()
+{
+    VictoryLineViewModel    vm  = new VictoryLineViewModel();
+    this.m_windowService.showLineView();
+}
+
 
 //========================================================================
 //
@@ -184,10 +215,13 @@ private   readonly  RankingViewModel        m_vmRanking;
 
 private   readonly  ExtraInfoViewModel      m_vmExtras;
 
+private   readonly  SimpleCommand           m_cmdMagicLine;
+
+private   System.Boolean                    m_isEnabled;
+
 private   System.String                     m_windowCaption;
 
 private   ObservableCollection<LeagueInfo>  m_leagueInfos;
-
 
 }   //  End class  MainViewModel
 
