@@ -62,14 +62,14 @@ public  event PropertyChangedEventHandler?  PropertyChanged;
 protected  virtual  INotifyCanExecuteChanged
 getCommand(
         ICommand  command,
-        [CallerArgumentExpression("command)"] string  paramName = "")
+        [CallerArgumentExpression("command")] string  paramName = "")
 {
     if ( command is INotifyCanExecuteChanged raiseableCommand ) {
         return ( raiseableCommand );
     }
 
     throw new ArgumentException(
-        $"指定されたコマンドは {nameof(INotifyCanExecuteChanged} を実装していません。プロパティ名: {paramName}",
+        $"指定されたコマンドは {nameof(INotifyCanExecuteChanged)} を実装していません。プロパティ名: {paramName}",
         paramName);
 }
 
