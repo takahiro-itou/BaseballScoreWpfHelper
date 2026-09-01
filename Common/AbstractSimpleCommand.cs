@@ -121,4 +121,4 @@ private   readonly  ExecPred?   m_canExec;
 
 }   //  End class  AbstractSimpleCommand
 
-}   //  End of namespace  WpfControl.Common
+}   //  End of namespace  BaseballScoreHelper.Common

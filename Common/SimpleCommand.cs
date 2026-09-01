@@ -16,8 +16,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 
 
-namespace  WpfControl.Common  {
-
+namespace  BaseballScoreHelper.Common  {
 
 //========================================================================
 //
@@ -128,4 +127,4 @@ private  static     TypeConverter
 
 }   //  End class  SimpleCommand<T>
 
-}   //  End of namespace  WpfControl.Common
+}   //  End of namespace  BaseballScoreHelper.Common
