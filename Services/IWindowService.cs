@@ -12,10 +12,14 @@
 **                                                                      **
 *************************************************************************/
 
+using BaseballScoreHelper.ViewModels;
+
 
 namespace  BaseballScoreHelper.Services  {
 
-public  interface  IWindowService
+public  interface  IWindowService  {
+
+void  showLineView(VictoryLineViewModel viewModel);
 
 }   //  End interface  IWindowService
 
