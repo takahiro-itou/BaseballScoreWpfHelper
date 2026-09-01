@@ -14,6 +14,8 @@
 
 using System.Data;
 
+using BaseballScoreHelper.Document;
+
 
 namespace  BaseballScoreHelper.ViewModels  {
 
