@@ -24,7 +24,8 @@ namespace  WpfControl.Common  {
 //    AbstractSimpleCommand  class.
 //
 
-public abstract class  AbstractSimpleCommand<TDlgAct> : ICommand
+public abstract class  AbstractSimpleCommand<TDlgAct>
+    : INotifyCanExecuteChanged
     where TDlgAct : System.Delegate
 {
 
