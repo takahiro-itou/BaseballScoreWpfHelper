@@ -19,7 +19,13 @@ namespace  BaseballScoreHelper.Services  {
 
 public  interface  IWindowService  {
 
-void  showLineView(VictoryLineViewModel viewModel);
+//----------------------------------------------------------------
+/**
+**
+**/
+public  void
+showLineView(VictoryLineViewModel viewModel);
+
 
 }   //  End interface  IWindowService
 

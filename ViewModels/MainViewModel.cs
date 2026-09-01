@@ -17,6 +17,7 @@ using System.Windows.Input;
 
 using WpfControl.Common;
 using BaseballScoreHelper.Document;
+using BaseballScoreHelper.Services;
 
 
 namespace  BaseballScoreHelper.ViewModels  {
@@ -33,9 +34,12 @@ public  class  MainViewModel : ViewModelBase
 /**   コンストラクタ。
 **
 **/
+
 public
-MainViewModel()
+MainViewModel(
+        IWindowService  windowService)
 {
+    this.m_windowService  = windowService;
 
     //  ダミーデータを準備する。    //
     this.m_leagueInfos = new ObservableCollection<LeagueInfo>();
@@ -173,6 +177,8 @@ executeFileSaveAsCommand()
 //
 //    Member Variables.
 //
+
+private   readonly  IWindowService          m_windowService;
 
 private   readonly  RankingViewModel        m_vmRanking;
 
