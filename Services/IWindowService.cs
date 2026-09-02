@@ -19,13 +19,44 @@ namespace  BaseballScoreHelper.Services  {
 
 public  interface  IWindowService  {
 
+
 //----------------------------------------------------------------
-/**
+/**   編集フォームを表示する。
 **
 **/
 public  void
-showLineView(VictoryLineViewModel viewModel);
+showEditForm(
+        ScoreEditorViewModel    viewModel);
 
+//----------------------------------------------------------------
+/**   優勝ラインビューを表示する。
+**
+**/
+public  void
+showLineView(
+        VictoryLineViewModel    viewModel);
+
+//----------------------------------------------------------------
+/**   ファイルを開くダイアログを表示する。
+**
+**/
+public  System.String?
+showOpenFileDialog(
+        System.String   defaultExt,
+        System.String   fileName,
+        System.String   sFilters,
+        int             filterIndex);
+
+//----------------------------------------------------------------
+/**   名前を付けて保存ダイアログを表示する。
+**
+**/
+public  System.String?
+showSaveFileDialog(
+        System.String   defaultExt,
+        System.String   fileName,
+        System.String   sFilters,
+        int             filterIndex);
 
 }   //  End interface  IWindowService
 
