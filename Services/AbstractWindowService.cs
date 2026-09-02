@@ -24,6 +24,23 @@ public  abstract  class  AbstractWindowService : IWindowService
 {
 
 //----------------------------------------------------------------
+/**   編集フォームを表示する。
+**
+**/
+public  abstract  System.Boolean
+showEditForm(
+        ScoreEditorViewModel    viewModel);
+
+//----------------------------------------------------------------
+/**   優勝ラインビューを表示する。
+**
+**/
+public  abstract  System.Boolean
+showLineView(
+        VictoryLineViewModel    viewModel);
+
+
+//----------------------------------------------------------------
 /**   ファイルを開くダイアログを表示する。
 **
 **/
