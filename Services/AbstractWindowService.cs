@@ -12,34 +12,16 @@
 **                                                                      **
 *************************************************************************/
 
-using BaseballScoreHelper.ViewModels;
-
 
 namespace  BaseballScoreHelper.Services  {
 
 //========================================================================
 //
-//    IWindowService  interface.
+//    AbstractWindowService  class.
 //
 
-public  interface  IWindowService  {
-
-
-//----------------------------------------------------------------
-/**   編集フォームを表示する。
-**
-**/
-public  void
-showEditForm(
-        ScoreEditorViewModel    viewModel);
-
-//----------------------------------------------------------------
-/**   優勝ラインビューを表示する。
-**
-**/
-public  void
-showLineView(
-        VictoryLineViewModel    viewModel);
+public  abstract  class  AbstractWindowService : IWindowService
+{
 
 //----------------------------------------------------------------
 /**   ファイルを開くダイアログを表示する。
@@ -47,7 +29,25 @@ showLineView(
 **/
 public  System.String?
 showOpenFileDialog(
-        OpenFileDialogSettings  settings);
+        OpenFileDialogSettings  settings)
+{
+    Microsoft.Win32.OpenFileDialog  dlgOpenFile;
+
+    dlgOpenFile = new Microsoft.Win32.OpenFileDialog {
+        DefaultExt  = settings.DefaultExt,
+        FileName    = settings.FileName,
+        Filter      = settings.Filter,
+        FilterIndex = settings.FilterIndex,
+        InitialDirectory = settings.InitialDirectory,
+        Title       = settings.Title,
+        Multiselect = false
+    };
+
+    if ( dlgOpenFile.ShowDialog() == false ) {
+        return ( null );
+    }
+    return ( dlgOpenFile.FileName );
+}
 
 //----------------------------------------------------------------
 /**   名前を付けて保存ダイアログを表示する。
@@ -55,9 +55,27 @@ showOpenFileDialog(
 **/
 public  System.String?
 showSaveFileDialog(
-        SaveFileDialogSettings  settings);
+        SaveFileDialogSettings  settings)
+{
+    Microsoft.Win32.SaveFileDialog  dlgSaveFile;
+
+    dlgSaveFile = new Microsoft.Win32.SaveFileDialog {
+        DefaultExt  = settings.DefaultExt,
+        FileName    = settings.FileName,
+        Filter      = settings.Filter,
+        FilterIndex = settings.FilterIndex,
+        InitialDirectory = settings.InitialDirectory,
+        OverwritePrompt = settings.OverwritePrompt,
+        Title       = settings.Title
+    };
+
+    if ( dlgSaveFile.ShowDialog() == false ) {
+        return ( null );
+    }
+    return ( dlgSaveFile.FileName );
+}
 
 
-}   //  End interface  IWindowService
+}   //  End clas  AbstractWindowService
 
 }   //  End of namespace  BaseballScoreHelper.Services
