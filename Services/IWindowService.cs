@@ -47,13 +47,13 @@ showOpenFileDialog(
     Microsoft.Win32.OpenFileDialog  dlgOpenFile;
 
     dlgOpenFile = new Microsoft.Win32.OpenFileDialog {
-        DefaultExt  = settings.DefaultExt;
-        FileName    = settings.FileName;
-        Filter      = settings.Filter;
-        FilterIndex = settings.FilterIndex;
-        InitialDirectory = settings.InitialDirectory;
-        Title       = settings.Title;
-        MultiSelect = false;
+        DefaultExt  = settings.DefaultExt,
+        FileName    = settings.FileName,
+        Filter      = settings.Filter,
+        FilterIndex = settings.FilterIndex,
+        InitialDirectory = settings.InitialDirectory,
+        Title       = settings.Title,
+        MultiSelect = false
     };
 
     if ( dlgOpenFile.ShowDialog() == false ) {
@@ -74,13 +74,13 @@ showSaveFileDialog(
     Microsoft.Win32.SaveFileDialog  dlgSaveFile;
 
     dlgSaveFile = new Microsoft.Win32.SaveFileDialog {
-        DefaultExt  = settings.DefaultExt;
-        FileName    = settings.FileName;
-        Filter      = settings.Filter;
-        FilterIndex = settings.FilterIndex;
-        InitialDirectory = settings.InitialDirectory;
-        Title       = settings.Title;
-        MultiSelect = false;
+        DefaultExt  = settings.DefaultExt,
+        FileName    = settings.FileName,
+        Filter      = settings.Filter,
+        FilterIndex = settings.FilterIndex,
+        InitialDirectory = settings.InitialDirectory,
+        OverwritePrompt = settings.OverwritePrompt,
+        Title       = settings.Title
     };
 
     if ( dlgSaveFile.ShowDialog() == false ) {

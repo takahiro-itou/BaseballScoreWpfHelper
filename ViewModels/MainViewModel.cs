@@ -153,7 +153,7 @@ executeFileOpenCommand()
         FileName = "*.gsr",
         Filter = "Game Score Record(*.gsr)|*.gsr|All Files(*.*)|*.*",
         FilterIndex = 1
-    }
+    };
 
     this.IsEnabled  = false;
     if ( m_windowService.showOpenFileDialog(settings) is string filePath )
@@ -187,7 +187,7 @@ executeFileSaveAsCommand()
         FileName = "*.gsr",
         Filter = "Game Score Record(*.gsr)|*.gsr|All Files(*.*)|*.*",
         FilterIndex = 1
-    }
+    };
     if ( m_windowService.showSaveFileDialog(settings) is string filePath )
     {
     }
