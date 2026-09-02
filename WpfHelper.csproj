@@ -24,6 +24,7 @@
 
     <Compile Include="Models\RankingModel.cs" />
 
+    <Compile Include="Services\DialogSettings.cs" />
     <Compile Include="Services\IWindowService.cs" />
 
     <Compile Include="ViewModels\DetailViewModel.cs" />
