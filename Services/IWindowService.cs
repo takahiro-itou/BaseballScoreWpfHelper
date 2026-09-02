@@ -29,7 +29,7 @@ public  interface  IWindowService  {
 /**   編集フォームを表示する。
 **
 **/
-public  void
+public  System.Boolean
 showEditForm(
         ScoreEditorViewModel    viewModel);
 
@@ -37,7 +37,7 @@ showEditForm(
 /**   優勝ラインビューを表示する。
 **
 **/
-public  void
+public  System.Boolean
 showLineView(
         VictoryLineViewModel    viewModel);
 
