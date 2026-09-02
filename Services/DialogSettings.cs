@@ -23,13 +23,12 @@ namespace  BaseballScoreHelper.Services  {
 
 public  class  FileDialogSettingsBase
 {
-    public  string  Title { get; set; } = string.Empty;
-
-    public  string  Filter { get; set; } = "All Files(*.*)|*.*";
-
+    public  string  DefaultExt  { get; set; } = string.Empty;
+    public  string  FileName    { get; set; } = string.Empty;
+    public  string  Filter      { get; set; } = "All Files(*.*)|*.*";
+    public  int     FilterIndex { get; set; } = 1;
     public  string  InitialDirectory { get; set; } = string.Empty;
-    public  string  DefaultExt { get; set; } = string.Empty;
-    public  string  DefaultFileName { get; set; } = string.Empty;
+    public  string  Title       { get; set; } = string.Empty;
 };
 
 

@@ -42,10 +42,26 @@ showLineView(
 **/
 public  System.String?
 showOpenFileDialog(
-        System.String   defaultExt,
-        System.String   fileName,
-        System.String   sFilters,
-        int             filterIndex);
+        OpenFileDialogSettings  settings)
+{
+    Microsoft.Win32.OpenFileDialog  dlgOpenFile;
+
+    dlgOpenFile = new Microsoft.Win32.OpenFileDialog {
+        DefaultExt  = settings.DefaultExt;
+        FileName    = settings.FileName;
+        Filter      = settings.Filter;
+        FilterIndex = settings.FilterIndex;
+        InitialDirectory = settings.InitialDirectory;
+        Title       = settings.Title;
+        MultiSelect = false;
+    };
+
+    if ( dlgOpenFile.ShowDialog() == false ) {
+        return ( null );
+    }
+    return ( dlgOpenFile.FileName );
+}
+
 
 //----------------------------------------------------------------
 /**   名前を付けて保存ダイアログを表示する。
@@ -53,10 +69,25 @@ showOpenFileDialog(
 **/
 public  System.String?
 showSaveFileDialog(
-        System.String   defaultExt,
-        System.String   fileName,
-        System.String   sFilters,
-        int             filterIndex);
+        SaveFileDialogSettings  settings)
+{
+    Microsoft.Win32.SaveFileDialog  dlgSaveFile;
+
+    dlgSaveFile = new Microsoft.Win32.SaveFileDialog {
+        DefaultExt  = settings.DefaultExt;
+        FileName    = settings.FileName;
+        Filter      = settings.Filter;
+        FilterIndex = settings.FilterIndex;
+        InitialDirectory = settings.InitialDirectory;
+        Title       = settings.Title;
+        MultiSelect = false;
+    };
+
+    if ( dlgSaveFile.ShowDialog() == false ) {
+        return ( null );
+    }
+    return ( dlgSaveFile.FileName );
+}
 
 }   //  End interface  IWindowService
 
