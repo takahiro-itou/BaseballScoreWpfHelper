@@ -148,9 +148,7 @@ WindowCaption  {
 protected  virtual  void
 executeFileOpenCommand()
 {
-    Microsoft.Win32.OpenFileDialog  dlgOpenFile;
-
-    dlgOpenFile = new Microsoft.Win32.OpenFileDialog {
+    OpenFileDialogSettings  settings = new OpenFileDialogSettings {
         DefaultExt = ".gsr",
         FileName = "*.gsr",
         Filter = "Game Score Record(*.gsr)|*.gsr|All Files(*.*)|*.*",
@@ -158,11 +156,12 @@ executeFileOpenCommand()
     };
 
     this.IsEnabled  = false;
-    if ( dlgOpenFile.ShowDialog() == false ) {
-        return;
+    if ( m_windowService.showOpenFileDialog(settings) is string filePath )
+    {
+        this.IsEnabled  = true;
     }
-    this.IsEnabled  = true;
 }
+
 
 //----------------------------------------------------------------
 /**
@@ -183,16 +182,14 @@ executeFileSaveCommand()
 protected  virtual  void
 executeFileSaveAsCommand()
 {
-    Microsoft.Win32.SaveFileDialog  dlgSaveFile;
-
-    dlgSaveFile = new Microsoft.Win32.SaveFileDialog {
+    SaveFileDialogSettings  settings = new SaveFileDialogSettings {
         DefaultExt = ".gsr",
         FileName = "*.gsr",
         Filter = "Game Score Record(*.gsr)|*.gsr|All Files(*.*)|*.*",
         FilterIndex = 1
     };
-    if ( dlgSaveFile.ShowDialog() == false ) {
-        return;
+    if ( m_windowService.showSaveFileDialog(settings) is string filePath )
+    {
     }
 }
 

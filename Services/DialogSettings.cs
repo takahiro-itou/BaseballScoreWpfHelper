@@ -12,52 +12,46 @@
 **                                                                      **
 *************************************************************************/
 
-using BaseballScoreHelper.ViewModels;
-
 
 namespace  BaseballScoreHelper.Services  {
 
+
 //========================================================================
 //
-//    IWindowService  interface.
+//    FileDialogSettingsBase  class.
 //
 
-public  interface  IWindowService  {
+public  class  FileDialogSettingsBase
+{
+    public  string  DefaultExt  { get; set; } = string.Empty;
+    public  string  FileName    { get; set; } = string.Empty;
+    public  string  Filter      { get; set; } = "All Files(*.*)|*.*";
+    public  int     FilterIndex { get; set; } = 1;
+    public  string  InitialDirectory { get; set; } = string.Empty;
+    public  string  Title       { get; set; } = string.Empty;
+};
 
 
-//----------------------------------------------------------------
-/**   編集フォームを表示する。
-**
-**/
-public  System.Boolean
-showEditForm(
-        ScoreEditorViewModel    viewModel);
+//========================================================================
+//
+//    OpenFileDialogSettings  class.
+//
 
-//----------------------------------------------------------------
-/**   優勝ラインビューを表示する。
-**
-**/
-public  System.Boolean
-showLineView(
-        VictoryLineViewModel    viewModel);
-
-//----------------------------------------------------------------
-/**   ファイルを開くダイアログを表示する。
-**
-**/
-public  System.String?
-showOpenFileDialog(
-        OpenFileDialogSettings  settings);
-
-//----------------------------------------------------------------
-/**   名前を付けて保存ダイアログを表示する。
-**
-**/
-public  System.String?
-showSaveFileDialog(
-        SaveFileDialogSettings  settings);
+public  class  OpenFileDialogSettings : FileDialogSettingsBase
+{
+    public  System.Boolean  MultiSelect { get; set; } = false;
+}
 
 
-}   //  End interface  IWindowService
+//========================================================================
+//
+//    SaveFileDialogSettings  class.
+//
+
+public  class  SaveFileDialogSettings : FileDialogSettingsBase
+{
+    public  System.Boolean  OverwritePrompt { get; set; } = true;
+}
+
 
 }   //  End of namespace  BaseballScoreHelper.Services
