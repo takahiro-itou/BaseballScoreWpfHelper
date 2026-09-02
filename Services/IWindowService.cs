@@ -53,7 +53,7 @@ showOpenFileDialog(
         FilterIndex = settings.FilterIndex,
         InitialDirectory = settings.InitialDirectory,
         Title       = settings.Title,
-        MultiSelect = false
+        Multiselect = false
     };
 
     if ( dlgOpenFile.ShowDialog() == false ) {
