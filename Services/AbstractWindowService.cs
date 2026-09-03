@@ -12,6 +12,8 @@
 **                                                                      **
 *************************************************************************/
 
+using BaseballScoreHelper.ViewModels;
+
 
 namespace  BaseballScoreHelper.Services  {
 
