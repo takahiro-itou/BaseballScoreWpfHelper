@@ -1,9 +1,9 @@
-﻿//  -*-  coding: utf-8-with-signature  -*-  //
+﻿//  -*-  coding: utf-8-with-signature-unix     -*-  //
 /*************************************************************************
 **                                                                      **
-**                  ---  WPF UserControl Library.  ---                  **
+**                  ---  Baseball  Score  Project  ---                  **
 **                                                                      **
-**          Copyright (C), 2026-2026, Takahiro Itou                     **
+**          Copyright (C), 2017-2026, Takahiro Itou                     **
 **          All Rights Reserved.                                        **
 **                                                                      **
 **          License: (See COPYING or LICENSE files)                     **
@@ -16,8 +16,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 
 
-namespace  WpfControl.Common  {
-
+namespace  BaseballScoreHelper.Common  {
 
 //========================================================================
 //
@@ -128,4 +127,4 @@ private  static     TypeConverter
 
 }   //  End class  SimpleCommand<T>
 
-}   //  End of namespace  WpfControl.Common
+}   //  End of namespace  BaseballScoreHelper.Common

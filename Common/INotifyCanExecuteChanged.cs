@@ -12,52 +12,38 @@
 **                                                                      **
 *************************************************************************/
 
-using BaseballScoreHelper.ViewModels;
+using System.Windows.Input;
 
 
-namespace  BaseballScoreHelper.Services  {
+namespace  BaseballScoreHelper.Common  {
 
 //========================================================================
 //
-//    IWindowService  interface.
+//    INotifyCanExecuteChanged  interface.
 //
 
-public  interface  IWindowService  {
+public  interface  INotifyCanExecuteChanged : ICommand
+{
+
+//========================================================================
+//
+//    Public Events.
 
 
-//----------------------------------------------------------------
-/**   編集フォームを表示する。
-**
-**/
-public  System.Boolean
-showEditForm(
-        ScoreEditorViewModel    viewModel);
-
-//----------------------------------------------------------------
-/**   優勝ラインビューを表示する。
-**
-**/
-public  System.Boolean
-showLineView(
-        VictoryLineViewModel    viewModel);
+//========================================================================
+//
+//    Public Member Functions.
+//
 
 //----------------------------------------------------------------
-/**   ファイルを開くダイアログを表示する。
+/**   CanExecuteChanged イベントを発生させる。
 **
 **/
-public  System.String?
-showOpenFileDialog(
-        OpenFileDialogSettings  settings);
 
-//----------------------------------------------------------------
-/**   名前を付けて保存ダイアログを表示する。
-**
-**/
-public  System.String?
-showSaveFileDialog(
-        SaveFileDialogSettings  settings);
+public  void
+raiseCanExecuteChanged();
 
 
-}   //  End interface  IWindowService
+}   //  End class  AbstractSimpleCommand
 
-}   //  End of namespace  BaseballScoreHelper.Services
+}   //  End of namespace  WpfControl.Common

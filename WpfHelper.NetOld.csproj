@@ -19,11 +19,16 @@
 
   <ItemGroup>
     <Compile Include="Common\AbstractSimpleCommand.cs" />
+    <Compile Include="Common\INotifyCanExecuteChanged.cs" />
     <Compile Include="Common\SimpleCommand.cs" />
 
     <Compile Include="Document\LeagueInfo.cs" />
 
     <Compile Include="Models\RankingModel.cs" />
+
+    <Compile Include="Services\AbstractWindowService.cs" />
+    <Compile Include="Services\DialogSettings.cs" />
+    <Compile Include="Services\IWindowService.cs" />
 
     <Compile Include="ViewModels\DetailViewModel.cs" />
     <Compile Include="ViewModels\ExtraInfoViewModel.cs" />
