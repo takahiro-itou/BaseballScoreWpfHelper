@@ -99,6 +99,7 @@ IsEnabled  {
         if ( this.m_isEnabled != value ) {
             this.m_isEnabled = value;
             raisePropertyChanged();
+            getCommand(FileSaveCommand).raiseCanExecuteChanged();
             this.m_cmdMagicLine.raiseCanExecuteChanged();
         }
     }
