@@ -83,7 +83,7 @@ public  virtual  ICommand  FileSaveCommand { get; }
 
 public  virtual  ICommand  FileSaveAsCommand { get; }
 
-public  virtual  ICommand  MagicLineComand {
+public  virtual  ICommand  MagicLineCommand {
     get { return  this.m_cmdMagicLine; }
 }
 

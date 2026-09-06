@@ -1,0 +1,3 @@
+[submodule "Editor/MatrixEditor"]
+	path = Editor/MatrixEditor
+	url  = ./wpfucMatrixEditor.git
