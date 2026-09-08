@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+  <Import Project="$(MSBuildThisFileDirectory)WpfHelper\WpfHelper.props" />
+  <Import Project="$(MSBuildThisFileDirectory)Editor/MatrixEditor/Targets.props" />
+
+  <ItemGroup>
+    <Compile Include="Document\LeagueInfo.cs" />
+
+    <Compile Include="Models\RankingModel.cs" />
+
+    <Compile Include="Services\AbstractWindowService.cs" />
+    <Compile Include="Services\DialogSettings.cs" />
+    <Compile Include="Services\IWindowService.cs" />
+
+    <Compile Include="ViewModels\DetailViewModel.cs" />
+    <Compile Include="ViewModels\ExtraInfoViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RankingViewModel.cs" />
+    <Compile Include="ViewModels\ScoreEditorViewModel.cs" />
+    <Compile Include="ViewModels\VictoryLineViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+  </ItemGroup>
+
+</Project>

@@ -1,3 +1,6 @@
 [submodule "Editor/MatrixEditor"]
 	path = Editor/MatrixEditor
 	url  = ../wpfucMatrixEditor.git
+[submodule "WpfHelper"]
+	path = WpfHelper
+	url  = ../WpfHelper.git
