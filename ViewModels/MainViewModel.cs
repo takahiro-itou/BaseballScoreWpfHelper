@@ -12,12 +12,14 @@
 **                                                                      **
 *************************************************************************/
 
-using System.Collections.ObjectModel;
-using System.Windows.Input;
+using   BaseballScoreHelper.Document;
+using   BaseballScoreHelper.Services;
 
-using WpfControl.Common;
-using BaseballScoreHelper.Document;
-using BaseballScoreHelper.Services;
+using   WpfHelper.Commands;
+using   WpfHelper.ViewModels;
+
+using   System.Collections.ObjectModel;
+using   System.Windows.Input;
 
 
 namespace  BaseballScoreHelper.ViewModels  {
@@ -225,6 +227,7 @@ private   System.String                     m_windowCaption;
 
 private   ObservableCollection<LeagueInfo>  m_leagueInfos;
 
-}   //  End class  MainViewModel
+
+}   //  End of class  MainViewModel
 
 }   //  End of namespace  BaseballScoreHelper.ViewModels

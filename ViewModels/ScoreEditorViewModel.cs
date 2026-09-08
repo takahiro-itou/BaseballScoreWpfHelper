@@ -12,12 +12,14 @@
 **                                                                      **
 *************************************************************************/
 
+using   WpfHelper.ViewModels;
+
 
 namespace  BaseballScoreHelper.ViewModels  {
 
 public  class  ScoreEditorViewModel : ViewModelBase
 {
 
-}   //  End class  ScoreEditorViewModel
+}   //  End of class  ScoreEditorViewModel
 
 }   //  End of namespace  BaseballScoreHelper.ViewModels

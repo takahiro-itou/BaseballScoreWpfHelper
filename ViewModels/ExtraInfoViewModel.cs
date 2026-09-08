@@ -12,9 +12,11 @@
 **                                                                      **
 *************************************************************************/
 
-using System.Data;
+using   BaseballScoreHelper.Models;
 
-using BaseballScoreHelper.Models;
+using   WpfHelper.ViewModels;
+
+using   System.Data;
 
 
 namespace  BaseballScoreHelper.ViewModels  {
