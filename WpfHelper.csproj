@@ -15,26 +15,22 @@
 
   <Import Project="Props\OutputLibs.props" />
 
+  <Import Project="$(MSBuildThisFileDirectory)Targets.props" />
+
   <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+
+<!--
     <Compile Include="Common\AbstractSimpleCommand.cs" />
     <Compile Include="Common\INotifyCanExecuteChanged.cs" />
+    <Compile Include="Common\ScrollFrameworkElementBase.cs" />
     <Compile Include="Common\SimpleCommand.cs" />
 
-    <Compile Include="Document\LeagueInfo.cs" />
-
-    <Compile Include="Models\RankingModel.cs" />
-
-    <Compile Include="Services\AbstractWindowService.cs" />
-    <Compile Include="Services\DialogSettings.cs" />
-    <Compile Include="Services\IWindowService.cs" />
-
-    <Compile Include="ViewModels\DetailViewModel.cs" />
-    <Compile Include="ViewModels\ExtraInfoViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\RankingViewModel.cs" />
-    <Compile Include="ViewModels\ScoreEditorViewModel.cs" />
-    <Compile Include="ViewModels\VictoryLineViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Editor\MatrixEditor\MatrixCellData.cs" />
+    <Compile Include="Editor\MatrixEditor\MatrixDisplay.cs" />
+    <Compile Include="Editor\MatrixEditor\MatrixEditor.cs" />
+    <Compile Include="Editor\MatrixEditor\MatrixViewer.cs" />
+-->
   </ItemGroup>
 
 </Project>

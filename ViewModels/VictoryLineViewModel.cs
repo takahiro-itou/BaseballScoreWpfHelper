@@ -12,10 +12,12 @@
 **                                                                      **
 *************************************************************************/
 
-using System.Collections.ObjectModel;
-using System.Data;
+using   WpfHelper.ViewModels;
 
-using BaseballScoreHelper.Document;
+using   BaseballScoreHelper.Document;
+
+using   System.Collections.ObjectModel;
+using   System.Data;
 
 
 namespace  BaseballScoreHelper.ViewModels  {
@@ -107,6 +109,6 @@ private   DataTable     m_dtLines;
 private   ObservableCollection<LeagueInfo>  m_leagueInfos;
 
 
-}   //  End class  VictoryLineViewModel
+}   //  End of class  VictoryLineViewModel
 
 }   //  End of namespace  BaseballScoreHelper.ViewModels

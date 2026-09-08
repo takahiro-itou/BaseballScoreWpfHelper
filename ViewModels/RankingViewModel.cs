@@ -12,9 +12,11 @@
 **                                                                      **
 *************************************************************************/
 
-using System.Collections.ObjectModel;
+using   BaseballScoreHelper.Models;
 
-using BaseballScoreHelper.Models;
+using   WpfHelper.ViewModels;
+
+using   System.Collections.ObjectModel;
 
 
 namespace  BaseballScoreHelper.ViewModels  {
@@ -88,6 +90,6 @@ RankingData {
 private   ObservableCollection<RankingModel>    m_rankingData;
 
 
-}   //  End class  RankingViewModel
+}   //  End of class  RankingViewModel
 
 }   //  End of namespace  BaseballScoreHelper.ViewModels

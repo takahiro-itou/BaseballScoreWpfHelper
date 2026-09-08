@@ -12,12 +12,14 @@
 **                                                                      **
 *************************************************************************/
 
-using System.Collections.ObjectModel;
-using System.Windows.Input;
+using   BaseballScoreHelper.Document;
+using   BaseballScoreHelper.Services;
 
-using BaseballScoreHelper.Common;
-using BaseballScoreHelper.Document;
-using BaseballScoreHelper.Services;
+using   WpfHelper.Commands;
+using   WpfHelper.ViewModels;
+
+using   System.Collections.ObjectModel;
+using   System.Windows.Input;
 
 
 namespace  BaseballScoreHelper.ViewModels  {
@@ -83,7 +85,7 @@ public  virtual  ICommand  FileSaveCommand { get; }
 
 public  virtual  ICommand  FileSaveAsCommand { get; }
 
-public  virtual  ICommand  MagicLineComand {
+public  virtual  ICommand  MagicLineCommand {
     get { return  this.m_cmdMagicLine; }
 }
 
@@ -99,6 +101,7 @@ IsEnabled  {
         if ( this.m_isEnabled != value ) {
             this.m_isEnabled = value;
             raisePropertyChanged();
+            getCommand(FileSaveCommand).raiseCanExecuteChanged();
             this.m_cmdMagicLine.raiseCanExecuteChanged();
         }
     }
@@ -224,6 +227,7 @@ private   System.String                     m_windowCaption;
 
 private   ObservableCollection<LeagueInfo>  m_leagueInfos;
 
-}   //  End class  MainViewModel
+
+}   //  End of class  MainViewModel
 
 }   //  End of namespace  BaseballScoreHelper.ViewModels

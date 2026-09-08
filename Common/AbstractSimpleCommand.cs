@@ -1,9 +1,9 @@
-﻿//  -*-  coding: utf-8-with-signature-unix     -*-  //
+﻿//  -*-  coding: utf-8-with-signature  -*-  //
 /*************************************************************************
 **                                                                      **
-**                  ---  Baseball  Score  Project  ---                  **
+**                  ---  WPF UserControl Library.  ---                  **
 **                                                                      **
-**          Copyright (C), 2017-2026, Takahiro Itou                     **
+**          Copyright (C), 2026-2026, Takahiro Itou                     **
 **          All Rights Reserved.                                        **
 **                                                                      **
 **          License: (See COPYING or LICENSE files)                     **
@@ -18,7 +18,7 @@ using System.Windows.Input;
 using ExecPred = System.Predicate<object?>;
 
 
-namespace  BaseballScoreHelper.Common  {
+namespace  WpfControl.Common  {
 
 //========================================================================
 //
@@ -121,4 +121,4 @@ private   readonly  ExecPred?   m_canExec;
 
 }   //  End class  AbstractSimpleCommand
 
-}   //  End of namespace  BaseballScoreHelper.Common
+}   //  End of namespace  WpfControl.Common
