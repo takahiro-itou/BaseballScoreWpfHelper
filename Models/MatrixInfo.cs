@@ -14,6 +14,8 @@
 
 using   WpfControl.Editor;
 
+using   System.Windows.Media;
+
 
 namespace  BaseballScoreHelper.Models  {
 
@@ -40,10 +42,28 @@ MatrixInfo()
 {
     //  テスト用にダミーデータを用意。  //
     this.m_cellData = new MatrixCellData[4 * 5];
-    this.m_numCols  = 4;
-    this.m_numRows  = 5;
+    this.m_numCols  = 5;
+    this.m_numRows  = 4;
     this.m_colSize  = new List<double>() { 120 };
     this.m_rowSize  = new List<double>();
+
+    this.m_cellData[0].Value      = "Team";
+    this.m_cellData[0].Background = Brushes.Gray;
+
+    this.m_cellData[1].Value      = "Total";
+    this.m_cellData[1].Background = Brushes.Gray;
+
+    for ( int i = 1; i <= 3; ++ i ) {
+        this.m_cellData[i+1].Value  = $"Team {i}";
+        this.m_cellData[i*5].Value  = $"Team {i}";
+        for ( int j = 1; j <= 3; ++ j ) {
+            if ( j == i ) {
+                this.m_cellData[i * 5 + j].Value = "---";
+            } else {
+                this.m_cellData[i * 5 + j].Value = $"{10 * i + j}";
+            }
+        }
+    }
 }
 
 public
