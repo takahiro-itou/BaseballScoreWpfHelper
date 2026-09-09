@@ -38,23 +38,7 @@ public
 ExtraInfoViewModel()
 {
     //  ダミーデータ。  //
-    this.m_dtRestGames  = new DataTable();
-    this.m_dtRestGames.Columns.Add("Team");
-    this.m_dtRestGames.Columns.Add("Total");
-    this.m_dtRestGames.Columns.Add("Team1");
-    this.m_dtRestGames.Columns.Add("Team2");
-    this.m_dtRestGames.Columns.Add("Team3");
-
-    for ( int i = 1; i <= 3; ++ i ) {
-        var row = this.m_dtRestGames.NewRow();
-        row["Team"] = $"Team {i}";
-        row["Total"] = 100;
-        for ( int j = 1; j <= 3; ++ j ) {
-            System.String   rowTeam = $"Team{j}";
-            row[rowTeam] = 10 * i + j;
-        }
-        this.m_dtRestGames.Rows.Add(row);
-    }
+    this.m_dtRestGames  = new MatrixInfo();
 }
 
 
@@ -68,7 +52,7 @@ ExtraInfoViewModel()
 **
 **/
 
-public  virtual  DataTable
+public  virtual  MatrixInfo
 RestGameTable  {
     get { return  this.m_dtRestGames; }
 }
@@ -79,7 +63,7 @@ RestGameTable  {
 //    Member Variables.
 //
 
-private   DataTable     m_dtRestGames;
+private   MatrixInfo    m_dtRestGames;
 
 
 }   //  End class  ExtraInfoViewModel
