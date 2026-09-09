@@ -12,8 +12,8 @@
 **                                                                      **
 *************************************************************************/
 
-using   BaseballScoreHelper.Document;
 using   BaseballScoreHelper.Services;
+using   BaseballScoreHelper.Models;
 
 using   WpfHelper.Commands;
 using   WpfHelper.ViewModels;
@@ -39,9 +39,11 @@ public  class  MainViewModel : ViewModelBase
 
 public
 MainViewModel(
-        IWindowService  windowService)
+        IWindowService  windowService,
+        ScoreDocument   scoreDocument)
 {
     this.m_windowService  = windowService;
+    this.m_scoreDocument  = scoreDocument;
 
     //  ダミーデータを準備する。    //
     this.m_leagueInfos = new ObservableCollection<LeagueInfo>();
@@ -53,8 +55,8 @@ MainViewModel(
     m_windowCaption = "成績／順位";
 
     //  内部のビューモデルを構築。  //
-    this.m_vmRanking = new RankingViewModel();
-    this.m_vmExtras  = new ExtraInfoViewModel();
+    this.m_vmRanking = new RankingViewModel  (scoreDocument);
+    this.m_vmExtras  = new ExtraInfoViewModel(scoreDocument);
 
     //  コマンドを実装する。      //
     this.FileOpenCommand = new SimpleCommand(
@@ -203,7 +205,8 @@ executeFileSaveAsCommand()
 protected  virtual  void
 executeMagicLineCommand()
 {
-    VictoryLineViewModel    vm  = new VictoryLineViewModel();
+    VictoryLineViewModel    vm  =
+            new VictoryLineViewModel(this.m_scoreDocument);
     this.m_windowService.showLineView(vm);
 }
 
@@ -214,6 +217,8 @@ executeMagicLineCommand()
 //
 
 private   readonly  IWindowService          m_windowService;
+
+private   readonly  ScoreDocument           m_scoreDocument;
 
 private   readonly  RankingViewModel        m_vmRanking;
 

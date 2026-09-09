@@ -36,8 +36,11 @@ public  class  ExtraInfoViewModel : ViewModelBase
 **/
 
 public
-ExtraInfoViewModel()
+ExtraInfoViewModel(
+        ScoreDocument   docScore)
 {
+    this.m_docScore = docScore;
+
     //  ダミーデータ。  //
     this.m_selectIndex  = 1;
     this.m_dtRestGames  = new MatrixInfo();
@@ -154,6 +157,8 @@ private  void  updateCurrentInfo()
 //
 //    Member Variables.
 //
+
+private   readonly  ScoreDocument   m_docScore;
 
 private   int           m_selectIndex;
 
