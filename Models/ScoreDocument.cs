@@ -12,6 +12,9 @@
 **                                                                      **
 *************************************************************************/
 
+using   WrapDocument    = Score4Wrapper.Document;
+using   DocumentFile    = Score4Wrapper.Document.DocumentFile;
+
 
 namespace  BaseballScoreHelper.Models  {
 
@@ -34,6 +37,7 @@ public  class  ScoreDocument
 **/
 public  ScoreDocument()
 {
+    this.m_docScore = new WrapDocument.ScoreDocument();
 }
 
 
@@ -41,6 +45,18 @@ public  ScoreDocument()
 //
 //    Public Member Functions.
 //
+
+//----------------------------------------------------------------
+/**
+**
+**/
+public  virtual  System.Boolean
+openBinaryData(
+        System.String   fileName)
+{
+    DocumentFile.readFromBinaryFile(fileName, ref this.m_docScore);
+    return ( true );
+}
 
 
 //========================================================================
@@ -58,6 +74,8 @@ public  ScoreDocument()
 //
 //    Member Variables.
 //
+
+private   WrapDocument.ScoreDocument    m_docScore;
 
 
 }   //  End of class  ScoreDocument
