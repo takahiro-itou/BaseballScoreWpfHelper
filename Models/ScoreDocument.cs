@@ -12,8 +12,13 @@
 **                                                                      **
 *************************************************************************/
 
+using   System.Collections.ObjectModel;
+
+
 using   WrapDocument    = Score4Wrapper.Document;
 using   DocumentFile    = Score4Wrapper.Document.DocumentFile;
+
+using   LeagueInfo      = Score4Wrapper.Common.LeagueInfo;
 
 
 namespace  BaseballScoreHelper.Models  {
@@ -38,6 +43,7 @@ public  class  ScoreDocument
 public  ScoreDocument()
 {
     this.m_docScore = new WrapDocument.ScoreDocument();
+    this.m_leagueInfos  = new ObservableCollection<LeagueInfo>();
 }
 
 
@@ -64,6 +70,19 @@ openBinaryData(
 //    Properties.
 //
 
+public  virtual  ObservableCollection<LeagueInfo>
+Leagues  {
+    get { return  this.m_leagueInfos; }
+    set { this.m_leagueInfos = value; }
+}
+
+
+protected  virtual  void
+updateInfos()
+{
+    this.m_leagueInfos  = new ObservableCollection<LeagueInfo>();
+}
+
 
 //========================================================================
 //
@@ -75,7 +94,9 @@ openBinaryData(
 //    Member Variables.
 //
 
-private   WrapDocument.ScoreDocument    m_docScore;
+private   WrapDocument.ScoreDocument        m_docScore;
+
+private   ObservableCollection<LeagueInfo>  m_leagueInfos;
 
 
 }   //  End of class  ScoreDocument

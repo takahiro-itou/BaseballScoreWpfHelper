@@ -16,7 +16,7 @@
   <Import Project="Props\OutputLibs.props" />
 
   <ItemGroup>
-    <ProjectReference Include="..\Cli.Net8\Wrapper.Net80.vcxproj" />
+    <ProjectReference Include="..\Wrapper\Wrapper.Net80.vcxproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)Targets.props" />

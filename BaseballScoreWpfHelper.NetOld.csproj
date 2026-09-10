@@ -18,7 +18,7 @@
   <Import Project="Props\OutputLibs.props" />
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
-    <ProjectReference Include="..\Cli.NetFramework4.8\Wrapper.Net48.vcxproj" />
+    <ProjectReference Include="..\Wrapper\Wrapper.Net48.vcxproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)Targets.props" />
