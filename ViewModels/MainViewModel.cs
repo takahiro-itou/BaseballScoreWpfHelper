@@ -59,17 +59,17 @@ MainViewModel(
     this.m_vmExtras  = new ExtraInfoViewModel(scoreDocument);
 
     //  コマンドを実装する。      //
-    this.FileOpenCommand = new SimpleCommand(
+    this.FileOpenCommand    = new SimpleCommand(
         () => executeFileOpenCommand()
     );
-    this.FileSaveCommand = new SimpleCommand(
+    this.FileSaveCommand    = new SimpleCommand(
         () => executeFileSaveCommand(),
         _  => this.IsEnabled
     );
-    this.FileSaveAsCommand = new SimpleCommand(
+    this.FileSaveAsCommand  = new SimpleCommand(
         () => executeFileSaveAsCommand()
     );
-    this.m_cmdMagicLine = new SimpleCommand(
+    this.MagicLineCommand   = new SimpleCommand(
         () => executeMagicLineCommand(),
         _  => this.IsEnabled
     );
@@ -87,9 +87,8 @@ public  virtual  ICommand  FileSaveCommand { get; }
 
 public  virtual  ICommand  FileSaveAsCommand { get; }
 
-public  virtual  ICommand  MagicLineCommand {
-    get { return  this.m_cmdMagicLine; }
-}
+public  virtual  ICommand  MagicLineCommand { get; }
+
 
 public  virtual  ExtraInfoViewModel
 ExtraSource  {
@@ -104,7 +103,7 @@ IsEnabled  {
             this.m_isEnabled = value;
             raisePropertyChanged();
             getCommand(FileSaveCommand).raiseCanExecuteChanged();
-            this.m_cmdMagicLine.raiseCanExecuteChanged();
+            raiseCanExecuteChanged(this.MagicLineCommand);
         }
     }
 }
@@ -224,7 +223,6 @@ private   readonly  RankingViewModel        m_vmRanking;
 
 private   readonly  ExtraInfoViewModel      m_vmExtras;
 
-private   readonly  SimpleCommand           m_cmdMagicLine;
 
 private   System.Boolean                    m_isEnabled;
 
