@@ -102,7 +102,7 @@ IsEnabled  {
         if ( this.m_isEnabled != value ) {
             this.m_isEnabled = value;
             raisePropertyChanged();
-            getCommand(FileSaveCommand).raiseCanExecuteChanged();
+            raiseCanExecuteChanged(FileSaveCommand);
             raiseCanExecuteChanged(this.MagicLineCommand);
         }
     }
@@ -143,6 +143,19 @@ WindowCaption  {
 //
 //    Protected Member Functions.
 //
+
+//----------------------------------------------------------------
+/**
+**
+**/
+protected  override  void
+checkCommandsCanExecute(
+        System.String?  propertyName)
+{
+    raiseCanExecuteChanged(FileSaveCommand);
+    raiseCanExecuteChanged(this.MagicLineCommand);
+}
+
 
 //----------------------------------------------------------------
 /**
