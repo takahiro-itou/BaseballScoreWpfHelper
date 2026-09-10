@@ -102,8 +102,6 @@ IsEnabled  {
         if ( this.m_isEnabled != value ) {
             this.m_isEnabled = value;
             raisePropertyChanged();
-            raiseCanExecuteChanged(FileSaveCommand);
-            raiseCanExecuteChanged(this.MagicLineCommand);
         }
     }
 }
