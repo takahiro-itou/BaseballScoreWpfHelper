@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>WpfHelper</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <Platforms>x64;x86</Platforms>
+    <RootNamespace>WpfHelper</RootNamespace>
+    <TargetFrameworks>
+      net48;
+    </TargetFrameworks>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <Import Project="Props\OutputLibs.props" />
+
+  <Import Project="$(MSBuildThisFileDirectory)Targets.props" />
+
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+
+</Project>

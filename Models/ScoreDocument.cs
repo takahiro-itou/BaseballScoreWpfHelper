@@ -1,9 +1,9 @@
-﻿//  -*-  coding: utf-8-with-signature  -*-  //
+﻿//  -*-  coding: utf-8-with-signature-unix     -*-  //
 /*************************************************************************
 **                                                                      **
-**                  ---  WPF UserControl Library.  ---                  **
+**                  ---  Baseball  Score  Project  ---                  **
 **                                                                      **
-**          Copyright (C), 2026-2026, Takahiro Itou                     **
+**          Copyright (C), 2017-2026, Takahiro Itou                     **
 **          All Rights Reserved.                                        **
 **                                                                      **
 **          License: (See COPYING or LICENSE files)                     **
@@ -12,22 +12,29 @@
 **                                                                      **
 *************************************************************************/
 
-using System.Windows.Input;
 
-
-namespace  WpfControl.Common  {
+namespace  BaseballScoreHelper.Models  {
 
 //========================================================================
 //
-//    INotifyCanExecuteChanged  interface.
+//    ScoreDocument  class
 //
 
-public  interface  INotifyCanExecuteChanged : ICommand
+public  class  ScoreDocument
 {
 
 //========================================================================
 //
-//    Public Events.
+//    Constructor(s) and Destructor.
+//
+
+//----------------------------------------------------------------
+/**   コンストラクタ。
+**
+**/
+public  ScoreDocument()
+{
+}
 
 
 //========================================================================
@@ -35,15 +42,24 @@ public  interface  INotifyCanExecuteChanged : ICommand
 //    Public Member Functions.
 //
 
-//----------------------------------------------------------------
-/**   CanExecuteChanged イベントを発生させる。
-**
-**/
 
-public  void
-raiseCanExecuteChanged();
+//========================================================================
+//
+//    Properties.
+//
 
 
-}   //  End class  AbstractSimpleCommand
+//========================================================================
+//
+//    For Internal Use Only.
+//
 
-}   //  End of namespace  WpfControl.Common
+//========================================================================
+//
+//    Member Variables.
+//
+
+
+}   //  End of class  ScoreDocument
+
+}   //  End of namespace  BaseballScoreHelper.Models

@@ -12,9 +12,9 @@
 **                                                                      **
 *************************************************************************/
 
-using   WpfHelper.ViewModels;
+using   BaseballScoreHelper.Models;
 
-using   BaseballScoreHelper.Document;
+using   WpfHelper.ViewModels;
 
 using   System.Collections.ObjectModel;
 using   System.Data;
@@ -36,8 +36,11 @@ public  class  VictoryLineViewModel : ViewModelBase
 **/
 
 public
-VictoryLineViewModel()
+VictoryLineViewModel(
+        ScoreDocument   docScore)
 {
+    this.m_docScore = docScore;
+
     //  ダミーデータ。  //
     System.String   keyHeadCol = "勝数";
 
@@ -103,6 +106,8 @@ LineDataTable  {
 //
 //    Member Variables.
 //
+
+private   readonly  ScoreDocument           m_docScore;
 
 private   DataTable     m_dtLines;
 

@@ -5,7 +5,7 @@
 >
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary
-        Source="/WpfControl;component/Editor/MatrixEditor/Styles.xaml"
+        Source="/WpfHelper;component/Editor/MatrixEditor/Styles.xaml"
     />
   </ResourceDictionary.MergedDictionaries>
 
