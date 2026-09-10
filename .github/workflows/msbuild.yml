@@ -2,7 +2,7 @@
 name : MSBuild
 
 env :
-  SOLUTION_FILE_PREFIX : WpfHelper
+  SOLUTION_FILE_PREFIX : BaseballScoreWpfHelper
 
 jobs :
   build :

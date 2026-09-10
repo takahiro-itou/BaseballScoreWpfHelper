@@ -13,7 +13,7 @@
 *************************************************************************/
 
 
-namespace  BaseballScoreHelper.Document  {
+namespace  BaseballScoreHelper.Models  {
 
 public  class  LeagueInfo
 {
@@ -43,6 +43,6 @@ public  System.String   LeagueName { get; set; } = "";
 public  int             NumPlayOff { get; set; } = 1;
 
 
-}   //  End struct  LeagueInfo
+}   //  End of class  LeagueInfo
 
-}   //  End of namespace  BaseballScoreHelper.ViewModels
+}   //  End of namespace  BaseballScoreHelper.Models

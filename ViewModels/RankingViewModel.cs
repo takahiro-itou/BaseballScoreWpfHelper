@@ -34,8 +34,10 @@ public  class  RankingViewModel : ViewModelBase
 **
 **/
 public
-RankingViewModel()
+RankingViewModel(
+        ScoreDocument   docScore)
 {
+    this.m_docScore     = docScore;
     this.m_rankingData  = new ObservableCollection<RankingModel>();
     this.m_rankingData.Add(
         new  RankingModel {
@@ -86,6 +88,8 @@ RankingData {
 //
 //    Member Variables.
 //
+
+private   readonly  ScoreDocument               m_docScore;
 
 private   ObservableCollection<RankingModel>    m_rankingData;
 
