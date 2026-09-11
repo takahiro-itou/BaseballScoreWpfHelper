@@ -44,30 +44,24 @@ VictoryLineViewModel(
     this.m_docScore = docScore;
 
     //  ダミーデータ。  //
-    System.String   keyHeadCol = "勝数";
-
-    this.m_dtLines  = new DataTable();
-    this.m_dtLines.Columns.Add(keyHeadCol);
-    this.m_dtLines.Columns.Add("Team 1");
-    this.m_dtLines.Columns.Add("Team 2");
-    this.m_dtLines.Columns.Add("Team 3");
-
-    for ( int i = 10; i >= 0; -- i ){
-        var row = this.m_dtLines.NewRow();
-        row[keyHeadCol] = i;
+    this.m_dtLines  = new MatrixInfo(10 + 2, 4);
+    for ( int r = 1; r <= 11; ++ r ) {
+        int i = 11 - r;
+        this.m_dtLines.MatrixData[r * 4 + 0].Value  = $"{i} 勝";
         if ( i >= 5 ) {
-            row["Team 1"] = "";
+            this.m_dtLines.MatrixData[r * 4 + 1].Value  = "";
         } else {
-            row["Team 1"] = $"{i}-{5-i}: {(i + 5)/20}";
+            this.m_dtLines.MatrixData[r * 4 + 1].Value = $"{i}-{5-i}: {(i+5)/20}";
         }
         if ( i >= 6 ) {
-            row["Team 2"] = "";
+            this.m_dtLines.MatrixData[r * 4 + 2].Value = "";
         } else {
-            row["Team 2"] = $"{i}-{6-i}: {(i + 4)/20}";
+            this.m_dtLines.MatrixData[r * 4 + 2].Value = $"{i}-{6-i}: {(i+4)/20}";
         }
-        row["Team 3"] = $"{i}-{10-i}: {(i + 1)/20}";
-        this.m_dtLines.Rows.Add(row);
+        this.m_dtLines.MatrixData[r * 4 + 3].Value = $"{i}-{10-i}: {(i + 1)/20}";
     }
+
+    this.m_currentInfo  = this.m_dtLines;
 }
 
 
@@ -80,18 +74,26 @@ VictoryLineViewModel(
 /**
 **
 **/
-
-public  virtual  ObservableCollection<LeagueInfo>
-Leagues {
-    get { return  this.m_docScore.Leagues; }
+public  virtual  MatrixInfo
+CurrentInfo  {
+    get { return  this.m_currentInfo; }
 }
 
 //----------------------------------------------------------------
 /**
 **
 **/
+public  virtual  ObservableCollection<LeagueInfo>
+Leagues {
+    get { return  this.m_docScore.Leagues; }
+}
 
-public  virtual  DataTable
+
+//----------------------------------------------------------------
+/**
+**
+**/
+public  virtual  MatrixInfo
 LineDataTable  {
     get { return  this.m_dtLines; }
 }
@@ -102,9 +104,11 @@ LineDataTable  {
 //    Member Variables.
 //
 
-private   readonly  ScoreDocument           m_docScore;
+private   readonly  ScoreDocument   m_docScore;
 
-private   DataTable     m_dtLines;
+private   MatrixInfo    m_currentInfo;
+
+private   MatrixInfo    m_dtLines;
 
 
 }   //  End of class  VictoryLineViewModel
