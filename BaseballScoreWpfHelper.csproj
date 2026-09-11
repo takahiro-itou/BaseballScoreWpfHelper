@@ -15,6 +15,10 @@
 
   <Import Project="Props\OutputLibs.props" />
 
+  <ItemGroup>
+    <ProjectReference Include="..\Wrapper\Wrapper.Net80.vcxproj" />
+  </ItemGroup>
+
   <Import Project="$(MSBuildThisFileDirectory)Targets.props" />
 
   <ItemGroup>

@@ -2,7 +2,7 @@
 name : MSBuild
 
 env :
-  SOLUTION_FILE_PREFIX : BaseballScoreWpfHelper
+  SOLUTION_FILE_PREFIX : Mock
 
 jobs :
   build :
@@ -16,9 +16,22 @@ jobs :
         target-ver : [ "" ]
 
     steps :
-      - name : Checkout
-        uses : actions/checkout@v6
+      - name : Checkout Mock Repository
+        uses : actions/checkout@v7
         with :
+          path       : "${{ github.workspace }}/mock-repo"
+          repository : "takahiro-itou/BaseballScoreMock"
+          submodules : recursive
+
+      - name : Rename WpfModules Directory in Mock
+        run  : |
+          Rename-Item  -Path "${{ github.workspace }}/mock-repo/WpfModules"  -NewName "WpfModules.bak"  -Force
+        shell : pwsh
+
+      - name : Checkout
+        uses : actions/checkout@v7
+        with :
+          path       : "${{ github.workspace }}/mock-repo/WpfModules"
           submodules : recursive
 
       - name : Setup MSBuild
@@ -29,10 +42,11 @@ jobs :
       - name : Check
         run  : |
           msbuild  --version
+          DIR  mock-repo
         shell : pwsh
 
       - name : Build
-        working-directory : ${{ github.workspace }}
+        working-directory : "${{ github.workspace }}/mock-repo"
         run  : >
           msbuild -restore -t:Rebuild -p:Platform=x64 -p:Configuration="${{ matrix.build-type }}" "${{ env.solution-file }}"
         env  :
