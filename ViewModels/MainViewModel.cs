@@ -47,13 +47,6 @@ MainViewModel(
     this.m_windowService  = windowService;
     this.m_scoreDocument  = scoreDocument;
 
-    //  ダミーデータを準備する。    //
-    this.m_leagueInfos = new ObservableCollection<LeagueInfo>();
-    this.m_leagueInfos.Add(
-        new LeagueInfo { leagueName = "LeagueA", numPlayOff = 3 });
-    this.m_leagueInfos.Add(
-        new LeagueInfo { leagueName = "LeagueB", numPlayOff = 3 });
-
     m_windowCaption = "成績／順位";
 
     //  内部のビューモデルを構築。  //
@@ -116,7 +109,7 @@ IsEnabled  {
 
 public  virtual  ObservableCollection<LeagueInfo>
 Leagues {
-    get { return  this.m_leagueInfos; }
+    get { return  this.m_scoreDocument.Leagues; }
 }
 
 public  virtual  RankingViewModel
@@ -176,6 +169,7 @@ executeFileOpenCommand()
     if ( m_windowService.showOpenFileDialog(settings) is string filePath )
     {
         this.IsEnabled  = this.m_scoreDocument.openBinaryData(filePath);
+        raisePropertyChanged(nameof(Leagues));
     }
 }
 
@@ -240,8 +234,6 @@ private   readonly  ExtraInfoViewModel      m_vmExtras;
 private   System.Boolean                    m_isEnabled;
 
 private   System.String                     m_windowCaption;
-
-private   ObservableCollection<LeagueInfo>  m_leagueInfos;
 
 
 }   //  End of class  MainViewModel

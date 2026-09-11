@@ -61,7 +61,7 @@ openBinaryData(
         System.String   fileName)
 {
     DocumentFile.readFromBinaryFile(fileName, ref this.m_docScore);
-    return ( true );
+    return  updateInfos();
 }
 
 
@@ -73,14 +73,25 @@ openBinaryData(
 public  virtual  ObservableCollection<LeagueInfo>
 Leagues  {
     get { return  this.m_leagueInfos; }
-    set { this.m_leagueInfos = value; }
 }
 
 
-protected  virtual  void
+//========================================================================
+//
+//    Protected Member Functions.
+//
+
+protected  virtual  System.Boolean
 updateInfos()
 {
     this.m_leagueInfos  = new ObservableCollection<LeagueInfo>();
+
+    int numLeagues  = this.m_docScore.getNumLeagues();
+    for ( int i = 0; i < numLeagues; ++ i ) {
+        this.m_leagueInfos.Add(this.m_docScore.get_leagueInfo(i));
+    }
+
+    return ( true );
 }
 
 
