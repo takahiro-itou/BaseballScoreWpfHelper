@@ -14,7 +14,7 @@
 
 using   System.Collections.ObjectModel;
 
-
+using   Wrapper         = Score4Wrapper;
 using   WrapDocument    = Score4Wrapper.Document;
 using   DocumentFile    = Score4Wrapper.Document.DocumentFile;
 
@@ -81,6 +81,13 @@ Leagues  {
 //    Protected Member Functions.
 //
 
+protected  virtual  void
+generateScoreTable(
+        int  leagueIndex,
+        Wrapper.MagicNumberMode magicMode)
+{
+}
+
 protected  virtual  System.Boolean
 updateInfos()
 {
@@ -88,7 +95,7 @@ updateInfos()
 
     int numLeagues  = this.m_docScore.getNumLeagues();
     for ( int i = 0; i < numLeagues; ++ i ) {
-        this.m_leagueInfos.Add(this.m_docScore.get_leagueInfo(i));
+        this.m_leagueInfos.Add(this.m_docScore.getLeagueInfo(i));
     }
 
     return ( true );
