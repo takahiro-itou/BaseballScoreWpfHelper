@@ -19,6 +19,8 @@ using   WpfHelper.ViewModels;
 using   System.Collections.ObjectModel;
 using   System.Data;
 
+using   LeagueInfo  = Score4Wrapper.Common.LeagueInfo;
+
 
 namespace  BaseballScoreHelper.ViewModels  {
 
@@ -70,9 +72,9 @@ VictoryLineViewModel(
     //  ダミーデータを準備する。    //
     this.m_leagueInfos = new ObservableCollection<LeagueInfo>();
     this.m_leagueInfos.Add(
-        new LeagueInfo { LeagueName = "LeagueA", NumPlayOff = 3 });
+        new LeagueInfo { leagueName = "LeagueA", numPlayOff = 3 });
     this.m_leagueInfos.Add(
-        new LeagueInfo { LeagueName = "LeagueB", NumPlayOff = 3 });
+        new LeagueInfo { leagueName = "LeagueB", numPlayOff = 3 });
 }
 
 

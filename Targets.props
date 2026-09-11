@@ -5,7 +5,6 @@
   <Import Project="$(MSBuildThisFileDirectory)Editor/MatrixEditor/Targets.props" />
 
   <ItemGroup>
-    <Compile Include="Models\LeagueInfo.cs" />
     <Compile Include="Models\MatrixInfo.cs" />
     <Compile Include="Models\RankingModel.cs" />
     <Compile Include="Models\ScoreDocument.cs" />

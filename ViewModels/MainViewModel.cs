@@ -21,6 +21,8 @@ using   WpfHelper.ViewModels;
 using   System.Collections.ObjectModel;
 using   System.Windows.Input;
 
+using   LeagueInfo  = Score4Wrapper.Common.LeagueInfo;
+
 
 namespace  BaseballScoreHelper.ViewModels  {
 
@@ -48,9 +50,9 @@ MainViewModel(
     //  ダミーデータを準備する。    //
     this.m_leagueInfos = new ObservableCollection<LeagueInfo>();
     this.m_leagueInfos.Add(
-        new LeagueInfo { LeagueName = "LeagueA", NumPlayOff = 3 });
+        new LeagueInfo { leagueName = "LeagueA", numPlayOff = 3 });
     this.m_leagueInfos.Add(
-        new LeagueInfo { LeagueName = "LeagueB", NumPlayOff = 3 });
+        new LeagueInfo { leagueName = "LeagueB", numPlayOff = 3 });
 
     m_windowCaption = "成績／順位";
 
