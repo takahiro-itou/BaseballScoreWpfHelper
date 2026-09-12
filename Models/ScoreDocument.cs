@@ -42,8 +42,9 @@ public  class  ScoreDocument
 **/
 public  ScoreDocument()
 {
-    this.m_docScore = new WrapDocument.ScoreDocument();
+    this.m_docScore     = new WrapDocument.ScoreDocument();
     this.m_leagueInfos  = new ObservableCollection<LeagueInfo>();
+    this.m_rankingData  = new ObservableCollection<RankingModel>();
 }
 
 
@@ -83,10 +84,91 @@ Leagues  {
 
 protected  virtual  void
 generateScoreTable(
-        int  leagueIndex,
+        int                     leagueIndex,
         Wrapper.MagicNumberMode magicMode)
 {
+    Wrapper.Common.TeamInfo         teamInfo;
+    Wrapper.Common.CountedScores    scoreInfo;
+    Wrapper.Common.MagicInfo        magicInfo;
+    int     idxTeam, numTeam, numShow;
+    int     numWons, numLost, numDraw;
+    int     numGame, wpDenom;
+    int     topDiff = 0;
+
+    //  ダミーコード  今日の日付で処理する。  //
+    System.DateTime currentDate = System.DateTime.Now;
+    this.m_docScore.countScores(currentDate);
+
+    const   int gameFilter  = (int)(Wrapper.GameFilter.FILTER_ALL_GAMES);
+
+    numTeam = this.m_docScore.getNumTeams();
+    int[]   bufShowIdx  = new int [numTeam];
+    numShow = this.m_docScore.computeRankOrder(leagueIndex, bufShowIdx);
+
+    this.m_rankingData = new ObservableCollection<RankingModel>();
+    for ( int i = 0; i < numShow; ++ i ) {
+        System.String    strDiff, strPerc, strMagic, strRank;
+
+        idxTeam   = i;
+        teamInfo  = this.m_docScore.getTeamInfo(idxTeam);
+        scoreInfo = this.m_docScore.getScoreInfo(idxTeam);
+        magicInfo = scoreInfo.TotalMagicInfo;
+
+        numWons = scoreInfo.NumWons[gameFilter];
+        numLost = scoreInfo.NumLost[gameFilter];
+        numDraw = scoreInfo.NumDraw[gameFilter];
+
+        //  ゲーム差。  //
+        int curDiff = numWons - numLost;
+        if ( i == 0 ) {
+            topDiff = curDiff;
+            strDiff = "---";
+        } else if ( curDiff == topDiff ) {
+            strDiff = "---";
+        } else {
+            strDiff = $"{((topDiff - curDiff) / 2)}";
+        }
+
+        //  勝率。  //
+        numGame = scoreInfo.NumGames[gameFilter];
+        wpDenom = numGame - numDraw;
+        if ( wpDenom == 0 ) {
+            strPerc = "---";
+        } else {
+            strPerc = "${(numWons / wpDenom)}";
+        }
+
+        //  マジック。  /
+        strMagic = "";
+
+        //  確定順位範囲。  /
+        if ( (magicInfo.RankHigh <= 0) && (magicInfo.RankLow <= 0) ) {
+            strRank = "";
+        } else if ( magicInfo.RankHigh == magicInfo.RankLow ) {
+            strRank = $"{magicInfo.RankHigh}位確定";
+        } else {
+            strRank = $"{magicInfo.RankHigh}～{magicInfo.RankLow}";
+        }
+
+        //  所定の構造体にセットする。  //
+        this.m_rankingData.Add(
+            new  RankingModel {
+                TeamName  = teamInfo.TeamName,
+                NumGames  = numGame,
+                NumWons   = numWons,
+                NumLost   = numLost,
+                NumDraw   = numDraw,
+                GameDiff  = strDiff,
+                Percent   = strPerc,
+                MagicText = strMagic,
+                RankRange = strRank
+            }
+        );
+    }
+
+    return;
 }
+
 
 protected  virtual  System.Boolean
 updateInfos()
@@ -112,9 +194,11 @@ updateInfos()
 //    Member Variables.
 //
 
-private   WrapDocument.ScoreDocument        m_docScore;
+private   WrapDocument.ScoreDocument            m_docScore;
 
-private   ObservableCollection<LeagueInfo>  m_leagueInfos;
+private   ObservableCollection<LeagueInfo>      m_leagueInfos;
+
+private   ObservableCollection<RankingModel>    m_rankingData;
 
 
 }   //  End of class  ScoreDocument
