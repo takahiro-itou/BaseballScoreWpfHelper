@@ -31,12 +31,8 @@ namespace  BaseballScoreHelper.Models  {
 public  class  ScoreDocument
 {
 
-private   const  int    MAGIC_NO_PROBABILITY_WONS =
-        (int)Wrapper.Consts.MAGIC_NO_PROBABILITY_WONS;
-
-private   const  int    MAGICLIST_NO_DATA_ENTRY =
-        (int)Wrapper.Consts.MAGICLIST_NO_DATA_ENTRY;
-
+private   const  int    NUM_MAGIC_MODES =
+        (int)(Wrapper.MagicNumberMode.NUM_MAGIC_MODES);
 
 //========================================================================
 //
@@ -51,7 +47,7 @@ public  ScoreDocument()
 {
     this.m_docScore     = new WrapDocument.ScoreDocument();
     this.m_leagueInfos  = new ObservableCollection<LeagueInfo>();
-    this.m_rankingData  = new ObservableCollection<RankingModel>();
+    this.m_scoreInfos   = new DocumentSummary[1,2];
 }
 
 
@@ -72,6 +68,22 @@ openBinaryData(
     return  updateInfos();
 }
 
+//----------------------------------------------------------------
+/**   指定した日付までのデータを集計する。
+**
+**/
+public  virtual  System.Boolean
+summarizeDocument(
+        System.DateTime   trgLastDate)
+{
+    //  データを集計する機能を呼び出す。    //
+    this.m_docScore.countScores(trgLastDate);
+
+    generateScoreTables();
+
+    return ( true );
+}
+
 
 //========================================================================
 //
@@ -83,9 +95,21 @@ Leagues  {
     get { return  this.m_leagueInfos; }
 }
 
-public  virtual  ObservableCollection<RankingModel>
-RankingData {
-    get { return  this.m_rankingData; }
+
+public  virtual  int
+SelectedLeagueIndex  {
+    get { return  this.m_selectedLeague; }
+    set {
+        if ( this.m_selectedLeague != value ) {
+            this.m_selectedLeague = value;
+            notifyRankingChange();
+        }
+    }
+}
+
+public  virtual  DocumentSummary
+SelectedLeagueSummary  {
+    get { return  this.m_scoreInfos[this.m_selectedLeague, 0]; }
 }
 
 
@@ -105,101 +129,10 @@ public  event   Action?     RankingChanged;
 //
 
 protected  virtual  void
-generateScoreTable(
-        int                     leagueIndex,
-        Wrapper.MagicNumberMode magicMode)
+generateScoreTables()
 {
-    Wrapper.Common.TeamInfo         teamInfo;
-    Wrapper.Common.CountedScores    scoreInfo;
-    Wrapper.Common.MagicInfo        magicInfo;
-    int     idxTeam, numTeam, numShow;
-    int     numWons, numLost, numDraw;
-    int     numGame, wpDenom;
-    int     topDiff = 0;
-
-    //  ダミーコード  今日の日付で処理する。  //
-    System.DateTime currentDate = System.DateTime.Now;
-    this.m_docScore.countScores(currentDate);
-
-    const   int gameFilter  = (int)(Wrapper.GameFilter.FILTER_ALL_GAMES);
-
-    numTeam = this.m_docScore.getNumTeams();
-    int[]   bufShowIdx  = new int [numTeam];
-    numShow = this.m_docScore.computeRankOrder(leagueIndex, bufShowIdx);
-
-    this.m_rankingData = new ObservableCollection<RankingModel>();
-    for ( int i = 0; i < numShow; ++ i ) {
-        System.String    strDiff, strPerc, strMagic, strRank;
-
-        idxTeam   = i;
-        teamInfo  = this.m_docScore.getTeamInfo(idxTeam);
-        scoreInfo = this.m_docScore.getScoreInfo(idxTeam);
-        magicInfo = scoreInfo.TotalMagicInfo;
-
-        numWons = scoreInfo.NumWons[gameFilter];
-        numLost = scoreInfo.NumLost[gameFilter];
-        numDraw = scoreInfo.NumDraw[gameFilter];
-
-        //  ゲーム差。  //
-        int curDiff = numWons - numLost;
-        if ( i == 0 ) {
-            topDiff = curDiff;
-            strDiff = "---";
-        } else if ( curDiff == topDiff ) {
-            strDiff = "---";
-        } else {
-            strDiff = $"{((topDiff - curDiff) * 1.0 / 2)}";
-        }
-
-        //  勝率。  //
-        numGame = scoreInfo.NumGames[gameFilter];
-        wpDenom = numGame - numDraw;
-        if ( wpDenom == 0 ) {
-            strPerc = "---";
-        } else {
-            strPerc = $"{(numWons * 1.0 / wpDenom)}";
-        }
-
-        //  マジック。  /
-        strMagic = "";
-        int magicValue  = magicInfo.MagicNumber[(int)(magicMode)];
-        if ( magicInfo.MagicFlags[(int)(magicMode)] != 0 ) {
-            if ( magicValue == MAGICLIST_NO_DATA_ENTRY ) {
-                strMagic = "M --";
-             } else {
-                strMagic = $"M {magicValue}";
-            }
-        } else {
-            if ( magicValue <= - MAGIC_NO_PROBABILITY_WONS ) {
-                strMagic = "---";
-            } else {
-                strMagic = $"{magicValue}";
-            }
-        }
-
-        //  確定順位範囲。  /
-        if ( (magicInfo.RankHigh <= 0) && (magicInfo.RankLow <= 0) ) {
-            strRank = "";
-        } else if ( magicInfo.RankHigh == magicInfo.RankLow ) {
-            strRank = $"{magicInfo.RankHigh}位確定";
-        } else {
-            strRank = $"{magicInfo.RankHigh}～{magicInfo.RankLow}";
-        }
-
-        //  所定の構造体にセットする。  //
-        this.m_rankingData.Add(
-            new  RankingModel {
-                TeamName  = teamInfo.TeamName,
-                NumGames  = numGame,
-                NumWons   = numWons,
-                NumLost   = numLost,
-                NumDraw   = numDraw,
-                GameDiff  = strDiff,
-                Percent   = strPerc,
-                MagicText = strMagic,
-                RankRange = strRank
-            }
-        );
+    int numLeagues  = this.m_docScore.getNumLeagues();
+    for ( int i = 0; i < numLeagues; ++ i ) {
     }
 
     return;
@@ -225,11 +158,12 @@ updateInfos()
     this.m_leagueInfos  = new ObservableCollection<LeagueInfo>();
 
     int numLeagues  = this.m_docScore.getNumLeagues();
+    this.m_scoreInfos   = new DocumentSummary [numLeagues,2];
     for ( int i = 0; i < numLeagues; ++ i ) {
         this.m_leagueInfos.Add(this.m_docScore.getLeagueInfo(i));
     }
 
-    generateScoreTable(0, Wrapper.MagicNumberMode.MAGIC_VICTORY);
+    summarizeDocument(System.DateTime.Now);
     notifyRankingChange();
     notifyLeagueInfoChange();
 
@@ -251,7 +185,9 @@ private   WrapDocument.ScoreDocument            m_docScore;
 
 private   ObservableCollection<LeagueInfo>      m_leagueInfos;
 
-private   ObservableCollection<RankingModel>    m_rankingData;
+private   int                                   m_selectedLeague;
+
+private   DocumentSummary[,]                    m_scoreInfos;
 
 
 }   //  End of class  ScoreDocument

@@ -53,9 +53,9 @@ RankingViewModel(
 **
 **/
 
-public  virtual  ObservableCollection<RankingModel>
-RankingData {
-    get { return  this.m_docScore.RankingData; }
+public  virtual  DocumentSummary
+SelectedLeagueSummary  {
+    get { return  this.m_docScore.SelectedLeagueSummary; }
 }
 
 
@@ -70,7 +70,7 @@ protected  virtual  void  OnLeagueInfoChanged()
 
 protected  virtual  void  OnRankingDataChanged()
 {
-    raisePropertyChanged(nameof(RankingData));
+    raisePropertyChanged(nameof(SelectedLeagueSummary));
 }
 
 
