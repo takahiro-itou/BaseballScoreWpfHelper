@@ -115,6 +115,18 @@ Leagues {
     get { return  this.m_scoreDocument.Leagues; }
 }
 
+public  virtual  int
+SelectedLeagueIndex {
+    get { return  this.m_scoreDocument.SelectedLeagueIndex; }
+    set { this.m_scoreDocument.SelectedLeagueIndex = value; }
+}
+
+public  virtual  DocumentSummary
+SelectedLeagueSummary {
+    get { return  this.m_scoreDocument.SelectedLeagueSummary; }
+}
+
+
 public  virtual  RankingViewModel
 RankingSource  {
     get { return  this.m_vmRanking; }
