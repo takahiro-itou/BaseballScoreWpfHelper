@@ -136,6 +136,17 @@ SelectedLeagueSummary {
 /**
 **
 **/
+public  virtual  int
+SelectedMagicMode  {
+    get { return  this.m_scoreDocument.SelectedMagicMode; }
+    set { this.m_scoreDocument.SelectedMagicMode = value; }
+}
+
+
+//----------------------------------------------------------------
+/**
+**
+**/
 
 public  virtual  System.String
 WindowCaption  {

@@ -75,6 +75,7 @@ generateViewInfoFromSummarizedDocument(
     int     idxTeam, numTeam, numShow;
     int     numWons, numLost, numDraw;
     int     numGame, wpDenom;
+    decimal decVal  = 0;
     int     topDiff = 0;
 
     const   int gameFilter  = (int)(Wrapper.GameFilter.FILTER_ALL_GAMES);
@@ -83,11 +84,31 @@ generateViewInfoFromSummarizedDocument(
     int[]   bufShowIdx  = new int [numTeam];
     numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
 
+    double[]  bufWinRates   = new double [numShow];
+    int[]     bufShowDigits = new int [numShow];
+
+    for ( int i = 0; i < numShow; ++ i ) {
+        idxTeam = bufShowIdx[i];
+        scoreInfo = docScore.getScoreInfo(idxTeam);
+        numWons = scoreInfo.NumWons [gameFilter];
+        numLost = scoreInfo.NumLost [gameFilter];
+        numDraw = scoreInfo.NumDraw [gameFilter];
+        numGame = scoreInfo.NumGames[gameFilter];
+        wpDenom = numGame - numDraw;
+        if ( wpDenom == 0 ) {
+            bufWinRates[i]  = 0;
+        } else {
+            bufWinRates[i]  = (numWons * 1.0 / wpDenom);
+       }
+    }
+    Wrapper.Document.ScoreDocument.makeDigitsList(
+            bufWinRates, out bufShowDigits);
+
     this.m_rankingData = new ObservableCollection<RankingModel>();
     for ( int i = 0; i < numShow; ++ i ) {
         System.String    strDiff, strPerc, strMagic, strRank;
 
-        idxTeam   = i;
+        idxTeam   = bufShowIdx[i];
         teamInfo  = docScore.getTeamInfo(idxTeam);
         scoreInfo = docScore.getScoreInfo(idxTeam);
         magicInfo = scoreInfo.TotalMagicInfo;
@@ -104,7 +125,8 @@ generateViewInfoFromSummarizedDocument(
         } else if ( curDiff == topDiff ) {
             strDiff = "---";
         } else {
-            strDiff = $"{((topDiff - curDiff) * 1.0 / 2)}";
+            decVal  = (decimal)(topDiff - curDiff) / 2;
+            strDiff = decVal.ToString("F1");
         }
 
         //  勝率。  //
@@ -113,7 +135,8 @@ generateViewInfoFromSummarizedDocument(
         if ( wpDenom == 0 ) {
             strPerc = "---";
         } else {
-            strPerc = $"{(numWons * 1.0 / wpDenom)}";
+            decVal  = (decimal)numWons / wpDenom;
+            strPerc = decVal.ToString($"F{bufShowDigits[i]}");
         }
 
         //  マジック。  /

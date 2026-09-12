@@ -47,7 +47,7 @@ public  ScoreDocument()
 {
     this.m_docScore     = new WrapDocument.ScoreDocument();
     this.m_leagueInfos  = new ObservableCollection<LeagueInfo>();
-    this.m_scoreInfos   = new DocumentSummary[1,2];
+    this.m_scoreInfos   = new DocumentSummary[1, NUM_MAGIC_MODES];
 }
 
 
@@ -97,6 +97,17 @@ Leagues  {
 
 
 public  virtual  int
+SelectedMagicMode  {
+    get { return  this.m_magicMode; }
+    set {
+        if ( this.m_magicMode != value ) {
+            this.m_magicMode = value;
+            notifyLeagueSummaryChanged();
+        }
+    }
+}
+
+public  virtual  int
 SelectedLeagueIndex  {
     get { return  this.m_selectedLeague; }
     set {
@@ -109,7 +120,9 @@ SelectedLeagueIndex  {
 
 public  virtual  DocumentSummary
 SelectedLeagueSummary  {
-    get { return  this.m_scoreInfos[this.m_selectedLeague, 0]; }
+    get {
+        return  this.m_scoreInfos[this.m_selectedLeague, this.m_magicMode];
+    }
 }
 
 
@@ -176,9 +189,10 @@ updateInfos()
     this.m_scoreInfos   = new DocumentSummary [numLeagues,2];
 
     for ( int i = 0; i < numLeagues; ++ i ) {
+        for ( int m = 0; m < NUM_MAGIC_MODES; ++ m ) {
+            this.m_scoreInfos[i, m] = new DocumentSummary();
+        }
         this.m_leagueInfos.Add(this.m_docScore.getLeagueInfo(i));
-        this.m_scoreInfos[i, 0] = new DocumentSummary();
-        this.m_scoreInfos[i, 1] = new DocumentSummary();
     }
 
     summarizeDocument(System.DateTime.Now);
@@ -205,6 +219,8 @@ private   WrapDocument.ScoreDocument            m_docScore;
 private   ObservableCollection<LeagueInfo>      m_leagueInfos;
 
 private   int                                   m_selectedLeague;
+
+private   int                                   m_magicMode;
 
 private   DocumentSummary[,]                    m_scoreInfos;
 
