@@ -208,7 +208,7 @@ updateInfos()
         this.m_leagueInfos.Add(this.m_docScore.getLeagueInfo(i));
     }
 
-    generateScoreData(0, Wrapper.MagicNumberMode.MAGIC_VICTORY);
+    generateScoreTable(0, Wrapper.MagicNumberMode.MAGIC_VICTORY);
     notifyRankingChange();
     notifyLeagueInfoChange();
 
