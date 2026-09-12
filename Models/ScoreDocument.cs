@@ -185,6 +185,8 @@ updateInfos()
         this.m_leagueInfos.Add(this.m_docScore.getLeagueInfo(i));
     }
 
+    generateScoreData(0, Wrapper.MagicNumberMode.MAGIC_VICTORY);
+
     return ( true );
 }
 
