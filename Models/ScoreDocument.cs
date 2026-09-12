@@ -102,7 +102,7 @@ SelectedLeagueIndex  {
     set {
         if ( this.m_selectedLeague != value ) {
             this.m_selectedLeague = value;
-            notifyRankingChange();
+            notifySelectedLeagueChanged();
         }
     }
 }
@@ -118,9 +118,11 @@ SelectedLeagueSummary  {
 //    Public Events.
 //
 
-public  event   Action?     LeagueInfoChanged;
+public  event   Action?     LeagueListChanged;
 
-public  event   Action?     RankingChanged;
+public  event   Action?     SelectedLeagueChanged;
+
+public  event   Action?     LeagueSummaryChanged;
 
 
 //========================================================================
@@ -133,6 +135,10 @@ generateScoreTables()
 {
     int numLeagues  = this.m_docScore.getNumLeagues();
     for ( int i = 0; i < numLeagues; ++ i ) {
+        this.m_scoreInfos[i, 0].generateViewInfoFromSummarizedDocument(
+                this.m_docScore, i, 0);
+        this.m_scoreInfos[i, 1].generateViewInfoFromSummarizedDocument(
+                this.m_docScore, i, 1);
     }
 
     return;
@@ -140,15 +146,24 @@ generateScoreTables()
 
 
 protected  virtual  void
-notifyLeagueInfoChange()
+notifyLeagueListChanged()
 {
-    this.LeagueInfoChanged?.Invoke();
+    this.LeagueListChanged?.Invoke();
 }
 
+
 protected  virtual  void
-notifyRankingChange()
+notifyLeagueSummaryChanged()
 {
-    this.RankingChanged?.Invoke();
+    this.LeagueSummaryChanged?.Invoke();
+}
+
+
+protected  virtual  void
+notifySelectedLeagueChanged()
+{
+    this.SelectedLeagueChanged?.Invoke();
+    notifyLeagueSummaryChanged();
 }
 
 
@@ -159,13 +174,17 @@ updateInfos()
 
     int numLeagues  = this.m_docScore.getNumLeagues();
     this.m_scoreInfos   = new DocumentSummary [numLeagues,2];
+
     for ( int i = 0; i < numLeagues; ++ i ) {
         this.m_leagueInfos.Add(this.m_docScore.getLeagueInfo(i));
+        this.m_scoreInfos[i, 0] = new DocumentSummary();
+        this.m_scoreInfos[i, 1] = new DocumentSummary();
     }
 
     summarizeDocument(System.DateTime.Now);
-    notifyRankingChange();
-    notifyLeagueInfoChange();
+    notifyLeagueListChanged();
+    notifySelectedLeagueChanged();
+    notifyLeagueSummaryChanged();
 
     return ( true );
 }

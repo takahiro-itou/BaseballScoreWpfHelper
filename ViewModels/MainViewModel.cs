@@ -47,8 +47,9 @@ MainViewModel(
     this.m_windowService  = windowService;
     this.m_scoreDocument  = scoreDocument;
 
-    scoreDocument.LeagueInfoChanged += OnLeagueInfoChanged;
-    scoreDocument.RankingChanged    += OnRankingDataChanged;
+    scoreDocument.LeagueListChanged     += OnLeagueListChanged;
+    scoreDocument.SelectedLeagueChanged += OnSelectedLeagueChanged;
+    scoreDocument.LeagueSummaryChanged  += OnLeagueSummaryChanged;
 
     m_windowCaption = "成績／順位";
 
@@ -236,14 +237,20 @@ executeMagicLineCommand()
 //    Event Handlers.
 //
 
-protected  virtual  void  OnLeagueInfoChanged()
+protected  virtual  void  OnLeagueListChanged()
 {
     raisePropertyChanged(nameof(Leagues));
 }
 
-protected  virtual  void  OnRankingDataChanged()
+protected  virtual  void  OnLeagueSummaryChanged()
 {
-    raisePropertyChanged(nameof(RankingSource));
+    raisePropertyChanged(nameof(SelectedLeagueSummary));
+}
+
+protected  virtual  void  OnSelectedLeagueChanged()
+{
+    raisePropertyChanged(nameof(SelectedLeagueIndex));
+    raisePropertyChanged(nameof(SelectedLeagueSummary));
 }
 
 

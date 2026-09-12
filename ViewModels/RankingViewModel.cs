@@ -38,8 +38,9 @@ RankingViewModel(
         ScoreDocument   docScore)
 {
     this.m_docScore     = docScore;
-    docScore.LeagueInfoChanged  += OnLeagueInfoChanged;
-    docScore.RankingChanged     += OnRankingDataChanged;
+    docScore.LeagueListChanged      += OnLeagueListChanged;
+    docScore.SelectedLeagueChanged  += OnSelectedLeagueChanged;
+    docScore.LeagueSummaryChanged   += OnLeagueSummaryChanged;
 }
 
 
@@ -64,11 +65,17 @@ SelectedLeagueSummary  {
 //    Event Handlers.
 //
 
-protected  virtual  void  OnLeagueInfoChanged()
+protected  virtual  void  OnLeagueListChanged()
 {
+    raisePropertyChanged(nameof(SelectedLeagueSummary));
 }
 
-protected  virtual  void  OnRankingDataChanged()
+protected  virtual  void  OnLeagueSummaryChanged()
+{
+    raisePropertyChanged(nameof(SelectedLeagueSummary));
+}
+
+protected  virtual  void  OnSelectedLeagueChanged()
 {
     raisePropertyChanged(nameof(SelectedLeagueSummary));
 }
