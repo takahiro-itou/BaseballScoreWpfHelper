@@ -219,6 +219,23 @@ executeMagicLineCommand()
 
 //========================================================================
 //
+//    Event Handlers.
+//
+
+protected  virtual  void  OnLeagueInfoChanged()
+{
+    raisePropertyChanged(nameof(Leagues));
+}
+
+protected  virtual  void  OnRankingDataChanged()
+{
+    raisePropertyChanged(nameof(RankingSource));
+}
+
+
+
+//========================================================================
+//
 //    Member Variables.
 //
 

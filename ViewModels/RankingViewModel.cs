@@ -38,6 +38,8 @@ RankingViewModel(
         ScoreDocument   docScore)
 {
     this.m_docScore     = docScore;
+    docScore.LeagueInfoChanged  += OnLeagueInfoChanged;
+    docScore.RankingChanged     += OnRankingDataChanged;
 }
 
 
@@ -54,6 +56,21 @@ RankingViewModel(
 public  virtual  ObservableCollection<RankingModel>
 RankingData {
     get { return  this.m_docScore.RankingData; }
+}
+
+
+//========================================================================
+//
+//    Event Handlers.
+//
+
+protected  virtual  void  OnLeagueInfoChanged()
+{
+}
+
+protected  virtual  void  OnRankingDataChanged()
+{
+    raisePropertyChanged(nameof(RankingData));
 }
 
 

@@ -84,6 +84,16 @@ RankingData {
 
 //========================================================================
 //
+//    Public Events.
+//
+
+public  event   Action?     LeagueInfoChanged;
+
+public  event   Action?     RankingChanged;
+
+
+//========================================================================
+//
 //    Protected Member Functions.
 //
 
@@ -175,6 +185,19 @@ generateScoreTable(
 }
 
 
+protected  virtual  void
+notifyLeagueInfoChange()
+{
+    this.LeagueInfoChanged?.Invoke();
+}
+
+protected  virtual  void
+notifyRankingChange()
+{
+    this.RankingChanged?.Invoke();
+}
+
+
 protected  virtual  System.Boolean
 updateInfos()
 {
@@ -186,6 +209,8 @@ updateInfos()
     }
 
     generateScoreData(0, Wrapper.MagicNumberMode.MAGIC_VICTORY);
+    notifyRankingChange();
+    notifyLeagueInfoChange();
 
     return ( true );
 }
