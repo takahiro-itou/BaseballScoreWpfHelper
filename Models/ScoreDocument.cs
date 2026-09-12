@@ -31,6 +31,13 @@ namespace  BaseballScoreHelper.Models  {
 public  class  ScoreDocument
 {
 
+private   const  int    MAGIC_NO_PROBABILITY_WONS =
+        (int)Wrapper.Consts.MAGIC_NO_PROBABILITY_WONS;
+
+private   const  int    MAGICLIST_NO_DATA_ENTRY =
+        (int)Wrapper.Consts.MAGICLIST_NO_DATA_ENTRY;
+
+
 //========================================================================
 //
 //    Constructor(s) and Destructor.
@@ -141,7 +148,7 @@ generateScoreTable(
         } else if ( curDiff == topDiff ) {
             strDiff = "---";
         } else {
-            strDiff = $"{((topDiff - curDiff) / 2)}";
+            strDiff = $"{((topDiff - curDiff) * 1.0 / 2)}";
         }
 
         //  勝率。  //
@@ -150,11 +157,25 @@ generateScoreTable(
         if ( wpDenom == 0 ) {
             strPerc = "---";
         } else {
-            strPerc = $"{(numWons / wpDenom)}";
+            strPerc = $"{(numWons * 1.0 / wpDenom)}";
         }
 
         //  マジック。  /
         strMagic = "";
+        int magicValue  = magicInfo.MagicNumber[(int)(magicMode)];
+        if ( magicInfo.MagicFlags[(int)(magicMode)] != 0 ) {
+            if ( magicValue == MAGICLIST_NO_DATA_ENTRY ) {
+                strMagic = "M --";
+             } else {
+                strMagic = $"M {magicValue}";
+            }
+        } else {
+            if ( magicValue <= - MAGIC_NO_PROBABILITY_WONS ) {
+                strMagic = "---";
+            } else {
+                strMagic = $"{magicValue}";
+            }
+        }
 
         //  確定順位範囲。  /
         if ( (magicInfo.RankHigh <= 0) && (magicInfo.RankLow <= 0) ) {
