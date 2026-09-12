@@ -54,7 +54,6 @@ MainViewModel(
     m_windowCaption = "成績／順位";
 
     //  内部のビューモデルを構築。  //
-    this.m_vmRanking = new RankingViewModel  (scoreDocument);
     this.m_vmExtras  = new ExtraInfoViewModel(scoreDocument);
 
     //  コマンドを実装する。      //
@@ -105,32 +104,32 @@ IsEnabled  {
     }
 }
 
-
 //----------------------------------------------------------------
 /**
 **
 **/
-
 public  virtual  ObservableCollection<LeagueInfo>
 Leagues {
     get { return  this.m_scoreDocument.Leagues; }
 }
 
+//----------------------------------------------------------------
+/**
+**
+**/
 public  virtual  int
 SelectedLeagueIndex {
     get { return  this.m_scoreDocument.SelectedLeagueIndex; }
     set { this.m_scoreDocument.SelectedLeagueIndex = value; }
 }
 
+//----------------------------------------------------------------
+/**
+**
+**/
 public  virtual  DocumentSummary
 SelectedLeagueSummary {
     get { return  this.m_scoreDocument.SelectedLeagueSummary; }
-}
-
-
-public  virtual  RankingViewModel
-RankingSource  {
-    get { return  this.m_vmRanking; }
 }
 
 //----------------------------------------------------------------
@@ -263,8 +262,6 @@ protected  virtual  void  OnSelectedLeagueChanged()
 private   readonly  IWindowService          m_windowService;
 
 private   readonly  ScoreDocument           m_scoreDocument;
-
-private   readonly  RankingViewModel        m_vmRanking;
 
 private   readonly  ExtraInfoViewModel      m_vmExtras;
 
