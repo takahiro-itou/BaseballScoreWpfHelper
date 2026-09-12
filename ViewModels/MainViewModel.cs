@@ -47,6 +47,9 @@ MainViewModel(
     this.m_windowService  = windowService;
     this.m_scoreDocument  = scoreDocument;
 
+    scoreDocument.LeagueInfoChanged += OnLeagueInfoChanged;
+    scoreDocument.RankingChanged    += OnRankingDataChanged;
+
     m_windowCaption = "成績／順位";
 
     //  内部のビューモデルを構築。  //
@@ -169,7 +172,6 @@ executeFileOpenCommand()
     if ( m_windowService.showOpenFileDialog(settings) is string filePath )
     {
         this.IsEnabled  = this.m_scoreDocument.openBinaryData(filePath);
-        raisePropertyChanged(nameof(Leagues));
     }
 }
 

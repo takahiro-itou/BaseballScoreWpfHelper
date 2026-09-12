@@ -150,7 +150,7 @@ generateScoreTable(
         if ( wpDenom == 0 ) {
             strPerc = "---";
         } else {
-            strPerc = "${(numWons / wpDenom)}";
+            strPerc = $"{(numWons / wpDenom)}";
         }
 
         //  マジック。  /
