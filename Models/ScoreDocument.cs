@@ -76,6 +76,11 @@ Leagues  {
     get { return  this.m_leagueInfos; }
 }
 
+public  virtual  ObservableCollection<RankingModel>
+RankingData {
+    get { return  this.m_rankingData; }
+}
+
 
 //========================================================================
 //

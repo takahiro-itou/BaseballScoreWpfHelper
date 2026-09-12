@@ -38,33 +38,6 @@ RankingViewModel(
         ScoreDocument   docScore)
 {
     this.m_docScore     = docScore;
-    this.m_rankingData  = new ObservableCollection<RankingModel>();
-    this.m_rankingData.Add(
-        new  RankingModel {
-            TeamName  = "Team 1",
-            NumWons   = 10,
-            NumLost   = 3,
-            NumDraw   = 1,
-            NumGames  = 14,
-            GameDiff  = "---",
-            Percent   = ".769",
-            MagicText = "9",
-            RankRange = "1-6"
-        }
-    );
-    this.m_rankingData.Add(
-        new  RankingModel {
-            TeamName  = "Team 2",
-            NumWons   = 9,
-            NumLost   = 3,
-            NumDraw   = 2,
-            NumGames  = 14,
-            GameDiff  = "0.5",
-            Percent   = ".750",
-            MagicText = "8",
-            RankRange = "1-6"
-        }
-    );
 }
 
 
@@ -80,7 +53,7 @@ RankingViewModel(
 
 public  virtual  ObservableCollection<RankingModel>
 RankingData {
-    get { return  this.m_rankingData; }
+    get { return  this.m_docScore.RankingData; }
 }
 
 
@@ -90,8 +63,6 @@ RankingData {
 //
 
 private   readonly  ScoreDocument               m_docScore;
-
-private   ObservableCollection<RankingModel>    m_rankingData;
 
 
 }   //  End of class  RankingViewModel
