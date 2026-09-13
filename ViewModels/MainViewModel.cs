@@ -88,11 +88,19 @@ public  virtual  ICommand  FileSaveAsCommand { get; }
 public  virtual  ICommand  MagicLineCommand { get; }
 
 
+//----------------------------------------------------------------
+/**   プロパティ  Leagues
+**
+**/
 public  virtual  ExtraInfoViewModel
 ExtraSource  {
     get { return  this.m_vmExtras; }
 }
 
+//----------------------------------------------------------------
+/**   プロパティ  IsEnabled
+**
+**/
 public  virtual  System.Boolean
 IsEnabled  {
     get { return  this.m_isEnabled; }
@@ -105,12 +113,25 @@ IsEnabled  {
 }
 
 //----------------------------------------------------------------
-/**
+/**   プロパティ  Leagues
 **
 **/
 public  virtual  ObservableCollection<LeagueInfo>
 Leagues {
     get { return  this.m_scoreDocument.Leagues; }
+}
+
+//----------------------------------------------------------------
+/**   プロパティ  SelectedDate
+**
+**/
+public  virtual  System.DateTime?
+SelectedDate  {
+    get { return  this.m_scoreDocument.SelectedDate; }
+    set {
+        this.m_scoreDocument.SelectedDate = value;
+        raisePropertyChanged();
+    }
 }
 
 //----------------------------------------------------------------
@@ -187,6 +208,8 @@ checkCommandsCanExecute(
 protected  virtual  void
 executeFileOpenCommand()
 {
+    System.String   strCaption = "成績／順位　: ";
+
     OpenFileDialogSettings  settings = new OpenFileDialogSettings {
         DefaultExt = ".gsr",
         FileName = "*.gsr",
@@ -198,7 +221,16 @@ executeFileOpenCommand()
     if ( m_windowService.showOpenFileDialog(settings) is string filePath )
     {
         this.IsEnabled  = this.m_scoreDocument.openBinaryData(filePath);
+    } else {
+        return;
     }
+
+    System.DateTime  lastActiveDate = this.m_scoreDocument.LastActiveDate;
+    System.DateTime  lastRecordDate = this.m_scoreDocument.LastRecordDate;
+
+    strCaption += $"{lastActiveDate:yyyy/MM/dd}まで";
+    strCaption += $" (日程は{lastRecordDate:yyyy/MM/dd}まで)";
+    this.WindowCaption  = strCaption;
 }
 
 
