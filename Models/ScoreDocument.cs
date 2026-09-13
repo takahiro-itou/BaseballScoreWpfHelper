@@ -203,6 +203,9 @@ generateScoreTables()
 {
     int numLeagues  = this.m_docScore.getNumLeagues();
     for ( int i = 0; i < numLeagues; ++ i ) {
+        this.m_scoreInfos[i, 0] = new DocumentSummary();
+        this.m_scoreInfos[i, 1] = new DocumentSummary();
+
         this.m_scoreInfos[i, 0].generateViewInfoFromSummarizedDocument(
                 this.m_docScore, i, 0);
         this.m_scoreInfos[i, 1].generateViewInfoFromSummarizedDocument(
