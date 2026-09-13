@@ -16,8 +16,7 @@ using   System.Collections.ObjectModel;
 using   System.Windows.Media;
 
 using   Wrapper         = Score4Wrapper;
-using   WrapDocument    = Score4Wrapper.Document;
-using   DocumentFile    = Score4Wrapper.Document.DocumentFile;
+using   WrapDocument    = Score4Wrapper.Document.ScoreDocument;
 
 using   LeagueInfo      = Score4Wrapper.Common.LeagueInfo;
 
@@ -86,15 +85,51 @@ public  DocumentSummary()
 //
 
 //----------------------------------------------------------------
+/**   集計済みデータから残り試合のテーブルを作成する。
+**
+**/
+public  virtual  System.Boolean
+buildRestGameTabel(
+        WrapDocument    docScore,
+        int             leagueIndex,
+        int             scheduleFilter,
+        int             gameType)
+{
+    int gameFilter;
+    Wrapper.Common.CountedScores    scoreInfo;
+    Wrapper.Common.TeamInfo         teamInfo;
+
+    gameFilter = (scheduleFilter & (int)Wrapper.GameFilter.FILTER_SCHEDULE);
+    gameFilter |= gameType;
+
+    int numTeam = docScore.getNumTeams();
+    int[]   bufShowIdx  = new int [numTeam];
+    int numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
+
+    for ( int i = 0; i < numShow; ++ i ) {
+        int idxTeam = bufShowIdx[i];
+        teamInfo  = docScore.getTeamInfo(idxTeam);
+        scoreInfo = docScore.getScoreInfo(idxTeam);
+        writeTeamRestGamesToMatrixRow(
+                this.m_dtRestGames, idxTeam,
+                numTeam, numShow, bufShowIdx,
+                gameFilter, scoreInfo
+        );
+    }
+
+    return ( true );
+}
+
+//----------------------------------------------------------------
 /**   集計済みデータから表示用の情報を生成する。
 **
 **/
 
 public  virtual  void
 generateViewInfoFromSummarizedDocument(
-        Wrapper.Document.ScoreDocument  docScore,
-        int                             leagueIndex,
-        int                             magicMode)
+        WrapDocument    docScore,
+        int             leagueIndex,
+        int             magicMode)
 {
     Wrapper.Common.TeamInfo         teamInfo;
     Wrapper.Common.CountedScores    scoreInfo;
@@ -262,6 +297,43 @@ WinsTable  {
 //
 //    For Internal Use Only.
 //
+
+private  void
+writeTeamRestGamesToMatrixRow(
+        MatrixInfo  destMatrix,
+        int         idxRow,
+        int         numTotalTeam,
+        int         numLeagueTeam,
+        int[]       showIndex,
+        int         gameFilter,
+        Wrapper.Common.CountedScores    scoreInfo)
+{
+    int restTotal, restLeague, restInter;
+    int restVal;
+    int trgTeam;
+
+    int  colTotalAll    = 1;
+    int  colLeagueTotal = numLeagueTeam + 2;
+    int  colInterTotal  = numTotalTeam + 3;
+    var  rowCells = destMatrix.MatrixData.AsSpan(
+            idxRow * destMatrix.NumColumns, destMatrix.NumColumns);
+
+    restTotal   = scoreInfo.NumTotalRestGames[gameFilter];
+    restLeague  = scoreInfo.NumLeagueRestGames[gameFilter];
+    restInter   = scoreInfo.NumInterRestGames[gameFilter];
+
+    //  残り試合の合計  //
+    rowCells[colTotalAll].Value = $"{restTotal}";
+    rowCells[colTotalAll].Background = Brushes.Green;
+
+    //  所属リーグ内の残り試合。対戦相手毎の試合数。    //
+    for ( int j = 0; j < numLeagueTeam; ++ j ) {
+    intn
+        trgTeam = showIndex[j];
+        restVal = scoreInfo.RestGames[trgTeam, gameFilter];
+        rowCells[j + 2].Value = $"{restVal}";
+    }
+}
 
 //========================================================================
 //
