@@ -81,7 +81,7 @@ ExtraInfoViewModel(
 public  virtual  MatrixInfo
 CurrentInfo  {
     get { return  this.m_currentInfo; }
-    set {
+    private set {
         this.m_currentInfo = value;
         raisePropertyChanged();
     }
@@ -143,7 +143,7 @@ WinsTable  {
 
 private  void  updateCurrentInfo()
 {
-    this.CurrentInfo = SelectedShowType switch
+    this.CurrentInfo = this.SelectedShowType switch
     {
         1 => m_dtRestGames,
         2 => m_dtMagicInfo,

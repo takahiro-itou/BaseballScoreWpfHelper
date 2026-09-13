@@ -21,6 +21,8 @@ using   WpfHelper.ViewModels;
 using   System.Collections.ObjectModel;
 using   System.Windows.Input;
 
+using   LeagueInfo  = Score4Wrapper.Common.LeagueInfo;
+
 
 namespace  BaseballScoreHelper.ViewModels  {
 
@@ -45,17 +47,13 @@ MainViewModel(
     this.m_windowService  = windowService;
     this.m_scoreDocument  = scoreDocument;
 
-    //  ダミーデータを準備する。    //
-    this.m_leagueInfos = new ObservableCollection<LeagueInfo>();
-    this.m_leagueInfos.Add(
-        new LeagueInfo { LeagueName = "LeagueA", NumPlayOff = 3 });
-    this.m_leagueInfos.Add(
-        new LeagueInfo { LeagueName = "LeagueB", NumPlayOff = 3 });
+    scoreDocument.LeagueListChanged     += OnLeagueListChanged;
+    scoreDocument.SelectedLeagueChanged += OnSelectedLeagueChanged;
+    scoreDocument.LeagueSummaryChanged  += OnLeagueSummaryChanged;
 
     m_windowCaption = "成績／順位";
 
     //  内部のビューモデルを構築。  //
-    this.m_vmRanking = new RankingViewModel  (scoreDocument);
     this.m_vmExtras  = new ExtraInfoViewModel(scoreDocument);
 
     //  コマンドを実装する。      //
@@ -106,21 +104,47 @@ IsEnabled  {
     }
 }
 
+//----------------------------------------------------------------
+/**
+**
+**/
+public  virtual  ObservableCollection<LeagueInfo>
+Leagues {
+    get { return  this.m_scoreDocument.Leagues; }
+}
 
 //----------------------------------------------------------------
 /**
 **
 **/
-
-public  virtual  ObservableCollection<LeagueInfo>
-Leagues {
-    get { return  this.m_leagueInfos; }
+public  virtual  int
+SelectedLeagueIndex {
+    get { return  this.m_scoreDocument.SelectedLeagueIndex; }
+    set { this.m_scoreDocument.SelectedLeagueIndex = value; }
 }
 
-public  virtual  RankingViewModel
-RankingSource  {
-    get { return  this.m_vmRanking; }
+//----------------------------------------------------------------
+/**
+**
+**/
+public  virtual  DocumentSummary
+SelectedLeagueSummary {
+    get { return  this.m_scoreDocument.SelectedLeagueSummary; }
 }
+
+//----------------------------------------------------------------
+/**
+**
+**/
+public  virtual  int
+SelectedMagicMode  {
+    get { return  this.m_scoreDocument.SelectedMagicMode; }
+    set {
+        this.m_scoreDocument.SelectedMagicMode = value;
+        raisePropertyChanged();
+    }
+}
+
 
 //----------------------------------------------------------------
 /**
@@ -223,6 +247,29 @@ executeMagicLineCommand()
 
 //========================================================================
 //
+//    Event Handlers.
+//
+
+protected  virtual  void  OnLeagueListChanged()
+{
+    raisePropertyChanged(nameof(Leagues));
+}
+
+protected  virtual  void  OnLeagueSummaryChanged()
+{
+    raisePropertyChanged(nameof(SelectedLeagueSummary));
+}
+
+protected  virtual  void  OnSelectedLeagueChanged()
+{
+    raisePropertyChanged(nameof(SelectedLeagueIndex));
+    raisePropertyChanged(nameof(SelectedLeagueSummary));
+}
+
+
+
+//========================================================================
+//
 //    Member Variables.
 //
 
@@ -230,16 +277,12 @@ private   readonly  IWindowService          m_windowService;
 
 private   readonly  ScoreDocument           m_scoreDocument;
 
-private   readonly  RankingViewModel        m_vmRanking;
-
 private   readonly  ExtraInfoViewModel      m_vmExtras;
 
 
 private   System.Boolean                    m_isEnabled;
 
 private   System.String                     m_windowCaption;
-
-private   ObservableCollection<LeagueInfo>  m_leagueInfos;
 
 
 }   //  End of class  MainViewModel
