@@ -5,7 +5,7 @@
   <Import Project="$(MSBuildThisFileDirectory)Editor/MatrixEditor/Targets.props" />
 
   <ItemGroup>
-    <Compile Include="Models\LeagueInfo.cs" />
+    <Compile Include="Models\DocumentSummary.cs" />
     <Compile Include="Models\MatrixInfo.cs" />
     <Compile Include="Models\RankingModel.cs" />
     <Compile Include="Models\ScoreDocument.cs" />
@@ -17,7 +17,6 @@
     <Compile Include="ViewModels\DetailViewModel.cs" />
     <Compile Include="ViewModels\ExtraInfoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\RankingViewModel.cs" />
     <Compile Include="ViewModels\ScoreEditorViewModel.cs" />
     <Compile Include="ViewModels\VictoryLineViewModel.cs" />
   </ItemGroup>
