@@ -328,7 +328,6 @@ writeTeamRestGamesToMatrixRow(
 
     //  所属リーグ内の残り試合。対戦相手毎の試合数。    //
     for ( int j = 0; j < numLeagueTeam; ++ j ) {
-    intn
         trgTeam = showIndex[j];
         restVal = scoreInfo.RestGames[trgTeam, gameFilter];
         rowCells[j + 2].Value = $"{restVal}";
