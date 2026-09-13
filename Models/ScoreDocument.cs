@@ -90,6 +90,17 @@ summarizeDocument(
 //    Properties.
 //
 
+public  virtual  System.DateTime
+LastActiveDate  {
+    get { return  this.m_docScore.LastActiveDate; }
+}
+
+public  virtual  System.DateTime
+LastRecordDate  {
+    get { return  this.m_docScore.LastRecordDate; }
+}
+
+
 public  virtual  ObservableCollection<LeagueInfo>
 Leagues  {
     get { return  this.m_leagueInfos; }
