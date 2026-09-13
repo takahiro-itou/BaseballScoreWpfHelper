@@ -128,7 +128,10 @@ Leagues {
 public  virtual  System.DateTime?
 SelectedDate  {
     get { return  this.m_scoreDocument.SelectedDate; }
-    set { this.m_scoreDocument.SelectedDate = value; }
+    set {
+        this.m_scoreDocument.SelectedDate = value;
+        raisePropertyChanged();
+    }
 }
 
 //----------------------------------------------------------------
