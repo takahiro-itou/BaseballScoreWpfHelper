@@ -48,6 +48,10 @@ public  ScoreDocument()
     this.m_docScore     = new WrapDocument.ScoreDocument();
     this.m_leagueInfos  = new ObservableCollection<LeagueInfo>();
     this.m_scoreInfos   = new DocumentSummary[1, NUM_MAGIC_MODES];
+
+    this.m_selectedLeague = 0;
+    this.m_magicMode    = 0;
+    this.m_selectedDate = DateTime.Today;
 }
 
 
@@ -90,23 +94,55 @@ summarizeDocument(
 //    Properties.
 //
 
+//----------------------------------------------------------------
+/**   プロパティ  LastActiveDate
+**
+**/
+public  virtual  System.DateTime
+LastActiveDate  {
+    get { return  this.m_docScore.LastActiveDate; }
+}
+
+//----------------------------------------------------------------
+/**   プロパティ  LastRecordDate
+**
+**/
+public  virtual  System.DateTime
+LastRecordDate  {
+    get { return  this.m_docScore.LastRecordDate; }
+}
+
+//----------------------------------------------------------------
+/**   プロパティ  Leagues
+**
+**/
 public  virtual  ObservableCollection<LeagueInfo>
 Leagues  {
     get { return  this.m_leagueInfos; }
 }
 
-
-public  virtual  int
-SelectedMagicMode  {
-    get { return  this.m_magicMode; }
+//----------------------------------------------------------------
+/**   プロパティ  SelectedDate
+**
+**/
+public  virtual  System.DateTime?
+SelectedDate  {
+    get { return  this.m_selectedDate; }
     set {
-        if ( this.m_magicMode != value ) {
-            this.m_magicMode = value;
+        if ( value == null ) { return; }
+        if ( this.m_selectedDate != value ) {
+            this.m_selectedDate = value.Value;
+            summarizeDocument(this.m_selectedDate);
             notifyLeagueSummaryChanged();
         }
-    }
+   }
 }
 
+
+//----------------------------------------------------------------
+/**   プロパティ  SelectedLeagueIndex
+**
+**/
 public  virtual  int
 SelectedLeagueIndex  {
     get { return  this.m_selectedLeague; }
@@ -118,10 +154,29 @@ SelectedLeagueIndex  {
     }
 }
 
+//----------------------------------------------------------------
+/**   プロパティ  SelectedLeagueSummary
+**
+**/
 public  virtual  DocumentSummary
 SelectedLeagueSummary  {
     get {
         return  this.m_scoreInfos[this.m_selectedLeague, this.m_magicMode];
+    }
+}
+
+//----------------------------------------------------------------
+/**   プロパティ  SelectedMagicMode
+**
+**/
+public  virtual  int
+SelectedMagicMode  {
+    get { return  this.m_magicMode; }
+    set {
+        if ( this.m_magicMode != value ) {
+            this.m_magicMode = value;
+            notifyLeagueSummaryChanged();
+        }
     }
 }
 
@@ -148,6 +203,9 @@ generateScoreTables()
 {
     int numLeagues  = this.m_docScore.getNumLeagues();
     for ( int i = 0; i < numLeagues; ++ i ) {
+        this.m_scoreInfos[i, 0] = new DocumentSummary();
+        this.m_scoreInfos[i, 1] = new DocumentSummary();
+
         this.m_scoreInfos[i, 0].generateViewInfoFromSummarizedDocument(
                 this.m_docScore, i, 0);
         this.m_scoreInfos[i, 1].generateViewInfoFromSummarizedDocument(
@@ -195,7 +253,7 @@ updateInfos()
         this.m_leagueInfos.Add(this.m_docScore.getLeagueInfo(i));
     }
 
-    summarizeDocument(System.DateTime.Now);
+    summarizeDocument(this.m_selectedDate);
     notifyLeagueListChanged();
     notifySelectedLeagueChanged();
     notifyLeagueSummaryChanged();
@@ -221,6 +279,8 @@ private   ObservableCollection<LeagueInfo>      m_leagueInfos;
 private   int                                   m_selectedLeague;
 
 private   int                                   m_magicMode;
+
+private   System.DateTime                       m_selectedDate;
 
 private   DocumentSummary[,]                    m_scoreInfos;
 
