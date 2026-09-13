@@ -129,9 +129,10 @@ public  virtual  System.DateTime?
 SelectedDate  {
     get { return  this.m_selectedDate; }
     set {
+        if ( value == null ) { return; }
         if ( this.m_selectedDate != value ) {
-            this.m_selectedDate = value;
-            summarizeDocument(value);
+            this.m_selectedDate = value.Value;
+            summarizeDocument(this.m_selectedDate);
             notifyLeagueSummaryChanged();
         }
    }
@@ -276,7 +277,7 @@ private   int                                   m_selectedLeague;
 
 private   int                                   m_magicMode;
 
-private   System.DateTime?                      m_selectedDate;
+private   System.DateTime                       m_selectedDate;
 
 private   DocumentSummary[,]                    m_scoreInfos;
 
