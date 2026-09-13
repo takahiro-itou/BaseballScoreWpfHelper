@@ -13,6 +13,7 @@
 *************************************************************************/
 
 using   System.Collections.ObjectModel;
+using   System.Windows.Media;
 
 using   Wrapper         = Score4Wrapper;
 using   WrapDocument    = Score4Wrapper.Document;
@@ -49,6 +50,33 @@ private   const  int    MAGICLIST_NO_DATA_ENTRY =
 public  DocumentSummary()
 {
     this.m_rankingData  = new ObservableCollection<RankingModel>();
+
+    this.m_dtRestGames  = new MatrixInfo();
+    this.m_dtMagicInfo  = new MatrixInfo();
+    this.m_dtWinsTable  = new MatrixInfo();
+
+    //  ダミーデータ。  //
+    this.m_dtRestGames  = new MatrixInfo();
+    this.m_dtMagicInfo  = new MatrixInfo(4, 4);
+    this.m_dtWinsTable  = new MatrixInfo(4, 4);
+
+    this.m_dtMagicInfo.MatrixData[0].Value = "Teams";
+    this.m_dtWinsTable.MatrixData[0].Value = "Teams";
+    for ( int i = 1; i <= 3; ++ i ) {
+        this.m_dtMagicInfo.MatrixData[i].Value      = $"Team {i}";
+        this.m_dtMagicInfo.MatrixData[i*4].Value    = $"Team {i}";
+
+        this.m_dtWinsTable.MatrixData[i].Value      = $"Team {i}";
+        this.m_dtWinsTable.MatrixData[i*4].Value    = $"Team {i}";
+
+        for ( int j = 1; j <= 3; ++ j ) {
+            if ( i == j ) { continue; }
+            this.m_dtMagicInfo.MatrixData[i*4+j].Value = $"{i * 3 + j}";
+            this.m_dtMagicInfo.MatrixData[i*4+j].Background = Brushes.LightGreen;
+            this.m_dtWinsTable.MatrixData[i*4+j].Value = $"{i*7} 勝/{i*10} 試合";
+            this.m_dtWinsTable.MatrixData[i*4+j].Background = Brushes.Cyan;
+        }
+    }
 }
 
 
@@ -188,9 +216,40 @@ generateViewInfoFromSummarizedDocument(
 //    Properties.
 //
 
+//----------------------------------------------------------------
+/**   プロパティ  MagicTable
+**
+**/
+public  virtual  MatrixInfo
+MagicTable  {
+    get { return  this.m_dtMagicInfo; }
+}
+
+//----------------------------------------------------------------
+/**   プロパティ  RankingData
+**
+**/
 public  virtual  ObservableCollection<RankingModel>
 RankingData {
     get { return  this.m_rankingData; }
+}
+
+//----------------------------------------------------------------
+/**   プロパティ  RestGameTable
+**
+**/
+public  virtual  MatrixInfo
+RestGameTable  {
+    get { return  this.m_dtRestGames; }
+}
+
+//----------------------------------------------------------------
+/**   プロパティ WinsTable
+**
+**/
+public  virtual  MatrixInfo
+WinsTable  {
+    get { return  this.m_dtWinsTable; }
 }
 
 
@@ -210,6 +269,13 @@ RankingData {
 //
 
 private   ObservableCollection<RankingModel>    m_rankingData;
+
+
+private   MatrixInfo    m_dtRestGames;
+
+private   MatrixInfo    m_dtMagicInfo;
+
+private   MatrixInfo    m_dtWinsTable;
 
 
 }   //  End of class  DocumentSummary
