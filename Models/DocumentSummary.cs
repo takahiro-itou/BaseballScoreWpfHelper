@@ -90,16 +90,16 @@ public  DocumentSummary()
 **/
 public  virtual  System.Boolean
 buildRestGameTabel(
-        WrapDocument    docScore,
-        int             leagueIndex,
-        int             scheduleFilter,
-        int             gameType)
+        WrapDocument        docScore,
+        int                 leagueIndex,
+        Wrapper.GameFilter  scheduleFilter,
+        Wrapper.GameFilter  gameType)
 {
-    int gameFilter;
+    Wrapper.GameFilter              gameFilter;
     Wrapper.Common.CountedScores    scoreInfo;
     Wrapper.Common.TeamInfo         teamInfo;
 
-    gameFilter = (scheduleFilter & (int)Wrapper.GameFilter.FILTER_SCHEDULE);
+    gameFilter = (scheduleFilter & Wrapper.GameFilter.FILTER_SCHEDULE);
     gameFilter |= gameType;
 
     int numTeam = docScore.getNumTeams();
@@ -308,12 +308,13 @@ writeTeamRestGamesToMatrixRow(
         int         numTotalTeam,
         int         numLeagueTeam,
         int[]       showIndex,
-        int         gameFilter,
+        Wrapper.GameFiltert             gameFilter,
         Wrapper.Common.CountedScores    scoreInfo)
 {
     int restTotal, restLeague, restInter;
     int restVal;
     int trgTeam;
+    int iGameFilter = (int)gameFilter;
 
     int  colTotalAll    = 1;
     int  colLeagueTotal = numLeagueTeam + 2;
@@ -321,9 +322,9 @@ writeTeamRestGamesToMatrixRow(
     var  rowCells = destMatrix.MatrixData.AsSpan(
             idxRow * destMatrix.NumColumns, destMatrix.NumColumns);
 
-    restTotal   = scoreInfo.NumTotalRestGames[gameFilter];
-    restLeague  = scoreInfo.NumLeagueRestGames[gameFilter];
-    restInter   = scoreInfo.NumInterRestGames[gameFilter];
+    restTotal   = scoreInfo.NumTotalRestGames[iGameFilter];
+    restLeague  = scoreInfo.NumLeagueRestGames[iGameFilter];
+    restInter   = scoreInfo.NumInterRestGames[iGameFilter];
 
     //  残り試合の合計  //
     rowCells[colTotalAll].Value = $"{restTotal}";
@@ -332,7 +333,7 @@ writeTeamRestGamesToMatrixRow(
     //  所属リーグ内の残り試合。対戦相手毎の試合数。    //
     for ( int j = 0; j < numLeagueTeam; ++ j ) {
         trgTeam = showIndex[j];
-        restVal = scoreInfo.RestGames[trgTeam, gameFilter];
+        restVal = scoreInfo.RestGames[trgTeam, iGameFilter];
         rowCells[j + 2].Value = $"{restVal}";
     }
 }
