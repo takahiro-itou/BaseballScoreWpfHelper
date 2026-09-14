@@ -142,7 +142,7 @@ generateViewInfoFromSummarizedDocument(
     decimal decVal  = 0;
     int     topDiff = 0;
 
-    const  Wrepper.GameFilter
+    const  Wrapper.GameFilter
         gameFilter  = Wrapper.GameFilter.FILTER_ALL_GAMES;
     const  int  iGameFilter = (int)gameFilter;
 
