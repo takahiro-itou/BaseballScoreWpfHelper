@@ -142,7 +142,9 @@ generateViewInfoFromSummarizedDocument(
     decimal decVal  = 0;
     int     topDiff = 0;
 
-    const   int gameFilter  = (int)(Wrapper.GameFilter.FILTER_ALL_GAMES);
+    const  Wrepper.GameFilter
+        gameFilter  = Wrapper.GameFilter.FILTER_ALL_GAMES;
+    const  int  iGameFilter = (int)gameFilter;
 
     numTeam = docScore.getNumTeams();
     int[]   bufShowIdx  = new int [numTeam];
@@ -154,10 +156,10 @@ generateViewInfoFromSummarizedDocument(
     for ( int i = 0; i < numShow; ++ i ) {
         idxTeam = bufShowIdx[i];
         scoreInfo = docScore.getScoreInfo(idxTeam);
-        numWons = scoreInfo.NumWons [gameFilter];
-        numLost = scoreInfo.NumLost [gameFilter];
-        numDraw = scoreInfo.NumDraw [gameFilter];
-        numGame = scoreInfo.NumGames[gameFilter];
+        numWons = scoreInfo.NumWons [iGameFilter];
+        numLost = scoreInfo.NumLost [iGameFilter];
+        numDraw = scoreInfo.NumDraw [iGameFilter];
+        numGame = scoreInfo.NumGames[iGameFilter];
         wpDenom = numGame - numDraw;
         if ( wpDenom == 0 ) {
             bufWinRates[i]  = 0;
@@ -177,9 +179,9 @@ generateViewInfoFromSummarizedDocument(
         scoreInfo = docScore.getScoreInfo(idxTeam);
         magicInfo = scoreInfo.TotalMagicInfo;
 
-        numWons = scoreInfo.NumWons[gameFilter];
-        numLost = scoreInfo.NumLost[gameFilter];
-        numDraw = scoreInfo.NumDraw[gameFilter];
+        numWons = scoreInfo.NumWons[iGameFilter];
+        numLost = scoreInfo.NumLost[iGameFilter];
+        numDraw = scoreInfo.NumDraw[iGameFilter];
 
         //  ゲーム差。  //
         int curDiff = numWons - numLost;
@@ -194,7 +196,7 @@ generateViewInfoFromSummarizedDocument(
         }
 
         //  勝率。  //
-        numGame = scoreInfo.NumGames[gameFilter];
+        numGame = scoreInfo.NumGames[iGameFilter];
         wpDenom = numGame - numDraw;
         if ( wpDenom == 0 ) {
             strPerc = "---";
@@ -308,7 +310,7 @@ writeTeamRestGamesToMatrixRow(
         int         numTotalTeam,
         int         numLeagueTeam,
         int[]       showIndex,
-        Wrapper.GameFiltert             gameFilter,
+        Wrapper.GameFilter              gameFilter,
         Wrapper.Common.CountedScores    scoreInfo)
 {
     int restTotal, restLeague, restInter;
