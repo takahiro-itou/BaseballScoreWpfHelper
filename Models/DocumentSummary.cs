@@ -37,6 +37,7 @@ private   const  int    MAGIC_NO_PROBABILITY_WONS =
 private   const  int    MAGICLIST_NO_DATA_ENTRY =
         (int)Wrapper.Consts.MAGICLIST_NO_DATA_ENTRY;
 
+
 //========================================================================
 //
 //    Constructor(s) and Destructor.
@@ -53,6 +54,7 @@ public  DocumentSummary()
     this.m_dtRestGames  = new MatrixInfo();
     this.m_dtMagicInfo  = new MatrixInfo();
     this.m_dtWinsTable  = new MatrixInfo();
+    this.m_flagSchedule = Wrapper.GameFilter.FILTER_SCHEDULE;
 
     //  ダミーデータ。  //
     this.m_dtRestGames  = new MatrixInfo();
@@ -247,7 +249,8 @@ generateViewInfoFromSummarizedDocument(
         );
     }
 
-    this.buildRestGameTabel(docScore, leagueIndex, gameFilter, 0);
+    this.buildRestGameTabel(
+            docScore, leagueIndex, this.m_flagSchedule, gameFilter);
 }
 
 
@@ -347,12 +350,13 @@ writeTeamRestGamesToMatrixRow(
 
 private   ObservableCollection<RankingModel>    m_rankingData;
 
+private   MatrixInfo            m_dtRestGames;
 
-private   MatrixInfo    m_dtRestGames;
+private   MatrixInfo            m_dtMagicInfo;
 
-private   MatrixInfo    m_dtMagicInfo;
+private   MatrixInfo            m_dtWinsTable;
 
-private   MatrixInfo    m_dtWinsTable;
+private   Wrapper.GameFilter    m_flagSchedule;
 
 
 }   //  End of class  DocumentSummary
