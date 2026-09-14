@@ -106,12 +106,13 @@ buildRestGameTabel(
     int[]   bufShowIdx  = new int [numTeam];
     int numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
 
+    this.m_dtRestGames = new MatrixInfo(numShow + 1, numTeam + 4);
     for ( int i = 0; i < numShow; ++ i ) {
         int idxTeam = bufShowIdx[i];
         teamInfo  = docScore.getTeamInfo(idxTeam);
         scoreInfo = docScore.getScoreInfo(idxTeam);
         writeTeamRestGamesToMatrixRow(
-                this.m_dtRestGames, idxTeam,
+                this.m_dtRestGames, i + 1,
                 numTeam, numShow, bufShowIdx,
                 gameFilter, scoreInfo
         );
