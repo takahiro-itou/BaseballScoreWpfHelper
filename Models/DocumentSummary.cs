@@ -244,6 +244,8 @@ generateViewInfoFromSummarizedDocument(
             }
         );
     }
+
+    this.buildRestGameTabel(docScore, leagueIndex, gameFilter, 0);
 }
 
 
