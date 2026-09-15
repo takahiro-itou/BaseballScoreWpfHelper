@@ -318,32 +318,43 @@ makeTeamListOnMatrixHeader(
         System.Boolean      flagShowTotal,
         Wrapper.Document    docScore)
 {
-    int     i, idxTeam;
+    int     col, idxTeam;
 
     if ( numTeam == -1 ) {
         numTeam = docScore.getNumTeams();
     }
 
+    var  rowCells = destMatrix.MatrixData.AsSpan(0, destMatrix.NumColumns);
+
+    //  左端にチーム名を表示する。  //
+    col = 0;
+    rowCells[col ++].Value  = "Team";
 
     if ( flagShowTotal ) {
         //  合計を表示する列。  //
-    }
-
-    for ( int i = 0; i < numShow; ++ i ) {
+        rowCells[col ++].Value  = "Total";
     }
 
     //  リーグ内のチーム。  //
+    for ( int i = 0; i < numShow; ++ i ) {
+        idxTeam = bufShowIndex[i];
+        rowCells[col ++].Value  = scoreData.getTeamInfo(idxTeam).TeamName;
+    }
 
     if ( flagShowTotal ) {
         //  リーグの合計。  //
+        rowCells[col ++].Value  = "League";
     }
 
     //  別リーグのチーム。  //
-    for ( int i = 0; numShow; i < numTeam; ++ i ) {
+    for ( int i = numShow; i < numTeam; ++ i ) {
+        idxTeam = bufShowIndex[i];
+        rowCells[col ++].Value  = scoreData.getTeamInfo(idxTeam).TeamName;
     }
 
     if ( flagShowTotal ) {
         //  別リーグの合計。    //
+        rowCells[col ++].Value  = "Inter.";
     }
 
     return;
