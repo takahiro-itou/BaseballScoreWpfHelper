@@ -91,7 +91,7 @@ public  DocumentSummary()
 **
 **/
 public  virtual  System.Boolean
-buildRestGameTabel(
+buildRestGameTable(
         WrapDocument        docScore,
         int                 leagueIndex,
         Wrapper.GameFilter  scheduleFilter,
@@ -249,7 +249,7 @@ generateViewInfoFromSummarizedDocument(
         );
     }
 
-    this.buildRestGameTabel(
+    this.buildRestGameTable(
             docScore, leagueIndex, this.m_flagSchedule, gameFilter);
 }
 
