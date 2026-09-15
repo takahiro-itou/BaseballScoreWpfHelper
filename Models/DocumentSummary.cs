@@ -314,11 +314,11 @@ WinsTable  {
 **/
 private  void
 makeTeamListOnMatrixHeader(
-        int                 numShow,
-        int[]               bufShowIndex,
-        int                 numTeam,
-        System.Boolean      flagShowTotal,
-        Wrapper.Document    docScore)
+        int                     numShow,
+        int []                  bufShowIndex,
+        int                     numTeam,
+        System.Boolean          flagShowTotal,
+        Wrapper.ScoreDocument   docScore)
 {
     int     col, idxTeam;
 
