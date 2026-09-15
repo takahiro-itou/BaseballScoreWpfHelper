@@ -371,11 +371,12 @@ makeTeamListOnMatrixHeader(
 **/
 private  void
 writeTeamRestGamesToMatrixRow(
-        MatrixInfo  destMatrix,
-        int         idxRow,
-        int         numTotalTeam,
-        int         numLeagueTeam,
-        int[]       showIndex,
+        MatrixInfo      destMatrix,
+        System.String   teamName,
+        int             idxRow,
+        int             numTotalTeam,
+        int             numLeagueTeam,
+        int[]           showIndex,
         Wrapper.GameFilter              gameFilter,
         Wrapper.Common.CountedScores    scoreInfo)
 {
@@ -383,27 +384,43 @@ writeTeamRestGamesToMatrixRow(
     int restVal;
     int trgTeam;
     int iGameFilter = (int)gameFilter;
+    int col = 0;
 
     int  colTotalAll    = 1;
     int  colLeagueTotal = numLeagueTeam + 2;
     int  colInterTotal  = numTotalTeam + 3;
-    var  rowCells = destMatrix.MatrixData.AsSpan(
+    var  refRow = destMatrix.MatrixData.AsSpan(
             idxRow * destMatrix.NumColumns, destMatrix.NumColumns);
 
-    restTotal   = scoreInfo.NumTotalRestGames[iGameFilter];
+    restTotal   = scoreInfo.NumTotalRestGames [iGameFilter];
     restLeague  = scoreInfo.NumLeagueRestGames[iGameFilter];
-    restInter   = scoreInfo.NumInterRestGames[iGameFilter];
+    restInter   = scoreInfo.NumInterRestGames [iGameFilter];
+
+    //  チーム名。      //
+    refRow[col++].Value = teamName;
 
     //  残り試合の合計  //
-    rowCells[colTotalAll].Value = $"{restTotal}";
-    rowCells[colTotalAll].Background = Brushes.Green;
+    refRow[col].Background  = Brushes.Green;
+    refRow[col++].Value     = $"{restTotal}"
 
     //  所属リーグ内の残り試合。対戦相手毎の試合数。    //
     for ( int j = 0; j < numLeagueTeam; ++ j ) {
         trgTeam = showIndex[j];
         restVal = scoreInfo.RestGames[trgTeam, iGameFilter];
-        rowCells[j + 2].Value = $"{restVal}";
+        refRow[col++].Value = $"{restVal}";
     }
+
+    refRow[col++].Value = $"{restLeague}";
+
+    for ( int j = numLeagueTeam; j < numTotalTeam; ++ j ) {
+        trgTeam = showIndex[j];
+        restVal = scoreInfo.RestGames[trgTeam, iGameFilter];
+        refRow[col++].Value = $"{restVal}";
+    }
+
+    refRow[col++].Value = $"{restInter}";
+
+    return;
 }
 
 //========================================================================
