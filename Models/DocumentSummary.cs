@@ -306,6 +306,53 @@ WinsTable  {
 //    For Internal Use Only.
 //
 
+//----------------------------------------------------------------
+/**
+**
+**/
+private  void
+makeTeamListOnMatrixHeader(
+        int                 numShow,
+        int[]               bufShowIndex,
+        int                 numTeam,
+        System.Boolean      flagShowTotal,
+        Wrapper.Document    docScore)
+{
+    int     i, idxTeam;
+
+    if ( numTeam == -1 ) {
+        numTeam = docScore.getNumTeams();
+    }
+
+
+    if ( flagShowTotal ) {
+        //  合計を表示する列。  //
+    }
+
+    for ( int i = 0; i < numShow; ++ i ) {
+    }
+
+    //  リーグ内のチーム。  //
+
+    if ( flagShowTotal ) {
+        //  リーグの合計。  //
+    }
+
+    //  別リーグのチーム。  //
+    for ( int i = 0; numShow; i < numTeam; ++ i ) {
+    }
+
+    if ( flagShowTotal ) {
+        //  別リーグの合計。    //
+    }
+
+    return;
+}
+
+//----------------------------------------------------------------
+/**
+**
+**/
 private  void
 writeTeamRestGamesToMatrixRow(
         MatrixInfo  destMatrix,
