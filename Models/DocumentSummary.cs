@@ -343,7 +343,7 @@ makeTeamListOnMatrixHeader(
     //  リーグ内のチーム。  //
     for ( int i = 0; i < numShow; ++ i ) {
         idxTeam = bufShowIndex[i];
-        rowCells[col ++].Value  = scoreData.getTeamInfo(idxTeam).TeamName;
+        rowCells[col ++].Value  = docScore.getTeamInfo(idxTeam).TeamName;
     }
 
     if ( flagShowTotal ) {
@@ -354,7 +354,7 @@ makeTeamListOnMatrixHeader(
     //  別リーグのチーム。  //
     for ( int i = numShow; i < numTeam; ++ i ) {
         idxTeam = bufShowIndex[i];
-        rowCells[col ++].Value  = scoreData.getTeamInfo(idxTeam).TeamName;
+        rowCells[col ++].Value  = docScore.getTeamInfo(idxTeam).TeamName;
     }
 
     if ( flagShowTotal ) {
