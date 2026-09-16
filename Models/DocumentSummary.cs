@@ -130,10 +130,37 @@ buildRestGameTable(
 }
 
 //----------------------------------------------------------------
+/**   集計済みデータからテーブルの内容を作成する。
+**
+**    対チームごとのマジックテーブル。
+**/
+public  virtual  System.Boolean
+buildTeamMagicTable(
+        Wrapper.LeagueIndex         leagueIndex,
+        WrapDocument                docScore,
+        Wrapper.MagicNumberMode     magicMode)
+{
+    return ( true );
+}
+
+//----------------------------------------------------------------
+/**   集計済みデータからテーブルの内容を作成する。
+**
+**    各対戦相手毎に、その相手より上位になるために、
+**  最低限勝利しなければならない試合数。
+**/
+public  virtual  System.Boolean
+buildWinsForBeatTable(
+        Wrapper.LeagueIndex     leagueIndex,
+        WrapDocument            docScore)
+{
+    return ( true );
+}
+
+//----------------------------------------------------------------
 /**   集計済みデータから表示用の情報を生成する。
 **
 **/
-
 public  virtual  void
 generateViewInfoFromSummarizedDocument(
         WrapDocument    docScore,
