@@ -20,6 +20,8 @@ using   WrapDocument    = Score4Wrapper.Document.ScoreDocument;
 
 using   LeagueInfo      = Score4Wrapper.Common.LeagueInfo;
 
+using   LeagueIndex     = System.Int32;
+
 
 namespace  BaseballScoreHelper.Models  {
 
@@ -136,8 +138,8 @@ buildRestGameTable(
 **/
 public  virtual  System.Boolean
 buildTeamMagicTable(
-        Wrapper.LeagueIndex         leagueIndex,
         WrapDocument                docScore,
+        LeagueIndex                 leagueIndex,
         Wrapper.MagicNumberMode     magicMode)
 {
     return ( true );
@@ -151,8 +153,8 @@ buildTeamMagicTable(
 **/
 public  virtual  System.Boolean
 buildWinsForBeatTable(
-        Wrapper.LeagueIndex     leagueIndex,
-        WrapDocument            docScore)
+        WrapDocument            docScore,
+        LeagueIndex             leagueIndex)
 {
     return ( true );
 }
