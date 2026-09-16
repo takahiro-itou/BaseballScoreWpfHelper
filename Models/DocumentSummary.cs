@@ -118,7 +118,9 @@ buildRestGameTable(
         teamInfo  = docScore.getTeamInfo(idxTeam);
         scoreInfo = docScore.getScoreInfo(idxTeam);
         writeTeamRestGamesToMatrixRow(
-                this.m_dtRestGames, i + 1,
+                this.m_dtRestGames,
+                teamInfo.TeamName,
+                i + 1,
                 numTeam, numShow, bufShowIdx,
                 gameFilter, scoreInfo
         );
@@ -401,7 +403,7 @@ writeTeamRestGamesToMatrixRow(
 
     //  残り試合の合計  //
     refRow[col].Background  = Brushes.Green;
-    refRow[col++].Value     = $"{restTotal}"
+    refRow[col++].Value     = $"{restTotal}";
 
     //  所属リーグ内の残り試合。対戦相手毎の試合数。    //
     for ( int j = 0; j < numLeagueTeam; ++ j ) {
