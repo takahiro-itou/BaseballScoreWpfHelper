@@ -388,9 +388,6 @@ writeTeamRestGamesToMatrixRow(
     int iGameFilter = (int)gameFilter;
     int col = 0;
 
-    int  colTotalAll    = 1;
-    int  colLeagueTotal = numLeagueTeam + 2;
-    int  colInterTotal  = numTotalTeam + 3;
     var  refRow = destMatrix.MatrixData.AsSpan(
             idxRow * destMatrix.NumColumns, destMatrix.NumColumns);
 
