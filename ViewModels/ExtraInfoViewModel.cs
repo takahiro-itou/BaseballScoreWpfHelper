@@ -17,7 +17,6 @@ using   BaseballScoreHelper.Models;
 using   WpfHelper.ViewModels;
 
 using   System.Data;
-using   System.Windows.Media;
 
 
 namespace  BaseballScoreHelper.ViewModels  {
@@ -41,30 +40,12 @@ ExtraInfoViewModel(
 {
     this.m_docScore = docScore;
 
-    //  ダミーデータ。  //
+    docScore.LeagueListChanged      += OnLeagueListChanged;
+    docScore.SelectedLeagueChanged  += OnSelectedLeagueChanged;
+    docScore.LeagueSummaryChanged   += OnLeagueSummaryChanged;
+
     this.m_selectIndex  = 1;
-    this.m_dtRestGames  = new MatrixInfo();
-    this.m_dtMagicInfo  = new MatrixInfo(4, 4);
-    this.m_dtWinsTable  = new MatrixInfo(4, 4);
-    this.m_currentInfo  = this.m_dtRestGames;
-
-    this.m_dtMagicInfo.MatrixData[0].Value = "Teams";
-    this.m_dtWinsTable.MatrixData[0].Value = "Teams";
-    for ( int i = 0; i < 3; ++ i ) {
-        this.m_dtMagicInfo.MatrixData[i+1].Value     = $"Team {i}";
-        this.m_dtMagicInfo.MatrixData[(i+1)*4].Value = $"Team {i}";
-
-        this.m_dtWinsTable.MatrixData[i+1].Value     = $"Team {i}";
-        this.m_dtWinsTable.MatrixData[(i+1)*4].Value = $"Team {i}";
-
-        for ( int j = 0; j < 3; ++ j ) {
-            if ( i == j ) { continue; }
-            this.m_dtMagicInfo.MatrixData[i*4+j].Value = $"{i * 3 + j}";
-            this.m_dtMagicInfo.MatrixData[i*4+j].Background = Brushes.LightGreen;
-            this.m_dtWinsTable.MatrixData[i*4+j].Value = $"{i*7} 勝/{i*10} 試合";
-            this.m_dtWinsTable.MatrixData[i*4+j].Background = Brushes.Cyan;
-        }
-    }
+    this.m_currentInfo  = docScore.SelectedLeagueSummary.RestGameTable;
 }
 
 
@@ -75,7 +56,7 @@ ExtraInfoViewModel(
 
 
 //----------------------------------------------------------------
-/**
+/**   プロパティ  CurrentInfo
 **
 **/
 public  virtual  MatrixInfo
@@ -88,12 +69,12 @@ CurrentInfo  {
 }
 
 //----------------------------------------------------------------
-/**
+/**   プロパティ  MagicTable
 **
 **/
 public  virtual  MatrixInfo
 MagicTable  {
-    get { return  this.m_dtMagicInfo; }
+    get { return  this.m_docScore.SelectedLeagueSummary.MagicTable; }
 }
 
 //----------------------------------------------------------------
@@ -102,7 +83,7 @@ MagicTable  {
 **/
 public  virtual  MatrixInfo
 RestGameTable  {
-    get { return  this.m_dtRestGames; }
+    get { return  this.m_docScore.SelectedLeagueSummary.RestGameTable; }
 }
 
 //----------------------------------------------------------------
@@ -127,7 +108,30 @@ SelectedShowType  {
 **/
 public  virtual  MatrixInfo
 WinsTable  {
-    get { return  this.m_dtWinsTable; }
+    get { return  this.m_docScore.SelectedLeagueSummary.WinsTable; }
+}
+
+
+//========================================================================
+//
+//    Event Handlers.
+//
+
+protected  virtual  void  OnLeagueListChanged()
+{
+}
+
+protected  virtual  void  OnLeagueSummaryChanged()
+{
+    raisePropertyChanged(nameof(MagicTable));
+    raisePropertyChanged(nameof(RestGameTable));
+    raisePropertyChanged(nameof(WinsTable));
+    raisePropertyChanged(nameof(CurrentInfo));
+}
+
+protected  virtual  void  OnSelectedLeagueChanged()
+{
+    OnLeagueSummaryChanged();
 }
 
 
@@ -145,10 +149,10 @@ private  void  updateCurrentInfo()
 {
     this.CurrentInfo = this.SelectedShowType switch
     {
-        1 => m_dtRestGames,
-        2 => m_dtMagicInfo,
-        3 => m_dtWinsTable,
-        _ => m_dtRestGames
+        1 => this.m_docScore.SelectedLeagueSummary.RestGameTable,
+        2 => this.m_docScore.SelectedLeagueSummary.MagicTable,
+        3 => this.m_docScore.SelectedLeagueSummary.WinsTable,
+        _ => this.m_docScore.SelectedLeagueSummary.RestGameTable
     };
 }
 
@@ -163,12 +167,6 @@ private   readonly  ScoreDocument   m_docScore;
 private   int           m_selectIndex;
 
 private   MatrixInfo    m_currentInfo;
-
-private   MatrixInfo    m_dtRestGames;
-
-private   MatrixInfo    m_dtMagicInfo;
-
-private   MatrixInfo    m_dtWinsTable;
 
 
 }   //  End class  ExtraInfoViewModel
