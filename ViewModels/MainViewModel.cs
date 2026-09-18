@@ -21,10 +21,16 @@ using   WpfHelper.ViewModels;
 using   System.Collections.ObjectModel;
 using   System.Windows.Input;
 
-using   LeagueInfo  = Score4Wrapper.Common.LeagueInfo;
-
 
 namespace  BaseballScoreHelper.ViewModels  {
+
+using   LeagueInfo  = WrapCommon::LeagueInfo;
+
+
+//========================================================================
+//
+//    MainViewModel  class
+//
 
 public  class  MainViewModel : ViewModelBase
 {
