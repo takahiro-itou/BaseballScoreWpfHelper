@@ -177,9 +177,10 @@ generateViewInfoFromSummarizedDocument(
     decimal decVal  = 0;
     int     topDiff = 0;
 
-    const  Wrapper.GameFilter
+    const  WrapNs.GameFilter
         gameFilter  = WrapNs.GameFilter.FILTER_ALL_GAMES;
     const  int  iGameFilter = (int)gameFilter;
+    int         iMagicMode  = (int)magicMode;
 
     numTeam = docScore.getNumTeams();
     int[]   bufShowIdx  = new int [numTeam];
@@ -242,8 +243,8 @@ generateViewInfoFromSummarizedDocument(
 
         //  マジック。  /
         strMagic = "";
-        int magicValue  = magicInfo.MagicNumber[(int)(magicMode)];
-        if ( magicInfo.MagicFlags[(int)(magicMode)] != 0 ) {
+        int magicValue  = magicInfo.MagicNumber[iMagicMode];
+        if ( magicInfo.MagicFlags[iMagicMode] != 0 ) {
             if ( magicValue == MAGICLIST_NO_DATA_ENTRY ) {
                 strMagic = "M --";
              } else {
@@ -345,12 +346,12 @@ WinsTable  {
 **/
 private  void
 makeTeamListOnMatrixHeader(
-        MatrixInfo      destMatrix,
-        int             numShow,
-        int []          bufShowIndex,
-        int             numTeam,
-        System.Boolean  flagShowTotal,
-        WrapDocument    docScore)
+        MatrixInfo          destMatrix,
+        int                 numShow,
+        int []              bufShowIndex,
+        int                 numTeam,
+        System.Boolean      flagShowTotal,
+        WrapScoreDocument   docScore)
 {
     int     col, idxTeam;
 
