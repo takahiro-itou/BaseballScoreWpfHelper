@@ -19,10 +19,15 @@ using   WpfHelper.ViewModels;
 using   System.Collections.ObjectModel;
 using   System.Data;
 
-using   LeagueInfo  = Score4Wrapper.Common.LeagueInfo;
-
 
 namespace  BaseballScoreHelper.ViewModels  {
+
+using   LeagueInfo  = WrapCommon::LeagueInfo;
+
+//========================================================================
+//
+//    VictoryLineViewModel  class
+//
 
 public  class  VictoryLineViewModel : ViewModelBase
 {
