@@ -2,7 +2,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <ItemGroup>
-    <Using Include="ScoreWrapper"
-           Alias="WrapperNs"
+    <Using Include="ScoreWrapper" Alias="WrapNs" />
+    <Using Include="ScoreWrapper.Common" Alias="WrapCommon" />
+    <Using Include="ScoreWrapper.Document" Alias="WrapDocument" />
   </ItemGroup>
 </Project>

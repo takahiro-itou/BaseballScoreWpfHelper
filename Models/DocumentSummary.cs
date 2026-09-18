@@ -15,15 +15,13 @@
 using   System.Collections.ObjectModel;
 using   System.Windows.Media;
 
-using   Wrapper         = Score4Wrapper;
-using   WrapDocument    = Score4Wrapper.Document.ScoreDocument;
-
-using   LeagueInfo      = Score4Wrapper.Common.LeagueInfo;
-
-using   LeagueIndex     = System.Int32;
-
 
 namespace  BaseballScoreHelper.Models  {
+
+using   WrapScoreDocument   = WrapDocument::ScoreDocument;
+using   LeagueInfo          = WrapCommon::LeagueInfo;
+using   LeagueIndex         = System.Int32;
+
 
 //========================================================================
 //
@@ -34,10 +32,10 @@ public  class  DocumentSummary
 {
 
 private   const  int    MAGIC_NO_PROBABILITY_WONS =
-        (int)Wrapper.Consts.MAGIC_NO_PROBABILITY_WONS;
+        (int)WrapNs.Consts.MAGIC_NO_PROBABILITY_WONS;
 
 private   const  int    MAGICLIST_NO_DATA_ENTRY =
-        (int)Wrapper.Consts.MAGICLIST_NO_DATA_ENTRY;
+        (int)WrapNs.Consts.MAGICLIST_NO_DATA_ENTRY;
 
 
 //========================================================================
@@ -56,7 +54,7 @@ public  DocumentSummary()
     this.m_dtRestGames  = new MatrixInfo();
     this.m_dtMagicInfo  = new MatrixInfo();
     this.m_dtWinsTable  = new MatrixInfo();
-    this.m_flagSchedule = Wrapper.GameFilter.FILTER_SCHEDULE;
+    this.m_flagSchedule = WrapNs.GameFilter.FILTER_SCHEDULE;
 
     //  ダミーデータ。  //
     this.m_dtRestGames  = new MatrixInfo();
@@ -94,16 +92,16 @@ public  DocumentSummary()
 **/
 public  virtual  System.Boolean
 buildRestGameTable(
-        WrapDocument        docScore,
+        WrapScoreDocument   docScore,
         int                 leagueIndex,
-        Wrapper.GameFilter  scheduleFilter,
-        Wrapper.GameFilter  gameType)
+        WrapNs.GameFilter   scheduleFilter,
+        WrapNs.GameFilter   gameType)
 {
-    Wrapper.GameFilter              gameFilter;
-    Wrapper.Common.CountedScores    scoreInfo;
-    Wrapper.Common.TeamInfo         teamInfo;
+    WrapNs.GameFilter           gameFilter;
+    WrapCommon.CountedScores    scoreInfo;
+    WrapCommon.TeamInfo         teamInfo;
 
-    gameFilter = (scheduleFilter & Wrapper.GameFilter.FILTER_SCHEDULE);
+    gameFilter = (scheduleFilter & WrapNs.GameFilter.FILTER_SCHEDULE);
     gameFilter |= gameType;
 
     int numTeam = docScore.getNumTeams();
@@ -138,9 +136,9 @@ buildRestGameTable(
 **/
 public  virtual  System.Boolean
 buildTeamMagicTable(
-        WrapDocument                docScore,
-        LeagueIndex                 leagueIndex,
-        Wrapper.MagicNumberMode     magicMode)
+        WrapScoreDocument       docScore,
+        LeagueIndex             leagueIndex,
+        WrapNs.MagicNumberMode  magicMode)
 {
     return ( true );
 }
@@ -153,7 +151,7 @@ buildTeamMagicTable(
 **/
 public  virtual  System.Boolean
 buildWinsForBeatTable(
-        WrapDocument            docScore,
+        WrapScoreDocument       docScore,
         LeagueIndex             leagueIndex)
 {
     return ( true );
@@ -165,13 +163,13 @@ buildWinsForBeatTable(
 **/
 public  virtual  void
 generateViewInfoFromSummarizedDocument(
-        WrapDocument    docScore,
-        int             leagueIndex,
-        int             magicMode)
+        WrapScoreDocument   docScore,
+        LeagueIndex         leagueIndex,
+        int                 magicMode)
 {
-    Wrapper.Common.TeamInfo         teamInfo;
-    Wrapper.Common.CountedScores    scoreInfo;
-    Wrapper.Common.MagicInfo        magicInfo;
+    WrapCommon.TeamInfo         teamInfo;
+    WrapCommon.CountedScores    scoreInfo;
+    WrapCommon.MagicInfo        magicInfo;
 
     int     idxTeam, numTeam, numShow;
     int     numWons, numLost, numDraw;
@@ -180,7 +178,7 @@ generateViewInfoFromSummarizedDocument(
     int     topDiff = 0;
 
     const  Wrapper.GameFilter
-        gameFilter  = Wrapper.GameFilter.FILTER_ALL_GAMES;
+        gameFilter  = WrapNs.GameFilter.FILTER_ALL_GAMES;
     const  int  iGameFilter = (int)gameFilter;
 
     numTeam = docScore.getNumTeams();
@@ -204,7 +202,7 @@ generateViewInfoFromSummarizedDocument(
             bufWinRates[i]  = (numWons * 1.0 / wpDenom);
        }
     }
-    Wrapper.Document.ScoreDocument.makeDigitsList(
+    WrapDocument.ScoreDocument.makeDigitsList(
             bufWinRates, out bufShowDigits);
 
     this.m_rankingData = new ObservableCollection<RankingModel>();
@@ -408,8 +406,8 @@ writeTeamRestGamesToMatrixRow(
         int             numTotalTeam,
         int             numLeagueTeam,
         int[]           showIndex,
-        Wrapper.GameFilter              gameFilter,
-        Wrapper.Common.CountedScores    scoreInfo)
+        WrapNs.GameFilter           gameFilter,
+        WrapCommon.CountedScores    scoreInfo)
 {
     int restTotal, restLeague, restInter;
     int restVal;
@@ -464,7 +462,7 @@ private   MatrixInfo            m_dtMagicInfo;
 
 private   MatrixInfo            m_dtWinsTable;
 
-private   Wrapper.GameFilter    m_flagSchedule;
+private   WrapNs.GameFilter     m_flagSchedule;
 
 
 }   //  End of class  DocumentSummary
