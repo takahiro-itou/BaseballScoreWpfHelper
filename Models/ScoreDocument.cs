@@ -14,14 +14,13 @@
 
 using   System.Collections.ObjectModel;
 
-using   Wrapper         = Score4Wrapper;
-using   WrapDocument    = Score4Wrapper.Document;
-using   DocumentFile    = Score4Wrapper.Document.DocumentFile;
-
-using   LeagueInfo      = Score4Wrapper.Common.LeagueInfo;
-
 
 namespace  BaseballScoreHelper.Models  {
+
+using   WrapScoreDocument   = WrapDocument::ScoreDocument;
+using   DocumentFile        = WrapDocument::DocumentFile;
+using   LeagueInfo          = WrapCommon::LeagueInfo;
+
 
 //========================================================================
 //
@@ -32,7 +31,7 @@ public  class  ScoreDocument
 {
 
 private   const  int    NUM_MAGIC_MODES =
-        (int)(Wrapper.MagicNumberMode.NUM_MAGIC_MODES);
+        (int)(WrapNs.MagicNumberMode.NUM_MAGIC_MODES);
 
 //========================================================================
 //
@@ -45,7 +44,7 @@ private   const  int    NUM_MAGIC_MODES =
 **/
 public  ScoreDocument()
 {
-    this.m_docScore     = new WrapDocument.ScoreDocument();
+    this.m_docScore     = new WrapScoreDocument();
     this.m_leagueInfos  = new ObservableCollection<LeagueInfo>();
     this.m_scoreInfos   = new DocumentSummary[1, NUM_MAGIC_MODES];
     this.m_docsumEmpty  = new DocumentSummary();

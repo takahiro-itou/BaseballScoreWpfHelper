@@ -15,13 +15,13 @@
 using   System.Collections.ObjectModel;
 using   System.Windows.Media;
 
-using   Wrapper         = Score4Wrapper;
-using   WrapDocument    = Score4Wrapper.Document.ScoreDocument;
-
-using   LeagueInfo      = Score4Wrapper.Common.LeagueInfo;
-
 
 namespace  BaseballScoreHelper.Models  {
+
+using   WrapScoreDocument   = WrapDocument::ScoreDocument;
+using   LeagueInfo          = WrapCommon::LeagueInfo;
+using   LeagueIndex         = System.Int32;
+
 
 //========================================================================
 //
@@ -32,10 +32,10 @@ public  class  DocumentSummary
 {
 
 private   const  int    MAGIC_NO_PROBABILITY_WONS =
-        (int)Wrapper.Consts.MAGIC_NO_PROBABILITY_WONS;
+        (int)WrapNs.Consts.MAGIC_NO_PROBABILITY_WONS;
 
 private   const  int    MAGICLIST_NO_DATA_ENTRY =
-        (int)Wrapper.Consts.MAGICLIST_NO_DATA_ENTRY;
+        (int)WrapNs.Consts.MAGICLIST_NO_DATA_ENTRY;
 
 
 //========================================================================
@@ -54,7 +54,7 @@ public  DocumentSummary()
     this.m_dtRestGames  = new MatrixInfo();
     this.m_dtMagicInfo  = new MatrixInfo();
     this.m_dtWinsTable  = new MatrixInfo();
-    this.m_flagSchedule = Wrapper.GameFilter.FILTER_SCHEDULE;
+    this.m_flagSchedule = WrapNs.GameFilter.FILTER_SCHEDULE;
 
     //  ダミーデータ。  //
     this.m_dtRestGames  = new MatrixInfo();
@@ -92,16 +92,16 @@ public  DocumentSummary()
 **/
 public  virtual  System.Boolean
 buildRestGameTable(
-        WrapDocument        docScore,
+        WrapScoreDocument   docScore,
         int                 leagueIndex,
-        Wrapper.GameFilter  scheduleFilter,
-        Wrapper.GameFilter  gameType)
+        WrapNs.GameFilter   scheduleFilter,
+        WrapNs.GameFilter   gameType)
 {
-    Wrapper.GameFilter              gameFilter;
-    Wrapper.Common.CountedScores    scoreInfo;
-    Wrapper.Common.TeamInfo         teamInfo;
+    WrapNs.GameFilter           gameFilter;
+    WrapCommon.CountedScores    scoreInfo;
+    WrapCommon.TeamInfo         teamInfo;
 
-    gameFilter = (scheduleFilter & Wrapper.GameFilter.FILTER_SCHEDULE);
+    gameFilter = (scheduleFilter & WrapNs.GameFilter.FILTER_SCHEDULE);
     gameFilter |= gameType;
 
     int numTeam = docScore.getNumTeams();
@@ -130,19 +130,46 @@ buildRestGameTable(
 }
 
 //----------------------------------------------------------------
+/**   集計済みデータからテーブルの内容を作成する。
+**
+**    対チームごとのマジックテーブル。
+**/
+public  virtual  System.Boolean
+buildTeamMagicTable(
+        WrapScoreDocument       docScore,
+        LeagueIndex             leagueIndex,
+        WrapNs.MagicNumberMode  magicMode)
+{
+    return ( true );
+}
+
+//----------------------------------------------------------------
+/**   集計済みデータからテーブルの内容を作成する。
+**
+**    各対戦相手毎に、その相手より上位になるために、
+**  最低限勝利しなければならない試合数。
+**/
+public  virtual  System.Boolean
+buildWinsForBeatTable(
+        WrapScoreDocument       docScore,
+        LeagueIndex             leagueIndex)
+{
+    return ( true );
+}
+
+//----------------------------------------------------------------
 /**   集計済みデータから表示用の情報を生成する。
 **
 **/
-
 public  virtual  void
 generateViewInfoFromSummarizedDocument(
-        WrapDocument    docScore,
-        int             leagueIndex,
-        int             magicMode)
+        WrapScoreDocument   docScore,
+        LeagueIndex         leagueIndex,
+        int                 magicMode)
 {
-    Wrapper.Common.TeamInfo         teamInfo;
-    Wrapper.Common.CountedScores    scoreInfo;
-    Wrapper.Common.MagicInfo        magicInfo;
+    WrapCommon.TeamInfo         teamInfo;
+    WrapCommon.CountedScores    scoreInfo;
+    WrapCommon.MagicInfo        magicInfo;
 
     int     idxTeam, numTeam, numShow;
     int     numWons, numLost, numDraw;
@@ -150,9 +177,10 @@ generateViewInfoFromSummarizedDocument(
     decimal decVal  = 0;
     int     topDiff = 0;
 
-    const  Wrapper.GameFilter
-        gameFilter  = Wrapper.GameFilter.FILTER_ALL_GAMES;
+    const  WrapNs.GameFilter
+        gameFilter  = WrapNs.GameFilter.FILTER_ALL_GAMES;
     const  int  iGameFilter = (int)gameFilter;
+    int         iMagicMode  = (int)magicMode;
 
     numTeam = docScore.getNumTeams();
     int[]   bufShowIdx  = new int [numTeam];
@@ -175,7 +203,7 @@ generateViewInfoFromSummarizedDocument(
             bufWinRates[i]  = (numWons * 1.0 / wpDenom);
        }
     }
-    Wrapper.Document.ScoreDocument.makeDigitsList(
+    WrapDocument.ScoreDocument.makeDigitsList(
             bufWinRates, out bufShowDigits);
 
     this.m_rankingData = new ObservableCollection<RankingModel>();
@@ -215,8 +243,8 @@ generateViewInfoFromSummarizedDocument(
 
         //  マジック。  /
         strMagic = "";
-        int magicValue  = magicInfo.MagicNumber[(int)(magicMode)];
-        if ( magicInfo.MagicFlags[(int)(magicMode)] != 0 ) {
+        int magicValue  = magicInfo.MagicNumber[iMagicMode];
+        if ( magicInfo.MagicFlags[iMagicMode] != 0 ) {
             if ( magicValue == MAGICLIST_NO_DATA_ENTRY ) {
                 strMagic = "M --";
              } else {
@@ -318,12 +346,12 @@ WinsTable  {
 **/
 private  void
 makeTeamListOnMatrixHeader(
-        MatrixInfo      destMatrix,
-        int             numShow,
-        int []          bufShowIndex,
-        int             numTeam,
-        System.Boolean  flagShowTotal,
-        WrapDocument    docScore)
+        MatrixInfo          destMatrix,
+        int                 numShow,
+        int []              bufShowIndex,
+        int                 numTeam,
+        System.Boolean      flagShowTotal,
+        WrapScoreDocument   docScore)
 {
     int     col, idxTeam;
 
@@ -379,8 +407,8 @@ writeTeamRestGamesToMatrixRow(
         int             numTotalTeam,
         int             numLeagueTeam,
         int[]           showIndex,
-        Wrapper.GameFilter              gameFilter,
-        Wrapper.Common.CountedScores    scoreInfo)
+        WrapNs.GameFilter           gameFilter,
+        WrapCommon.CountedScores    scoreInfo)
 {
     int restTotal, restLeague, restInter;
     int restVal;
@@ -435,7 +463,7 @@ private   MatrixInfo            m_dtMagicInfo;
 
 private   MatrixInfo            m_dtWinsTable;
 
-private   Wrapper.GameFilter    m_flagSchedule;
+private   WrapNs.GameFilter     m_flagSchedule;
 
 
 }   //  End of class  DocumentSummary
