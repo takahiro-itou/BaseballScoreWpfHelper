@@ -61,22 +61,9 @@ public  DocumentSummary()
     this.m_dtWinsTable  = new MatrixInfo();
     this.m_flagSchedule = WrapNs.GameFilter.FILTER_SCHEDULE;
 
-    //  ダミーデータ。  //
     this.m_dtRestGames  = new MatrixInfo();
     this.m_dtMagicInfo  = new MatrixInfo();
-    this.m_dtWinsTable  = new MatrixInfo(4, 4);
-
-    this.m_dtWinsTable.MatrixData[0].Value = "Teams";
-    for ( int i = 1; i <= 3; ++ i ) {
-        this.m_dtWinsTable.MatrixData[i].Value      = $"Team {i}";
-        this.m_dtWinsTable.MatrixData[i*4].Value    = $"Team {i}";
-
-        for ( int j = 1; j <= 3; ++ j ) {
-            if ( i == j ) { continue; }
-            this.m_dtWinsTable.MatrixData[i*4+j].Value = $"{i*7} 勝/{i*10} 試合";
-            this.m_dtWinsTable.MatrixData[i*4+j].Background = Brushes.Cyan;
-        }
-    }
+    this.m_dtWinsTable  = new MatrixInfo();
 }
 
 
