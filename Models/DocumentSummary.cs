@@ -96,6 +96,120 @@ buildRankingTable(
         WrapNs.MagicNumberMode  magicMode,
         WrapNs.GameFilter       gameFilter)
 {
+    CountedScores        scoreInfo;
+    TeamInfo             teamInfo;
+    WrapCommon.MagicInfo magicInfo;
+
+    int     idxTeam, numTeam, numShow;
+    int     numWons, numLost, numDraw;
+    int     numGame, wpDenom;
+    decimal decVal  = 0;
+    int     topDiff = 0;
+
+    int     iGameFilter = (int)gameFilter;
+    int     iMagicMode  = (int)magicMode;
+
+    numTeam = docScore.getNumTeams();
+    int[]   bufShowIdx  = new int [numTeam];
+    numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
+
+    double[]  bufWinRates   = new double [numShow];
+    int[]     bufShowDigits = new int [numShow];
+
+    for ( int i = 0; i < numShow; ++ i ) {
+        idxTeam = bufShowIdx[i];
+        scoreInfo = docScore.getScoreInfo(idxTeam);
+        numWons = scoreInfo.NumWons [iGameFilter];
+        numLost = scoreInfo.NumLost [iGameFilter];
+        numDraw = scoreInfo.NumDraw [iGameFilter];
+        numGame = scoreInfo.NumGames[iGameFilter];
+        wpDenom = numGame - numDraw;
+        if ( wpDenom == 0 ) {
+            bufWinRates[i]  = 0;
+        } else {
+            bufWinRates[i]  = (numWons * 1.0 / wpDenom);
+       }
+    }
+    WrapDocument.ScoreDocument.makeDigitsList(
+            bufWinRates, out bufShowDigits);
+
+    this.m_rankingData = new ObservableCollection<RankingModel>();
+    for ( int i = 0; i < numShow; ++ i ) {
+        System.String    strDiff, strPerc, strMagic, strRank;
+
+        idxTeam   = bufShowIdx[i];
+        teamInfo  = docScore.getTeamInfo(idxTeam);
+        scoreInfo = docScore.getScoreInfo(idxTeam);
+        magicInfo = scoreInfo.TotalMagicInfo;
+
+        numWons = scoreInfo.NumWons[iGameFilter];
+        numLost = scoreInfo.NumLost[iGameFilter];
+        numDraw = scoreInfo.NumDraw[iGameFilter];
+
+        //  ゲーム差。  //
+        int curDiff = numWons - numLost;
+        if ( i == 0 ) {
+            topDiff = curDiff;
+            strDiff = "---";
+        } else if ( curDiff == topDiff ) {
+            strDiff = "---";
+        } else {
+            decVal  = (decimal)(topDiff - curDiff) / 2;
+            strDiff = decVal.ToString("F1");
+        }
+
+        //  勝率。  //
+        numGame = scoreInfo.NumGames[iGameFilter];
+        wpDenom = numGame - numDraw;
+        if ( wpDenom == 0 ) {
+            strPerc = "---";
+        } else {
+            decVal  = (decimal)numWons / wpDenom;
+            strPerc = decVal.ToString($"F{bufShowDigits[i]}");
+        }
+
+        //  マジック。  /
+        strMagic = "";
+        int magicValue  = magicInfo.MagicNumber[iMagicMode];
+        if ( magicInfo.MagicFlags[iMagicMode] != 0 ) {
+            if ( magicValue == MAGICLIST_NO_DATA_ENTRY ) {
+                strMagic = "M --";
+             } else {
+                strMagic = $"M {magicValue}";
+            }
+        } else {
+            if ( magicValue <= - MAGIC_NO_PROBABILITY_WONS ) {
+                strMagic = "---";
+            } else {
+                strMagic = $"{magicValue}";
+            }
+        }
+
+        //  確定順位範囲。  /
+        if ( (magicInfo.RankHigh <= 0) && (magicInfo.RankLow <= 0) ) {
+            strRank = "";
+        } else if ( magicInfo.RankHigh == magicInfo.RankLow ) {
+            strRank = $"{magicInfo.RankHigh}位確定";
+        } else {
+            strRank = $"{magicInfo.RankHigh}～{magicInfo.RankLow}";
+        }
+
+        //  所定の構造体にセットする。  //
+        this.m_rankingData.Add(
+            new  RankingModel {
+                TeamName  = teamInfo.TeamName,
+                NumGames  = numGame,
+                NumWons   = numWons,
+                NumLost   = numLost,
+                NumDraw   = numDraw,
+                GameDiff  = strDiff,
+                Percent   = strPerc,
+                MagicText = strMagic,
+                RankRange = strRank
+            }
+        );
+    }
+
     return ( true );
 }
 
@@ -207,121 +321,8 @@ generateViewInfoFromSummarizedDocument(
         LeagueIndex             leagueIndex,
         WrapNs.MagicNumberMode  magicMode)
 {
-    CountedScores        scoreInfo;
-    TeamInfo             teamInfo;
-    WrapCommon.MagicInfo magicInfo;
-
-    int     idxTeam, numTeam, numShow;
-    int     numWons, numLost, numDraw;
-    int     numGame, wpDenom;
-    decimal decVal  = 0;
-    int     topDiff = 0;
-
     const  WrapNs.GameFilter
         gameFilter  = WrapNs.GameFilter.FILTER_ALL_GAMES;
-    const  int  iGameFilter = (int)gameFilter;
-    int         iMagicMode  = (int)magicMode;
-
-    numTeam = docScore.getNumTeams();
-    int[]   bufShowIdx  = new int [numTeam];
-    numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
-
-    double[]  bufWinRates   = new double [numShow];
-    int[]     bufShowDigits = new int [numShow];
-
-    for ( int i = 0; i < numShow; ++ i ) {
-        idxTeam = bufShowIdx[i];
-        scoreInfo = docScore.getScoreInfo(idxTeam);
-        numWons = scoreInfo.NumWons [iGameFilter];
-        numLost = scoreInfo.NumLost [iGameFilter];
-        numDraw = scoreInfo.NumDraw [iGameFilter];
-        numGame = scoreInfo.NumGames[iGameFilter];
-        wpDenom = numGame - numDraw;
-        if ( wpDenom == 0 ) {
-            bufWinRates[i]  = 0;
-        } else {
-            bufWinRates[i]  = (numWons * 1.0 / wpDenom);
-       }
-    }
-    WrapDocument.ScoreDocument.makeDigitsList(
-            bufWinRates, out bufShowDigits);
-
-    this.m_rankingData = new ObservableCollection<RankingModel>();
-    for ( int i = 0; i < numShow; ++ i ) {
-        System.String    strDiff, strPerc, strMagic, strRank;
-
-        idxTeam   = bufShowIdx[i];
-        teamInfo  = docScore.getTeamInfo(idxTeam);
-        scoreInfo = docScore.getScoreInfo(idxTeam);
-        magicInfo = scoreInfo.TotalMagicInfo;
-
-        numWons = scoreInfo.NumWons[iGameFilter];
-        numLost = scoreInfo.NumLost[iGameFilter];
-        numDraw = scoreInfo.NumDraw[iGameFilter];
-
-        //  ゲーム差。  //
-        int curDiff = numWons - numLost;
-        if ( i == 0 ) {
-            topDiff = curDiff;
-            strDiff = "---";
-        } else if ( curDiff == topDiff ) {
-            strDiff = "---";
-        } else {
-            decVal  = (decimal)(topDiff - curDiff) / 2;
-            strDiff = decVal.ToString("F1");
-        }
-
-        //  勝率。  //
-        numGame = scoreInfo.NumGames[iGameFilter];
-        wpDenom = numGame - numDraw;
-        if ( wpDenom == 0 ) {
-            strPerc = "---";
-        } else {
-            decVal  = (decimal)numWons / wpDenom;
-            strPerc = decVal.ToString($"F{bufShowDigits[i]}");
-        }
-
-        //  マジック。  /
-        strMagic = "";
-        int magicValue  = magicInfo.MagicNumber[iMagicMode];
-        if ( magicInfo.MagicFlags[iMagicMode] != 0 ) {
-            if ( magicValue == MAGICLIST_NO_DATA_ENTRY ) {
-                strMagic = "M --";
-             } else {
-                strMagic = $"M {magicValue}";
-            }
-        } else {
-            if ( magicValue <= - MAGIC_NO_PROBABILITY_WONS ) {
-                strMagic = "---";
-            } else {
-                strMagic = $"{magicValue}";
-            }
-        }
-
-        //  確定順位範囲。  /
-        if ( (magicInfo.RankHigh <= 0) && (magicInfo.RankLow <= 0) ) {
-            strRank = "";
-        } else if ( magicInfo.RankHigh == magicInfo.RankLow ) {
-            strRank = $"{magicInfo.RankHigh}位確定";
-        } else {
-            strRank = $"{magicInfo.RankHigh}～{magicInfo.RankLow}";
-        }
-
-        //  所定の構造体にセットする。  //
-        this.m_rankingData.Add(
-            new  RankingModel {
-                TeamName  = teamInfo.TeamName,
-                NumGames  = numGame,
-                NumWons   = numWons,
-                NumLost   = numLost,
-                NumDraw   = numDraw,
-                GameDiff  = strDiff,
-                Percent   = strPerc,
-                MagicText = strMagic,
-                RankRange = strRank
-            }
-        );
-    }
 
     this.buildRankingTable(
             docScore, leagueIndex, magicMode, gameFilter);
