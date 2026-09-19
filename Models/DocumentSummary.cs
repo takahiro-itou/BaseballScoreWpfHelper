@@ -19,8 +19,11 @@ using   System.Windows.Media;
 namespace  BaseballScoreHelper.Models  {
 
 using   WrapScoreDocument   = WrapDocument::ScoreDocument;
+using   CountedScores       = WrapCommon::CountedScores;
 using   LeagueInfo          = WrapCommon::LeagueInfo;
+using   TeamInfo            = WrapCommon::TeamInfo;
 using   LeagueIndex         = System.Int32;
+using   TeamIndex           = System.Int32;
 
 
 //========================================================================
@@ -91,9 +94,9 @@ buildRestGameTable(
         WrapNs.GameFilter   scheduleFilter,
         WrapNs.GameFilter   gameType)
 {
-    WrapNs.GameFilter           gameFilter;
-    WrapCommon.CountedScores    scoreInfo;
-    WrapCommon.TeamInfo         teamInfo;
+    CountedScores       scoreInfo;
+    TeamInfo            teamInfo;
+    WrapNs.GameFilter   gameFilter;
 
     gameFilter = (scheduleFilter & WrapNs.GameFilter.FILTER_SCHEDULE);
     gameFilter |= gameType;
@@ -144,6 +147,13 @@ buildTeamMagicTable(
     makeTeamListOnMatrixHeader(
             this.m_dtMagicInfo,
             numShow, bufShowIdx, numShow, false, docScore);
+
+    for ( int i = 0; i < numShow; ++ i ) {
+        idxTeam   = bufShowIdx[i];
+        teamInfo  = docScore.getTeamInfo (idxTeam);
+        scoreInfo = docScore.getScoreInfo(idxTeam);
+    }
+
     return ( true );
 }
 
@@ -171,9 +181,9 @@ generateViewInfoFromSummarizedDocument(
         LeagueIndex             leagueIndex,
         WrapNs.MagicNumberMode  magicMode)
 {
-    WrapCommon.TeamInfo         teamInfo;
-    WrapCommon.CountedScores    scoreInfo;
-    WrapCommon.MagicInfo        magicInfo;
+    CountedScores        scoreInfo;
+    TeamInfo             teamInfo;
+    WrapCommon.MagicInfo magicInfo;
 
     int     idxTeam, numTeam, numShow;
     int     numWons, numLost, numDraw;
@@ -353,9 +363,9 @@ WinsTable  {
 private  void
 makeTeamListOnMatrixHeader(
         MatrixInfo          destMatrix,
-        int                 numShow,
-        int []              bufShowIndex,
-        int                 numTeam,
+        TeamIndex           numShow,
+        TeamIndex []        bufShowIndex,
+        TeamIndex           numTeam,
         System.Boolean      flagShowTotal,
         WrapScoreDocument   docScore)
 {
@@ -396,6 +406,31 @@ makeTeamListOnMatrixHeader(
     if ( flagShowTotal ) {
         //  別リーグの合計。    //
         rowCells[col ++].Value  = "Inter.";
+    }
+
+    return;
+}
+
+//----------------------------------------------------------------
+/**
+**
+**/
+private  void
+writeTeamMagicToMatrixRow(
+        Span<MatrixCellData>    refRow,
+        System.String           teamName,
+        TeamIndex               numTeam,
+        TeamIndex               numShow,
+        TeamIndex []            showIndex,
+        TeamIndex               idxTeam,
+        CountedScores           scoreInfo)
+{
+    for ( int j = 0; j < numShow; ++ j ) {
+        TeamIndex  idxEnemy = shwoIndex[j];
+        if ( idxTeam == idxEnemy ) {
+            refRow[j + 1].Value = "--------";
+            continue;
+        }
     }
 
     return;
