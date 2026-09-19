@@ -58,22 +58,16 @@ public  DocumentSummary()
 
     //  ダミーデータ。  //
     this.m_dtRestGames  = new MatrixInfo();
-    this.m_dtMagicInfo  = new MatrixInfo(4, 4);
+    this.m_dtMagicInfo  = new MatrixInfo();
     this.m_dtWinsTable  = new MatrixInfo(4, 4);
 
-    this.m_dtMagicInfo.MatrixData[0].Value = "Teams";
     this.m_dtWinsTable.MatrixData[0].Value = "Teams";
     for ( int i = 1; i <= 3; ++ i ) {
-        this.m_dtMagicInfo.MatrixData[i].Value      = $"Team {i}";
-        this.m_dtMagicInfo.MatrixData[i*4].Value    = $"Team {i}";
-
         this.m_dtWinsTable.MatrixData[i].Value      = $"Team {i}";
         this.m_dtWinsTable.MatrixData[i*4].Value    = $"Team {i}";
 
         for ( int j = 1; j <= 3; ++ j ) {
             if ( i == j ) { continue; }
-            this.m_dtMagicInfo.MatrixData[i*4+j].Value = $"{i * 3 + j}";
-            this.m_dtMagicInfo.MatrixData[i*4+j].Background = Brushes.LightGreen;
             this.m_dtWinsTable.MatrixData[i*4+j].Value = $"{i*7} 勝/{i*10} 試合";
             this.m_dtWinsTable.MatrixData[i*4+j].Background = Brushes.Cyan;
         }
@@ -294,6 +288,8 @@ generateViewInfoFromSummarizedDocument(
 
     this.buildRestGameTable(
             docScore, leagueIndex, this.m_flagSchedule, gameFilter);
+    this.buildTeamMagicTable(
+            docScore, leagueIndex, magicMode);
 }
 
 

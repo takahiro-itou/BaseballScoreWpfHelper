@@ -208,9 +208,11 @@ generateScoreTables()
         this.m_scoreInfos[i, 1] = new DocumentSummary();
 
         this.m_scoreInfos[i, 0].generateViewInfoFromSummarizedDocument(
-                this.m_docScore, i, 0);
+                this.m_docScore, i,
+                WrapNs.MagicNumberMode.MAGIC_VICTORY);
         this.m_scoreInfos[i, 1].generateViewInfoFromSummarizedDocument(
-                this.m_docScore, i, 1);
+                this.m_docScore, i,
+                WrapNs.MagicNumberMode.MAGIC_PLAYOFF);
     }
 
     return;
