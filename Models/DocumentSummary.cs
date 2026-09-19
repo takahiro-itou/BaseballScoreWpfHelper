@@ -440,6 +440,7 @@ writeTeamMagicToMatrixRow(
     WrapNs.MagicFilter          beatFlag;
 
     int numWins, beatProb;
+    System.String   cellText;
 
     for ( int j = 0; j < numShow; ++ j ) {
         TeamIndex  idxEnemy = showIndex[j];
@@ -452,6 +453,25 @@ writeTeamMagicToMatrixRow(
         beatFlag = beatInfo.FilterType;
         numWins  = beatInfo.NumNeedWins;
         beatProb = beatInfo.NumWinsDiff;
+        if ( beatProb <= - MAGIC_NO_PROBABILITY_WONS ) {
+            cellText = "-----";
+        } else {
+            cellText = $"{beatProb:5}";
+        }
+
+        if ( beatFlag == WrapNs.MagicFilter.MF_ON_MAGIC ) {
+            if ( numWins <= 0 ) {
+                cellText = "M 0 : -----";
+            } else {
+                cellText = $"M {numWins} : {cellText}";
+            }
+        } else if ( beatFlag == WrapNs.MagicFilter.MF_NEVER_BEAT ) {
+            cellText = "(---) :" + cellText;
+        } else {
+            cellText = $"({beatInfo.NumWinsSelf}) : {cellText}";
+        }
+
+        refRow[j + 1].Value = cellText;
     }
 
     return;
