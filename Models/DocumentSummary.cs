@@ -250,9 +250,8 @@ buildRestGameTable(
 **/
 public  virtual  System.Boolean
 buildTeamMagicTable(
-        WrapScoreDocument       docScore,
-        LeagueIndex             leagueIndex,
-        WrapNs.MagicNumberMode  magicMode)
+        WrapScoreDocument   docScore,
+        LeagueIndex         leagueIndex)
 {
     CountedScores   scoreInfo;
     TeamInfo        teamInfo;
@@ -291,8 +290,8 @@ buildTeamMagicTable(
 **/
 public  virtual  System.Boolean
 buildWinsForBeatTable(
-        WrapScoreDocument       docScore,
-        LeagueIndex             leagueIndex)
+        WrapScoreDocument   docScore,
+        LeagueIndex         leagueIndex)
 {
     CountedScores   scoreInfo;
     TeamInfo        teamInfo;
@@ -312,7 +311,7 @@ buildWinsForBeatTable(
         scoreInfo = docScore.getScoreInfo(idxTeam);
         teamInfo  = docScore.getTeamInfo (idxTeam);
         writeWinsForBeatToMatrixRow(
-                this.m_dtMagicInfo.getRowSpan(i + 1),
+                this.m_dtWinsTable.getRowSpan(i + 1),
                 numShow,
                 bufShowIdx,
                 idxTeam,
@@ -341,7 +340,7 @@ generateViewInfoFromSummarizedDocument(
             docScore, leagueIndex, magicMode, gameFilter);
     this.buildRestGameTable(
             docScore, leagueIndex, this.m_flagSchedule, gameFilter);
-    this.buildTeamMagicTable(docScore, leagueIndex, magicMode);
+    this.buildTeamMagicTable(docScore, leagueIndex);
     this.buildWinsForBeatTable(docScore, leagueIndex);
 }
 
