@@ -84,11 +84,13 @@ getRowSpan(
 
 public  virtual  List<double>  CustomHeights  {
     get { return  this.m_rowSize; }
+    set { this.m_rowSize = value; }
 }
 
 
 public  virtual  List<double>  CustomWidths  {
     get { return  this.m_colSize; }
+    set { this.m_colSize = value; }
 }
 
 

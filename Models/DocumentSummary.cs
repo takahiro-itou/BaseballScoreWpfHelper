@@ -328,8 +328,7 @@ generateViewInfoFromSummarizedDocument(
             docScore, leagueIndex, magicMode, gameFilter);
     this.buildRestGameTable(
             docScore, leagueIndex, this.m_flagSchedule, gameFilter);
-    this.buildTeamMagicTable(
-            docScore, leagueIndex, magicMode);
+    this.buildTeamMagicTable(docScore, leagueIndex, magicMode);
 }
 
 
@@ -459,6 +458,7 @@ writeTeamMagicToMatrixRow(
     int numWins, beatProb;
     System.String   cellText;
 
+    refRow[0].Value = teamInfo.TeamName;
     for ( int j = 0; j < numShow; ++ j ) {
         TeamIndex  idxEnemy = showIndex[j];
         if ( idxTeam == idxEnemy ) {
