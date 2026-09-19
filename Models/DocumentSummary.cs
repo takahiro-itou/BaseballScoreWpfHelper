@@ -267,10 +267,9 @@ buildTeamMagicTable(
         LeagueIndex             leagueIndex,
         WrapNs.MagicNumberMode  magicMode)
 {
-    CountedScores        scoreInfo;
-    TeamInfo             teamInfo;
-
-    int     idxTeam, numTeam, numShow;
+    CountedScores   scoreInfo;
+    TeamInfo        teamInfo;
+    TeamIndex       idxTeam, numTeam, numShow;
 
     numTeam = docScore.getNumTeams();
     int[]   bufShowIdx  = new int [numTeam];
@@ -283,8 +282,8 @@ buildTeamMagicTable(
 
     for ( int i = 0; i < numShow; ++ i ) {
         idxTeam   = bufShowIdx[i];
-        teamInfo  = docScore.getTeamInfo (idxTeam);
         scoreInfo = docScore.getScoreInfo(idxTeam);
+        teamInfo  = docScore.getTeamInfo (idxTeam);
         writeTeamMagicToMatrixRow(
                 this.m_dtMagicInfo.getRowSpan(i + 1),
                 numShow,
@@ -308,6 +307,33 @@ buildWinsForBeatTable(
         WrapScoreDocument       docScore,
         LeagueIndex             leagueIndex)
 {
+    CountedScores   scoreInfo;
+    TeamInfo        teamInfo;
+    TeamIndex       idxTeam, numTeam, numShow;
+
+    numTeam = docScore.getNumTeams();
+    int[]   bufShowIdx  = new int [numTeam];
+    numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
+
+    this.m_dtWinsTable  = new MatrixInfo(numShow + 1, numShow + 1);
+    makeTeamListOnMatrixHeader(
+            this.m_dtWinsTable,
+            numShow, bufShowIdx, numShow, false, docScore);
+
+    for ( int i = 0; i < numShow; ++ i ) {
+        idxTeam   = bufShowIdx[i];
+        scoreInfo = docScore.getScoreInfo(idxTeam);
+        teamInfo  = docScore.getTeamInfo (idxTeam);
+        writeWinsForBeatToMatrixRow(
+                this.m_dtMagicInfo.getRowSpan(i + 1),
+                numShow,
+                bufShowIdx,
+                idxTeam,
+                teamInfo,
+                scoreInfo);
+
+    }
+
     return ( true );
 }
 
@@ -548,6 +574,66 @@ writeTeamRestGamesToMatrixRow(
 
     return;
 }
+
+//----------------------------------------------------------------
+/**
+**
+**/
+private  void
+writeWinsForBeatToMatrixRow(
+        Span<MatrixCellData>    refRow,
+        TeamIndex               numShow,
+        TeamIndex []            showIndex,
+        TeamIndex               idxTeam,
+        TeamInfo                teamInfo,
+        CountedScores           scoreInfo)
+{
+    WrapCommon.NumWinsForBeat   beatInfo;
+    WrapNs.MagicFilter          beatFlag;
+
+    int numWins, numRest;
+    System.String   cellText;
+
+    refRow[0].Value = teamInfo.TeamName;
+    for ( int j = 0; j < numShow; ++ j ) {
+        TeamIndex  idxEnemy = showIndex[j];
+        if ( idxTeam == idxEnemy ) {
+            refRow[j + 1].Value = "--------";
+            continue;
+        }
+
+        beatInfo = scoreInfo.NumWinsForBeat[idxEnemy];
+        beatFlag = beatInfo.FilterType;
+        numWins  = beatInfo.NumNeedWins;
+        numRest  = beatInfo.NumRestGame;
+
+        cellText = $"{numWins} 勝 / {numRest} 試合";
+        switch ( beatFlag ) {
+        case  WrapNs.MagicFilter.MF_DIFFERENT_LEAGUE:
+            //　他のリーグのチームなので無視。  //
+            cellText = "--------";
+            break;
+        case  WrapNs.MagicFilter.MF_ON_MAGIC:
+            if ( numWins <= 0 ) {
+            } else {
+            }
+            break;
+        case  WrapNs.MagicFilter.MF_MAGIC_IF_RIVAL_LOSE:
+            break;
+        case  WrapNs.MagicFilter.MF_BEAT_IF_WIN_DIRECT:
+            break;
+        case  WrapNs.MagicFilter.MF_CANNOT_BEAT_BY_SELF:
+            break;
+        case  WrapNs.MagicFilter.MF_NEVER_BEAT:
+            cellText = "不可";
+            break;
+       }
+       refRow[j + 1].Value  = cellText;
+    }
+
+    return;
+}
+
 
 //========================================================================
 //
