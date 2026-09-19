@@ -15,6 +15,8 @@
 using   System.Collections.ObjectModel;
 using   System.Windows.Media;
 
+using   WpfControl.Editor;
+
 
 namespace  BaseballScoreHelper.Models  {
 
@@ -112,7 +114,7 @@ buildRestGameTable(
 
     for ( int i = 0; i < numShow; ++ i ) {
         int idxTeam = bufShowIdx[i];
-        teamInfo  = docScore.getTeamInfo(idxTeam);
+        teamInfo  = docScore.getTeamInfo (idxTeam);
         scoreInfo = docScore.getScoreInfo(idxTeam);
         writeTeamRestGamesToMatrixRow(
                 this.m_dtRestGames,
@@ -137,6 +139,9 @@ buildTeamMagicTable(
         LeagueIndex             leagueIndex,
         WrapNs.MagicNumberMode  magicMode)
 {
+    CountedScores        scoreInfo;
+    TeamInfo             teamInfo;
+
     int     idxTeam, numTeam, numShow;
 
     numTeam = docScore.getNumTeams();
@@ -152,6 +157,13 @@ buildTeamMagicTable(
         idxTeam   = bufShowIdx[i];
         teamInfo  = docScore.getTeamInfo (idxTeam);
         scoreInfo = docScore.getScoreInfo(idxTeam);
+        writeTeamMagicToMatrixRow(
+                this.m_dtMagicInfo.getRowSpan(i + 1),
+                numShow,
+                bufShowIdx,
+                idxTeam,
+                teamInfo,
+                scoreInfo);
     }
 
     return ( true );
@@ -418,19 +430,28 @@ makeTeamListOnMatrixHeader(
 private  void
 writeTeamMagicToMatrixRow(
         Span<MatrixCellData>    refRow,
-        System.String           teamName,
-        TeamIndex               numTeam,
         TeamIndex               numShow,
         TeamIndex []            showIndex,
         TeamIndex               idxTeam,
+        TeamInfo                teamInfo,
         CountedScores           scoreInfo)
 {
+    WrapCommon.NumWinsForBeat   beatInfo;
+    WrapNs.MagicFilter          beatFlag;
+
+    int numWins, beatProb;
+
     for ( int j = 0; j < numShow; ++ j ) {
-        TeamIndex  idxEnemy = shwoIndex[j];
+        TeamIndex  idxEnemy = showIndex[j];
         if ( idxTeam == idxEnemy ) {
             refRow[j + 1].Value = "--------";
             continue;
         }
+
+        beatInfo = scoreInfo.NumWinsForBeat[idxEnemy];
+        beatFlag = beatInfo.FilterType;
+        numWins  = beatInfo.NumNeedWins;
+        beatProb = beatInfo.NumWinsDiff;
     }
 
     return;
