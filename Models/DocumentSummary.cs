@@ -342,6 +342,7 @@ generateViewInfoFromSummarizedDocument(
     this.buildRestGameTable(
             docScore, leagueIndex, this.m_flagSchedule, gameFilter);
     this.buildTeamMagicTable(docScore, leagueIndex, magicMode);
+    this.buildWinsForBeatTable(docScore, leagueIndex);
 }
 
 
