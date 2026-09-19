@@ -140,6 +140,15 @@ buildTeamMagicTable(
         LeagueIndex             leagueIndex,
         WrapNs.MagicNumberMode  magicMode)
 {
+    int     idxTeam, numTeam, numShow;
+
+    numTeam = docScore.getNumTeams();
+    int[]   bufShowIdx  = new int [numTeam];
+    numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
+
+    makeTeamListOnMatrixHeader(
+            this.m_dtMagicInfo,
+            numShow, bufShowIdx, numShow, false, docScore);
     return ( true );
 }
 
@@ -163,9 +172,9 @@ buildWinsForBeatTable(
 **/
 public  virtual  void
 generateViewInfoFromSummarizedDocument(
-        WrapScoreDocument   docScore,
-        LeagueIndex         leagueIndex,
-        int                 magicMode)
+        WrapScoreDocument       docScore,
+        LeagueIndex             leagueIndex,
+        WrapNs.MagicNumberMode  magicMode)
 {
     WrapCommon.TeamInfo         teamInfo;
     WrapCommon.CountedScores    scoreInfo;
