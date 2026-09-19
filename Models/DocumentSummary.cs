@@ -86,6 +86,20 @@ public  DocumentSummary()
 //
 
 //----------------------------------------------------------------
+/**   集計済みデータから順位表を作成する。
+**
+**/
+public  virtual  System.Boolean
+buildRankingTable(
+        WrapScoreDocument       docScore,
+        LeagueIndex             leagueIndex,
+        WrapNs.MagicNumberMode  magicMode,
+        WrapNs.GameFilter       gameFilter)
+{
+    return ( true );
+}
+
+//----------------------------------------------------------------
 /**   集計済みデータから残り試合のテーブルを作成する。
 **
 **/
@@ -309,6 +323,8 @@ generateViewInfoFromSummarizedDocument(
         );
     }
 
+    this.buildRankingTable(
+            docScore, leagueIndex, magicMode, gameFilter);
     this.buildRestGameTable(
             docScore, leagueIndex, this.m_flagSchedule, gameFilter);
     this.buildTeamMagicTable(
