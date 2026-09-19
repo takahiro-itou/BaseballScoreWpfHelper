@@ -102,7 +102,7 @@ buildRestGameTable(
     int[]   bufShowIdx  = new int [numTeam];
     int numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
 
-    this.m_dtRestGames = new MatrixInfo(numShow + 1, numTeam + 4);
+    this.m_dtRestGames  = new MatrixInfo(numShow + 1, numTeam + 4);
     makeTeamListOnMatrixHeader(
             this.m_dtRestGames,
             numShow, bufShowIdx, numTeam, true, docScore);
@@ -140,6 +140,7 @@ buildTeamMagicTable(
     int[]   bufShowIdx  = new int [numTeam];
     numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
 
+    this.m_dtMagicInfo  = new MatrixInfo(numShow + 1, numShow + 1);
     makeTeamListOnMatrixHeader(
             this.m_dtMagicInfo,
             numShow, bufShowIdx, numShow, false, docScore);
