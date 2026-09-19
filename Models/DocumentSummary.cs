@@ -402,6 +402,40 @@ WinsTable  {
 **
 **/
 private  void
+makeLeagueTeamListOnMatrixHeader(
+        Span<MatrixCellData>    refRow,
+        TeamIndex           numTeam,
+        TeamIndex []        showIdx,
+        WrapScoreDocument   docScore,
+        System.String?      colRest = null)
+{
+    int         col;
+    TeamIndex   idxTeam;
+    if ( numTeam == -1 ) {
+        numTeam = docScore.getNumTeams();
+    }
+
+    //  左端にチーム名を表示する。  //
+    col = 0;
+    refRow[col++].Value = "Team";
+
+    if ( colRest is not null ) {
+        refRow[col++].Value = "残り試合";
+    }
+
+    for ( int i = 0; i < numTeam; ++ i ) {
+        idxTeam = showIdx[i];
+        refRow[col++].Value = docScore.getTeamInfo(idxTeam).TeamName;
+    }
+
+    return;
+}
+
+//----------------------------------------------------------------
+/**
+**
+**/
+private  void
 makeTeamListOnMatrixHeader(
         MatrixInfo          destMatrix,
         TeamIndex           numShow,
