@@ -229,6 +229,7 @@ buildRestGameTable(
     makeTeamListOnMatrixHeader(
             this.m_dtRestGames,
             numShow, bufShowIdx, numTeam, true, docScore);
+    this.m_dtRestGames.DefaultWidth = 48.0;
 
     for ( int i = 0; i < numShow; ++ i ) {
         int idxTeam = bufShowIdx[i];
@@ -268,6 +269,7 @@ buildTeamMagicTable(
     makeLeagueTeamListOnMatrixHeader(
             this.m_dtMagicInfo.getRowSpan(0),
             numShow, bufShowIdx, docScore, "残り試合");
+    this.m_dtMagicInfo.DefaultWidth = 88.0;
 
     for ( int i = 0; i < numShow; ++ i ) {
         idxTeam   = bufShowIdx[i];
@@ -308,6 +310,7 @@ buildWinsForBeatTable(
     makeLeagueTeamListOnMatrixHeader(
             this.m_dtWinsTable.getRowSpan(0),
             numShow, bufShowIdx, docScore, "残り試合");
+    this.m_dtWinsTable.DefaultWidth = 104.0;
 
     for ( int i = 0; i < numShow; ++ i ) {
         idxTeam   = bufShowIdx[i];
