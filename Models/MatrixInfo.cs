@@ -49,8 +49,8 @@ MatrixInfo()
 
 public
 MatrixInfo(
-    int     numRows,
-    int     numCols)
+        int     numRows,
+        int     numCols)
 {
     this.m_cellData = new MatrixCellData[numRows * numCols];
     this.m_numCols  = numCols;
@@ -62,17 +62,41 @@ MatrixInfo(
 
 //========================================================================
 //
+//    Public Member Functions.
+//
+
+//----------------------------------------------------------------
+/**   指定した行範囲を取得する。
+**
+**/
+public  virtual  Span<MatrixCellData>
+getRowSpan(
+        int  idxRow)
+{
+    return  this.m_cellData.AsSpan(idxRow * this.m_numCols, this.m_numCols);
+}
+
+
+//========================================================================
+//
 //    Properties.
 //
 
 public  virtual  List<double>  CustomHeights  {
     get { return  this.m_rowSize; }
+    set { this.m_rowSize = value; }
 }
 
 
 public  virtual  List<double>  CustomWidths  {
     get { return  this.m_colSize; }
+    set { this.m_colSize = value; }
 }
+
+
+public  double  DefaultHeight { get; set; } = 25.0;
+
+public  double  DefaultWidth  { get; set; } = 60.0;
 
 
 public  virtual  MatrixCellData[]  MatrixData {

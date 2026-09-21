@@ -15,12 +15,17 @@
 using   System.Collections.ObjectModel;
 using   System.Windows.Media;
 
+using   WpfControl.Editor;
+
 
 namespace  BaseballScoreHelper.Models  {
 
 using   WrapScoreDocument   = WrapDocument::ScoreDocument;
+using   CountedScores       = WrapCommon::CountedScores;
 using   LeagueInfo          = WrapCommon::LeagueInfo;
+using   TeamInfo            = WrapCommon::TeamInfo;
 using   LeagueIndex         = System.Int32;
+using   TeamIndex           = System.Int32;
 
 
 //========================================================================
@@ -36,6 +41,9 @@ private   const  int    MAGIC_NO_PROBABILITY_WONS =
 
 private   const  int    MAGICLIST_NO_DATA_ENTRY =
         (int)WrapNs.Consts.MAGICLIST_NO_DATA_ENTRY;
+
+private   const  int    FILTER_ALL_GAMES =
+        (int)WrapNs.GameFilter.FILTER_ALL_GAMES;
 
 
 //========================================================================
@@ -56,28 +64,9 @@ public  DocumentSummary()
     this.m_dtWinsTable  = new MatrixInfo();
     this.m_flagSchedule = WrapNs.GameFilter.FILTER_SCHEDULE;
 
-    //  ダミーデータ。  //
     this.m_dtRestGames  = new MatrixInfo();
-    this.m_dtMagicInfo  = new MatrixInfo(4, 4);
-    this.m_dtWinsTable  = new MatrixInfo(4, 4);
-
-    this.m_dtMagicInfo.MatrixData[0].Value = "Teams";
-    this.m_dtWinsTable.MatrixData[0].Value = "Teams";
-    for ( int i = 1; i <= 3; ++ i ) {
-        this.m_dtMagicInfo.MatrixData[i].Value      = $"Team {i}";
-        this.m_dtMagicInfo.MatrixData[i*4].Value    = $"Team {i}";
-
-        this.m_dtWinsTable.MatrixData[i].Value      = $"Team {i}";
-        this.m_dtWinsTable.MatrixData[i*4].Value    = $"Team {i}";
-
-        for ( int j = 1; j <= 3; ++ j ) {
-            if ( i == j ) { continue; }
-            this.m_dtMagicInfo.MatrixData[i*4+j].Value = $"{i * 3 + j}";
-            this.m_dtMagicInfo.MatrixData[i*4+j].Background = Brushes.LightGreen;
-            this.m_dtWinsTable.MatrixData[i*4+j].Value = $"{i*7} 勝/{i*10} 試合";
-            this.m_dtWinsTable.MatrixData[i*4+j].Background = Brushes.Cyan;
-        }
-    }
+    this.m_dtMagicInfo  = new MatrixInfo();
+    this.m_dtWinsTable  = new MatrixInfo();
 }
 
 
@@ -87,89 +76,19 @@ public  DocumentSummary()
 //
 
 //----------------------------------------------------------------
-/**   集計済みデータから残り試合のテーブルを作成する。
+/**   集計済みデータから順位表を作成する。
 **
 **/
 public  virtual  System.Boolean
-buildRestGameTable(
-        WrapScoreDocument   docScore,
-        int                 leagueIndex,
-        WrapNs.GameFilter   scheduleFilter,
-        WrapNs.GameFilter   gameType)
-{
-    WrapNs.GameFilter           gameFilter;
-    WrapCommon.CountedScores    scoreInfo;
-    WrapCommon.TeamInfo         teamInfo;
-
-    gameFilter = (scheduleFilter & WrapNs.GameFilter.FILTER_SCHEDULE);
-    gameFilter |= gameType;
-
-    int numTeam = docScore.getNumTeams();
-    int[]   bufShowIdx  = new int [numTeam];
-    int numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
-
-    this.m_dtRestGames = new MatrixInfo(numShow + 1, numTeam + 4);
-    makeTeamListOnMatrixHeader(
-            this.m_dtRestGames,
-            numShow, bufShowIdx, numTeam, true, docScore);
-
-    for ( int i = 0; i < numShow; ++ i ) {
-        int idxTeam = bufShowIdx[i];
-        teamInfo  = docScore.getTeamInfo(idxTeam);
-        scoreInfo = docScore.getScoreInfo(idxTeam);
-        writeTeamRestGamesToMatrixRow(
-                this.m_dtRestGames,
-                teamInfo.TeamName,
-                i + 1,
-                numTeam, numShow, bufShowIdx,
-                gameFilter, scoreInfo
-        );
-    }
-
-    return ( true );
-}
-
-//----------------------------------------------------------------
-/**   集計済みデータからテーブルの内容を作成する。
-**
-**    対チームごとのマジックテーブル。
-**/
-public  virtual  System.Boolean
-buildTeamMagicTable(
+buildRankingTable(
         WrapScoreDocument       docScore,
         LeagueIndex             leagueIndex,
-        WrapNs.MagicNumberMode  magicMode)
+        WrapNs.MagicNumberMode  magicMode,
+        WrapNs.GameFilter       gameFilter)
 {
-    return ( true );
-}
-
-//----------------------------------------------------------------
-/**   集計済みデータからテーブルの内容を作成する。
-**
-**    各対戦相手毎に、その相手より上位になるために、
-**  最低限勝利しなければならない試合数。
-**/
-public  virtual  System.Boolean
-buildWinsForBeatTable(
-        WrapScoreDocument       docScore,
-        LeagueIndex             leagueIndex)
-{
-    return ( true );
-}
-
-//----------------------------------------------------------------
-/**   集計済みデータから表示用の情報を生成する。
-**
-**/
-public  virtual  void
-generateViewInfoFromSummarizedDocument(
-        WrapScoreDocument   docScore,
-        LeagueIndex         leagueIndex,
-        int                 magicMode)
-{
-    WrapCommon.TeamInfo         teamInfo;
-    WrapCommon.CountedScores    scoreInfo;
-    WrapCommon.MagicInfo        magicInfo;
+    CountedScores        scoreInfo;
+    TeamInfo             teamInfo;
+    WrapCommon.MagicInfo magicInfo;
 
     int     idxTeam, numTeam, numShow;
     int     numWons, numLost, numDraw;
@@ -177,10 +96,8 @@ generateViewInfoFromSummarizedDocument(
     decimal decVal  = 0;
     int     topDiff = 0;
 
-    const  WrapNs.GameFilter
-        gameFilter  = WrapNs.GameFilter.FILTER_ALL_GAMES;
-    const  int  iGameFilter = (int)gameFilter;
-    int         iMagicMode  = (int)magicMode;
+    int     iGameFilter = (int)gameFilter;
+    int     iMagicMode  = (int)magicMode;
 
     numTeam = docScore.getNumTeams();
     int[]   bufShowIdx  = new int [numTeam];
@@ -283,8 +200,154 @@ generateViewInfoFromSummarizedDocument(
         );
     }
 
+    return ( true );
+}
+
+//----------------------------------------------------------------
+/**   集計済みデータから残り試合のテーブルを作成する。
+**
+**/
+public  virtual  System.Boolean
+buildRestGameTable(
+        WrapScoreDocument   docScore,
+        int                 leagueIndex,
+        WrapNs.GameFilter   scheduleFilter,
+        WrapNs.GameFilter   gameType)
+{
+    CountedScores       scoreInfo;
+    TeamInfo            teamInfo;
+    WrapNs.GameFilter   gameFilter;
+
+    gameFilter = (scheduleFilter & WrapNs.GameFilter.FILTER_SCHEDULE);
+    gameFilter |= gameType;
+
+    int numTeam = docScore.getNumTeams();
+    int[]   bufShowIdx  = new int [numTeam];
+    int numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
+
+    this.m_dtRestGames  = new MatrixInfo(numShow + 1, numTeam + 4);
+    makeTeamListOnMatrixHeader(
+            this.m_dtRestGames,
+            numShow, bufShowIdx, numTeam, true, docScore);
+    this.m_dtRestGames.DefaultWidth = 48.0;
+
+    for ( int i = 0; i < numShow; ++ i ) {
+        int idxTeam = bufShowIdx[i];
+        teamInfo  = docScore.getTeamInfo (idxTeam);
+        scoreInfo = docScore.getScoreInfo(idxTeam);
+        writeTeamRestGamesToMatrixRow(
+                this.m_dtRestGames,
+                teamInfo.TeamName,
+                i + 1,
+                numTeam, numShow, bufShowIdx,
+                gameFilter, scoreInfo
+        );
+    }
+
+    return ( true );
+}
+
+//----------------------------------------------------------------
+/**   集計済みデータからテーブルの内容を作成する。
+**
+**    対チームごとのマジックテーブル。
+**/
+public  virtual  System.Boolean
+buildTeamMagicTable(
+        WrapScoreDocument   docScore,
+        LeagueIndex         leagueIndex)
+{
+    CountedScores   scoreInfo;
+    TeamInfo        teamInfo;
+    TeamIndex       idxTeam, numTeam, numShow;
+
+    numTeam = docScore.getNumTeams();
+    int[]   bufShowIdx  = new int [numTeam];
+    numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
+
+    this.m_dtMagicInfo  = new MatrixInfo(numShow + 1, numShow + 2);
+    makeLeagueTeamListOnMatrixHeader(
+            this.m_dtMagicInfo.getRowSpan(0),
+            numShow, bufShowIdx, docScore, "残り試合");
+    this.m_dtMagicInfo.DefaultWidth = 88.0;
+
+    for ( int i = 0; i < numShow; ++ i ) {
+        idxTeam   = bufShowIdx[i];
+        scoreInfo = docScore.getScoreInfo(idxTeam);
+        teamInfo  = docScore.getTeamInfo (idxTeam);
+        writeTeamMagicToMatrixRow(
+                this.m_dtMagicInfo.getRowSpan(i + 1),
+                numShow,
+                bufShowIdx,
+                idxTeam,
+                teamInfo,
+                scoreInfo);
+    }
+
+    return ( true );
+}
+
+//----------------------------------------------------------------
+/**   集計済みデータからテーブルの内容を作成する。
+**
+**    各対戦相手毎に、その相手より上位になるために、
+**  最低限勝利しなければならない試合数。
+**/
+public  virtual  System.Boolean
+buildWinsForBeatTable(
+        WrapScoreDocument   docScore,
+        LeagueIndex         leagueIndex)
+{
+    CountedScores   scoreInfo;
+    TeamInfo        teamInfo;
+    TeamIndex       idxTeam, numTeam, numShow;
+
+    numTeam = docScore.getNumTeams();
+    int[]   bufShowIdx  = new int [numTeam];
+    numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
+
+    this.m_dtWinsTable  = new MatrixInfo(numShow + 1, numShow + 2);
+    makeLeagueTeamListOnMatrixHeader(
+            this.m_dtWinsTable.getRowSpan(0),
+            numShow, bufShowIdx, docScore, "残り試合");
+    this.m_dtWinsTable.DefaultWidth = 104.0;
+
+    for ( int i = 0; i < numShow; ++ i ) {
+        idxTeam   = bufShowIdx[i];
+        scoreInfo = docScore.getScoreInfo(idxTeam);
+        teamInfo  = docScore.getTeamInfo (idxTeam);
+        writeWinsForBeatToMatrixRow(
+                this.m_dtWinsTable.getRowSpan(i + 1),
+                numShow,
+                bufShowIdx,
+                idxTeam,
+                teamInfo,
+                scoreInfo);
+
+    }
+
+    return ( true );
+}
+
+//----------------------------------------------------------------
+/**   集計済みデータから表示用の情報を生成する。
+**
+**/
+public  virtual  void
+generateViewInfoFromSummarizedDocument(
+        WrapScoreDocument       docScore,
+        LeagueIndex             leagueIndex,
+        WrapNs.MagicNumberMode  magicMode)
+{
+    const  WrapNs.GameFilter
+        gameFilter  = WrapNs.GameFilter.FILTER_ALL_GAMES;
+
+    this.buildRankingTable(
+            docScore, leagueIndex, magicMode, gameFilter);
     this.buildRestGameTable(
             docScore, leagueIndex, this.m_flagSchedule, gameFilter);
+    this.buildTeamMagicTable(docScore, leagueIndex);
+    this.buildWinsForBeatTable(docScore, leagueIndex);
 }
 
 
@@ -345,11 +408,45 @@ WinsTable  {
 **
 **/
 private  void
+makeLeagueTeamListOnMatrixHeader(
+        Span<MatrixCellData>    refRow,
+        TeamIndex           numTeam,
+        TeamIndex []        showIdx,
+        WrapScoreDocument   docScore,
+        System.String?      colRest = null)
+{
+    int         col;
+    TeamIndex   idxTeam;
+    if ( numTeam == -1 ) {
+        numTeam = docScore.getNumTeams();
+    }
+
+    //  左端にチーム名を表示する。  //
+    col = 0;
+    refRow[col++].Value = "Team";
+
+    if ( colRest is not null ) {
+        refRow[col++].Value = colRest;
+    }
+
+    for ( int i = 0; i < numTeam; ++ i ) {
+        idxTeam = showIdx[i];
+        refRow[col++].Value = docScore.getTeamInfo(idxTeam).TeamName;
+    }
+
+    return;
+}
+
+//----------------------------------------------------------------
+/**
+**
+**/
+private  void
 makeTeamListOnMatrixHeader(
         MatrixInfo          destMatrix,
-        int                 numShow,
-        int []              bufShowIndex,
-        int                 numTeam,
+        TeamIndex           numShow,
+        TeamIndex []        bufShowIndex,
+        TeamIndex           numTeam,
         System.Boolean      flagShowTotal,
         WrapScoreDocument   docScore)
 {
@@ -390,6 +487,65 @@ makeTeamListOnMatrixHeader(
     if ( flagShowTotal ) {
         //  別リーグの合計。    //
         rowCells[col ++].Value  = "Inter.";
+    }
+
+    return;
+}
+
+//----------------------------------------------------------------
+/**
+**
+**/
+private  void
+writeTeamMagicToMatrixRow(
+        Span<MatrixCellData>    refRow,
+        TeamIndex               numShow,
+        TeamIndex []            showIndex,
+        TeamIndex               idxTeam,
+        TeamInfo                teamInfo,
+        CountedScores           scoreInfo)
+{
+    WrapCommon.NumWinsForBeat   beatInfo;
+    WrapNs.MagicFilter          beatFlag;
+
+    int     numWins, beatProb, numRest;
+    System.String   cellText;
+
+    //  チーム名と残り試合数。  //
+    numRest = scoreInfo.NumTotalRestGames[FILTER_ALL_GAMES];
+    refRow[0].Value = teamInfo.TeamName;
+    refRow[1].Value = $"{numRest} 試合";
+
+    for ( int j = 0; j < numShow; ++ j ) {
+        TeamIndex  idxEnemy = showIndex[j];
+        if ( idxTeam == idxEnemy ) {
+            refRow[j + 2].Value = "--------";
+            continue;
+        }
+
+        beatInfo = scoreInfo.NumWinsForBeat[idxEnemy];
+        beatFlag = beatInfo.FilterType;
+        numWins  = beatInfo.NumNeedWins;
+        beatProb = beatInfo.NumWinsDiff;
+        if ( beatProb <= - MAGIC_NO_PROBABILITY_WONS ) {
+            cellText = "-----";
+        } else {
+            cellText = $"{beatProb:5}";
+        }
+
+        if ( beatFlag == WrapNs.MagicFilter.MF_ON_MAGIC ) {
+            if ( numWins <= 0 ) {
+                cellText = "M 0 : -----";
+            } else {
+                cellText = $"M {numWins} : {cellText}";
+            }
+        } else if ( beatFlag == WrapNs.MagicFilter.MF_NEVER_BEAT ) {
+            cellText = "(---) :" + cellText;
+        } else {
+            cellText = $"({beatInfo.NumWinsSelf}) : {cellText}";
+        }
+
+        refRow[j + 2].Value = cellText;
     }
 
     return;
@@ -449,6 +605,71 @@ writeTeamRestGamesToMatrixRow(
 
     return;
 }
+
+//----------------------------------------------------------------
+/**
+**
+**/
+private  void
+writeWinsForBeatToMatrixRow(
+        Span<MatrixCellData>    refRow,
+        TeamIndex               numShow,
+        TeamIndex []            showIndex,
+        TeamIndex               idxTeam,
+        TeamInfo                teamInfo,
+        CountedScores           scoreInfo)
+{
+    WrapCommon.NumWinsForBeat   beatInfo;
+    WrapNs.MagicFilter          beatFlag;
+
+    int numWins, numRest;
+    System.String   cellText;
+
+    //  チーム名と残り試合数。  //
+    numRest = scoreInfo.NumTotalRestGames[FILTER_ALL_GAMES];
+    refRow[0].Value = teamInfo.TeamName;
+    refRow[1].Value = $"{numRest} 試合";
+
+    //  他のチームとのデータ。  //
+    for ( int j = 0; j < numShow; ++ j ) {
+        TeamIndex  idxEnemy = showIndex[j];
+        if ( idxTeam == idxEnemy ) {
+            refRow[j + 2].Value = "--------";
+            continue;
+        }
+
+        beatInfo = scoreInfo.NumWinsForBeat[idxEnemy];
+        beatFlag = beatInfo.FilterType;
+        numWins  = beatInfo.NumNeedWins;
+        numRest  = beatInfo.NumRestGame;
+
+        cellText = $"{numWins} 勝 / {numRest} 試合";
+        switch ( beatFlag ) {
+        case  WrapNs.MagicFilter.MF_DIFFERENT_LEAGUE:
+            //　他のリーグのチームなので無視。  //
+            cellText = "--------";
+            break;
+        case  WrapNs.MagicFilter.MF_ON_MAGIC:
+            if ( numWins <= 0 ) {
+            } else {
+            }
+            break;
+        case  WrapNs.MagicFilter.MF_MAGIC_IF_RIVAL_LOSE:
+            break;
+        case  WrapNs.MagicFilter.MF_BEAT_IF_WIN_DIRECT:
+            break;
+        case  WrapNs.MagicFilter.MF_CANNOT_BEAT_BY_SELF:
+            break;
+        case  WrapNs.MagicFilter.MF_NEVER_BEAT:
+            cellText = "不可";
+            break;
+       }
+       refRow[j + 2].Value  = cellText;
+    }
+
+    return;
+}
+
 
 //========================================================================
 //
