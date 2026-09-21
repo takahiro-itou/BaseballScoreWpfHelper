@@ -94,6 +94,11 @@ public  virtual  List<double>  CustomWidths  {
 }
 
 
+public  double  DefaultHeight { get; set; } = 25.0;
+
+public  double  DefaultWidth  { get; set; } = 60.0;
+
+
 public  virtual  MatrixCellData[]  MatrixData {
     get { return  this.m_cellData; }
     set { this.m_cellData = value; }
