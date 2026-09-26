@@ -96,7 +96,7 @@ SelectedShowType  {
         if ( this.m_selectIndex != value ) {
             this.m_selectIndex = value;
             RaisePropertyChanged();
-            updateCurrentInfo();
+            UpdateCurrentInfo();
         }
     }
 }
@@ -143,8 +143,8 @@ protected  virtual  void  OnSelectedLeagueChanged()
 /**
 **
 **/
-
-private  void  updateCurrentInfo()
+private  void
+UpdateCurrentInfo()
 {
     this.CurrentInfo = this.SelectedShowType switch
     {
