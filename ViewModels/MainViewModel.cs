@@ -110,7 +110,7 @@ ExtraSource  {
 public  virtual  System.Boolean
 IsEnabled  {
     get { return  this.m_isEnabled; }
-    set { SetValue(this.m_isEnabled, value); }
+    set { SetValue(ref this.m_isEnabled, value); }
 }
 
 //----------------------------------------------------------------
@@ -129,7 +129,7 @@ Leagues {
 public  virtual  System.DateTime?
 SelectedDate  {
     get { return  this.m_scoreDocument.SelectedDate; }
-    set { SetValue(this.m_scoreDocument.SelectedDate,  value); }
+    set { SetValue(ref this.m_scoreDocument.SelectedDate,  value); }
 }
 
 //----------------------------------------------------------------
@@ -158,7 +158,7 @@ SelectedLeagueSummary {
 public  virtual  int
 SelectedMagicMode  {
     get { return  this.m_scoreDocument.SelectedMagicMode; }
-    set { SetValue(this.m_scoreDocument.SelectedMagicMode, value); }
+    set { SetValue(ref this.m_scoreDocument.SelectedMagicMode, value); }
 }
 
 
@@ -170,7 +170,7 @@ SelectedMagicMode  {
 public  virtual  System.String
 WindowCaption  {
     get { return  this.m_windowCaption; }
-    set { SetValue(this.m_windowCaption, value); }
+    set { SetValue(ref this.m_windowCaption, value); }
 }
 
 
