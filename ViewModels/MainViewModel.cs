@@ -129,7 +129,10 @@ Leagues {
 public  virtual  System.DateTime?
 SelectedDate  {
     get { return  this.m_scoreDocument.SelectedDate; }
-    set { SetValue(ref this.m_scoreDocument.SelectedDate,  value); }
+    set {
+        this.m_scoreDocument.SelectedDate = value;
+        RaisePropertyChanged();
+    }
 }
 
 //----------------------------------------------------------------
@@ -158,7 +161,10 @@ SelectedLeagueSummary {
 public  virtual  int
 SelectedMagicMode  {
     get { return  this.m_scoreDocument.SelectedMagicMode; }
-    set { SetValue(ref this.m_scoreDocument.SelectedMagicMode, value); }
+    set {
+        this.m_scoreDocument.SelectedMagicMode = value
+        RaisePropertyChanged();
+    }
 }
 
 
