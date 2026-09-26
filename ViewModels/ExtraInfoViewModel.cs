@@ -63,7 +63,7 @@ public  virtual  MatrixInfo
 CurrentInfo  {
     get { return  this.m_currentInfo; }
     private set {
-        SetValue(this.m_currentInfo, value);
+        SetValue(ref this.m_currentInfo, value);
     }
 }
 
