@@ -63,8 +63,7 @@ public  virtual  MatrixInfo
 CurrentInfo  {
     get { return  this.m_currentInfo; }
     private set {
-        this.m_currentInfo = value;
-        raisePropertyChanged();
+        SetValue(ref this.m_currentInfo, value);
     }
 }
 
@@ -96,8 +95,8 @@ SelectedShowType  {
     set {
         if ( this.m_selectIndex != value ) {
             this.m_selectIndex = value;
-            raisePropertyChanged();
-            updateCurrentInfo();
+            RaisePropertyChanged();
+            UpdateCurrentInfo();
         }
     }
 }
@@ -123,10 +122,10 @@ protected  virtual  void  OnLeagueListChanged()
 
 protected  virtual  void  OnLeagueSummaryChanged()
 {
-    raisePropertyChanged(nameof(MagicTable));
-    raisePropertyChanged(nameof(RestGameTable));
-    raisePropertyChanged(nameof(WinsTable));
-    raisePropertyChanged(nameof(CurrentInfo));
+    RaisePropertyChanged(nameof(MagicTable));
+    RaisePropertyChanged(nameof(RestGameTable));
+    RaisePropertyChanged(nameof(WinsTable));
+    RaisePropertyChanged(nameof(CurrentInfo));
 }
 
 protected  virtual  void  OnSelectedLeagueChanged()
@@ -144,8 +143,8 @@ protected  virtual  void  OnSelectedLeagueChanged()
 /**
 **
 **/
-
-private  void  updateCurrentInfo()
+private  void
+UpdateCurrentInfo()
 {
     this.CurrentInfo = this.SelectedShowType switch
     {
