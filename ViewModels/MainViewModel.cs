@@ -64,17 +64,17 @@ MainViewModel(
 
     //  コマンドを実装する。      //
     this.FileOpenCommand    = new SimpleCommand(
-        () => executeFileOpenCommand()
+        () => ExecuteFileOpenCommand()
     );
     this.FileSaveCommand    = new SimpleCommand(
-        () => executeFileSaveCommand(),
+        () => ExecuteFileSaveCommand(),
         _  => this.IsEnabled
     );
     this.FileSaveAsCommand  = new SimpleCommand(
-        () => executeFileSaveAsCommand()
+        () => ExecuteFileSaveAsCommand()
     );
     this.MagicLineCommand   = new SimpleCommand(
-        () => executeMagicLineCommand(),
+        () => ExecuteMagicLineCommand(),
         _  => this.IsEnabled
     );
 }
@@ -110,12 +110,7 @@ ExtraSource  {
 public  virtual  System.Boolean
 IsEnabled  {
     get { return  this.m_isEnabled; }
-    set {
-        if ( this.m_isEnabled != value ) {
-            this.m_isEnabled = value;
-            raisePropertyChanged();
-        }
-    }
+    set { SetValue(ref this.m_isEnabled, value); }
 }
 
 //----------------------------------------------------------------
@@ -136,7 +131,7 @@ SelectedDate  {
     get { return  this.m_scoreDocument.SelectedDate; }
     set {
         this.m_scoreDocument.SelectedDate = value;
-        raisePropertyChanged();
+        RaisePropertyChanged();
     }
 }
 
@@ -168,7 +163,7 @@ SelectedMagicMode  {
     get { return  this.m_scoreDocument.SelectedMagicMode; }
     set {
         this.m_scoreDocument.SelectedMagicMode = value;
-        raisePropertyChanged();
+        RaisePropertyChanged();
     }
 }
 
@@ -181,10 +176,7 @@ SelectedMagicMode  {
 public  virtual  System.String
 WindowCaption  {
     get { return  this.m_windowCaption; }
-    set {
-        this.m_windowCaption = value;
-        raisePropertyChanged();
-    }
+    set { SetValue(ref this.m_windowCaption, value); }
 }
 
 
@@ -198,11 +190,11 @@ WindowCaption  {
 **
 **/
 protected  override  void
-checkCommandsCanExecute(
+CheckCommandsCanExecute(
         System.String?  propertyName)
 {
-    raiseCanExecuteChanged(FileSaveCommand);
-    raiseCanExecuteChanged(this.MagicLineCommand);
+    RaiseCanExecuteChanged(FileSaveCommand);
+    RaiseCanExecuteChanged(this.MagicLineCommand);
 }
 
 
@@ -212,7 +204,7 @@ checkCommandsCanExecute(
 **/
 
 protected  virtual  void
-executeFileOpenCommand()
+ExecuteFileOpenCommand()
 {
     System.String   strCaption = "成績／順位　: ";
 
@@ -246,7 +238,7 @@ executeFileOpenCommand()
 **/
 
 protected  virtual  void
-executeFileSaveCommand()
+ExecuteFileSaveCommand()
 {
     WindowCaption = "上書き保存";
 }
@@ -257,7 +249,7 @@ executeFileSaveCommand()
 **/
 
 protected  virtual  void
-executeFileSaveAsCommand()
+ExecuteFileSaveAsCommand()
 {
     SaveFileDialogSettings  settings = new SaveFileDialogSettings {
         DefaultExt = ".gsr",
@@ -275,7 +267,7 @@ executeFileSaveAsCommand()
 **
 **/
 protected  virtual  void
-executeMagicLineCommand()
+ExecuteMagicLineCommand()
 {
     VictoryLineViewModel    vm  =
             new VictoryLineViewModel(this.m_scoreDocument);
@@ -290,18 +282,18 @@ executeMagicLineCommand()
 
 protected  virtual  void  OnLeagueListChanged()
 {
-    raisePropertyChanged(nameof(Leagues));
+    RaisePropertyChanged(nameof(Leagues));
 }
 
 protected  virtual  void  OnLeagueSummaryChanged()
 {
-    raisePropertyChanged(nameof(SelectedLeagueSummary));
+    RaisePropertyChanged(nameof(SelectedLeagueSummary));
 }
 
 protected  virtual  void  OnSelectedLeagueChanged()
 {
-    raisePropertyChanged(nameof(SelectedLeagueIndex));
-    raisePropertyChanged(nameof(SelectedLeagueSummary));
+    RaisePropertyChanged(nameof(SelectedLeagueIndex));
+    RaisePropertyChanged(nameof(SelectedLeagueSummary));
 }
 
 

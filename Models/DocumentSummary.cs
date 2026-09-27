@@ -583,8 +583,8 @@ writeTeamRestGamesToMatrixRow(
     refRow[col++].Value = teamName;
 
     //  残り試合の合計  //
-    refRow[col].Background  = Brushes.Green;
-    refRow[col++].Value     = $"{restTotal}";
+    refRow[col].BgColor = Colors.Green;
+    refRow[col++].Value = $"{restTotal}";
 
     //  所属リーグ内の残り試合。対戦相手毎の試合数。    //
     for ( int j = 0; j < numLeagueTeam; ++ j ) {
