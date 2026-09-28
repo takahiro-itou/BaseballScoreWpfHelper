@@ -218,7 +218,7 @@ ExecuteFileOpenCommand()
     this.IsEnabled  = false;
     if ( m_windowService.showOpenFileDialog(settings) is string filePath )
     {
-        this.IsEnabled  = this.m_scoreDocument.openBinaryData(filePath);
+        this.IsEnabled  = this.m_scoreDocument.OpenBinaryData(filePath);
     } else {
         return;
     }
