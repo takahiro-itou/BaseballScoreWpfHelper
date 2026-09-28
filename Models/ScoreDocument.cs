@@ -65,7 +65,7 @@ public  ScoreDocument()
 **
 **/
 public  virtual  System.Boolean
-openBinaryData(
+OpenBinaryData(
         System.String   fileName)
 {
     DocumentFile.readFromBinaryFile(fileName, ref this.m_docScore);
