@@ -77,7 +77,7 @@ OpenBinaryData(
 **
 **/
 public  virtual  System.Boolean
-summarizeDocument(
+SummarizeDocument(
         System.DateTime   trgLastDate)
 {
     //  データを集計する機能を呼び出す。    //
@@ -132,7 +132,7 @@ SelectedDate  {
         if ( value == null ) { return; }
         if ( this.m_selectedDate != value ) {
             this.m_selectedDate = value.Value;
-            summarizeDocument(this.m_selectedDate);
+            SummarizeDocument(this.m_selectedDate);
             notifyLeagueSummaryChanged();
         }
    }
@@ -199,6 +199,10 @@ public  event   Action?     LeagueSummaryChanged;
 //    Protected Member Functions.
 //
 
+//----------------------------------------------------------------
+/**
+**
+**/
 protected  virtual  void
 generateScoreTables()
 {
@@ -218,7 +222,10 @@ generateScoreTables()
     return;
 }
 
-
+//----------------------------------------------------------------
+/**
+**
+**/
 protected  virtual  void
 notifyLeagueListChanged()
 {
@@ -226,6 +233,10 @@ notifyLeagueListChanged()
 }
 
 
+//----------------------------------------------------------------
+/**
+**
+**/
 protected  virtual  void
 notifyLeagueSummaryChanged()
 {
@@ -240,7 +251,10 @@ notifySelectedLeagueChanged()
     notifyLeagueSummaryChanged();
 }
 
-
+//----------------------------------------------------------------
+/**
+**
+**/
 protected  virtual  System.Boolean
 updateInfos()
 {
@@ -256,7 +270,7 @@ updateInfos()
         this.m_leagueInfos.Add(this.m_docScore.getLeagueInfo(i));
     }
 
-    summarizeDocument(this.m_selectedDate);
+    SummarizeDocument(this.m_selectedDate);
     notifyLeagueListChanged();
     notifySelectedLeagueChanged();
     notifyLeagueSummaryChanged();
