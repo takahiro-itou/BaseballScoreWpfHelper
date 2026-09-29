@@ -13,6 +13,7 @@
     <Compile Include="$(BswmThisDir)Models\MatrixInfo.cs" />
     <Compile Include="$(BswmThisDir)Models\RankingModel.cs" />
     <Compile Include="$(BswmThisDir)Models\ScoreDocument.cs" />
+    <Compile Include="$(BswmThisDir)Models\VictoryLine.cs" />
 
     <Compile Include="$(BswmThisDir)Services\AbstractWindowService.cs" />
     <Compile Include="$(BswmThisDir)Services\DialogSettings.cs" />
