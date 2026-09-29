@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
 
-  <Import Project="$(MSBuildThisFileDirectory)WpfHelper\WpfHelper.props" />
-  <Import Project="$(MSBuildThisFileDirectory)Editor/MatrixEditor/Targets.props" />
+  <PropertyGroup>
+    <BswmThisDir>$(MSBuildThisFileDirectory)</BswmThisDir>
+  </PropertyGroup>
+
+  <Import Project="$(BswmThisDir)WpfHelper\WpfHelper.props" />
+  <Import Project="$(BswmThisDir)Editor/MatrixEditor/Targets.props" />
 
   <ItemGroup>
-    <Compile Include="Models\DocumentSummary.cs" />
-    <Compile Include="Models\MatrixInfo.cs" />
-    <Compile Include="Models\RankingModel.cs" />
-    <Compile Include="Models\ScoreDocument.cs" />
+    <Compile Include="$(BswmThisDir)Models\DocumentSummary.cs" />
+    <Compile Include="$(BswmThisDir)Models\MatrixInfo.cs" />
+    <Compile Include="$(BswmThisDir)Models\RankingModel.cs" />
+    <Compile Include="$(BswmThisDir)Models\ScoreDocument.cs" />
 
-    <Compile Include="Services\AbstractWindowService.cs" />
-    <Compile Include="Services\DialogSettings.cs" />
-    <Compile Include="Services\IWindowService.cs" />
+    <Compile Include="$(BswmThisDir)Services\AbstractWindowService.cs" />
+    <Compile Include="$(BswmThisDir)Services\DialogSettings.cs" />
+    <Compile Include="$(BswmThisDir)Services\IWindowService.cs" />
 
-    <Compile Include="ViewModels\DetailViewModel.cs" />
-    <Compile Include="ViewModels\ExtraInfoViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\ScoreEditorViewModel.cs" />
-    <Compile Include="ViewModels\VictoryLineViewModel.cs" />
+    <Compile Include="$(BswmThisDir)ViewModels\DetailViewModel.cs" />
+    <Compile Include="$(BswmThisDir)ViewModels\ExtraInfoViewModel.cs" />
+    <Compile Include="$(BswmThisDir)ViewModels\MainViewModel.cs" />
+    <Compile Include="$(BswmThisDir)ViewModels\ScoreEditorViewModel.cs" />
+    <Compile Include="$(BswmThisDir)ViewModels\VictoryLineViewModel.cs" />
   </ItemGroup>
 
 </Project>
