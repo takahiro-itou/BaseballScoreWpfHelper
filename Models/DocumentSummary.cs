@@ -334,7 +334,7 @@ buildWinsForBeatTable(
 **
 **/
 public  virtual  void
-generateViewInfoFromSummarizedDocument(
+GenerateViewInfoFromSummarizedDocument(
         WrapScoreDocument       docScore,
         LeagueIndex             leagueIndex,
         WrapNs.MagicNumberMode  magicMode)
