@@ -235,7 +235,7 @@ BuildRestGameTable(
         int idxTeam = bufShowIdx[i];
         teamInfo  = docScore.getTeamInfo (idxTeam);
         scoreInfo = docScore.getScoreInfo(idxTeam);
-        writeTeamRestGamesToMatrixRow(
+        WriteTeamRestGamesToMatrixRow(
                 this.m_dtRestGames,
                 teamInfo.TeamName,
                 i + 1,
@@ -275,7 +275,7 @@ BuildTeamMagicTable(
         idxTeam   = bufShowIdx[i];
         scoreInfo = docScore.getScoreInfo(idxTeam);
         teamInfo  = docScore.getTeamInfo (idxTeam);
-        writeTeamMagicToMatrixRow(
+        WriteTeamMagicToMatrixRow(
                 this.m_dtMagicInfo.getRowSpan(i + 1),
                 numShow,
                 bufShowIdx,
@@ -316,7 +316,7 @@ BuildWinsForBeatTable(
         idxTeam   = bufShowIdx[i];
         scoreInfo = docScore.getScoreInfo(idxTeam);
         teamInfo  = docScore.getTeamInfo (idxTeam);
-        writeWinsForBeatToMatrixRow(
+        WriteWinsForBeatToMatrixRow(
                 this.m_dtWinsTable.getRowSpan(i + 1),
                 numShow,
                 bufShowIdx,
@@ -497,7 +497,7 @@ MakeTeamListOnMatrixHeader(
 **
 **/
 private  void
-writeTeamMagicToMatrixRow(
+WriteTeamMagicToMatrixRow(
         Span<MatrixCellData>    refRow,
         TeamIndex               numShow,
         TeamIndex []            showIndex,
@@ -556,7 +556,7 @@ writeTeamMagicToMatrixRow(
 **
 **/
 private  void
-writeTeamRestGamesToMatrixRow(
+WriteTeamRestGamesToMatrixRow(
         MatrixInfo      destMatrix,
         System.String   teamName,
         int             idxRow,
@@ -611,7 +611,7 @@ writeTeamRestGamesToMatrixRow(
 **
 **/
 private  void
-writeWinsForBeatToMatrixRow(
+WriteWinsForBeatToMatrixRow(
         Span<MatrixCellData>    refRow,
         TeamIndex               numShow,
         TeamIndex []            showIndex,
