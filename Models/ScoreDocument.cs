@@ -83,7 +83,7 @@ SummarizeDocument(
     //  データを集計する機能を呼び出す。    //
     this.m_docScore.countScores(trgLastDate);
 
-    generateScoreTables();
+    GenerateScoreTables();
 
     return ( true );
 }
@@ -204,7 +204,7 @@ public  event   Action?     LeagueSummaryChanged;
 **
 **/
 protected  virtual  void
-generateScoreTables()
+GenerateScoreTables()
 {
     int numLeagues  = this.m_docScore.getNumLeagues();
     for ( int i = 0; i < numLeagues; ++ i ) {
