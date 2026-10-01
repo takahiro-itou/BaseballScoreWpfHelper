@@ -80,7 +80,7 @@ public  DocumentSummary()
 **
 **/
 public  virtual  System.Boolean
-buildRankingTable(
+BuildRankingTable(
         WrapScoreDocument       docScore,
         LeagueIndex             leagueIndex,
         WrapNs.MagicNumberMode  magicMode,
@@ -208,7 +208,7 @@ buildRankingTable(
 **
 **/
 public  virtual  System.Boolean
-buildRestGameTable(
+BuildRestGameTable(
         WrapScoreDocument   docScore,
         int                 leagueIndex,
         WrapNs.GameFilter   scheduleFilter,
@@ -253,7 +253,7 @@ buildRestGameTable(
 **    対チームごとのマジックテーブル。
 **/
 public  virtual  System.Boolean
-buildTeamMagicTable(
+BuildTeamMagicTable(
         WrapScoreDocument   docScore,
         LeagueIndex         leagueIndex)
 {
@@ -294,7 +294,7 @@ buildTeamMagicTable(
 **  最低限勝利しなければならない試合数。
 **/
 public  virtual  System.Boolean
-buildWinsForBeatTable(
+BuildWinsForBeatTable(
         WrapScoreDocument   docScore,
         LeagueIndex         leagueIndex)
 {
@@ -342,12 +342,12 @@ GenerateViewInfoFromSummarizedDocument(
     const  WrapNs.GameFilter
         gameFilter  = WrapNs.GameFilter.FILTER_ALL_GAMES;
 
-    this.buildRankingTable(
+    this.BuildRankingTable(
             docScore, leagueIndex, magicMode, gameFilter);
-    this.buildRestGameTable(
+    this.BuildRestGameTable(
             docScore, leagueIndex, this.m_flagSchedule, gameFilter);
-    this.buildTeamMagicTable(docScore, leagueIndex);
-    this.buildWinsForBeatTable(docScore, leagueIndex);
+    this.BuildTeamMagicTable(docScore, leagueIndex);
+    this.BuildWinsForBeatTable(docScore, leagueIndex);
 }
 
 
