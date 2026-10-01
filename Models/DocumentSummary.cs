@@ -226,7 +226,7 @@ BuildRestGameTable(
     int numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
 
     this.m_dtRestGames  = new MatrixInfo(numShow + 1, numTeam + 4);
-    makeTeamListOnMatrixHeader(
+    MakeTeamListOnMatrixHeader(
             this.m_dtRestGames,
             numShow, bufShowIdx, numTeam, true, docScore);
     this.m_dtRestGames.DefaultWidth = 48.0;
@@ -266,7 +266,7 @@ BuildTeamMagicTable(
     numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
 
     this.m_dtMagicInfo  = new MatrixInfo(numShow + 1, numShow + 2);
-    makeLeagueTeamListOnMatrixHeader(
+    MakeLeagueTeamListOnMatrixHeader(
             this.m_dtMagicInfo.getRowSpan(0),
             numShow, bufShowIdx, docScore, "残り試合");
     this.m_dtMagicInfo.DefaultWidth = 88.0;
@@ -307,7 +307,7 @@ BuildWinsForBeatTable(
     numShow = docScore.computeRankOrder(leagueIndex, bufShowIdx);
 
     this.m_dtWinsTable  = new MatrixInfo(numShow + 1, numShow + 2);
-    makeLeagueTeamListOnMatrixHeader(
+    MakeLeagueTeamListOnMatrixHeader(
             this.m_dtWinsTable.getRowSpan(0),
             numShow, bufShowIdx, docScore, "残り試合");
     this.m_dtWinsTable.DefaultWidth = 104.0;
@@ -408,7 +408,7 @@ WinsTable  {
 **
 **/
 private  void
-makeLeagueTeamListOnMatrixHeader(
+MakeLeagueTeamListOnMatrixHeader(
         Span<MatrixCellData>    refRow,
         TeamIndex           numTeam,
         TeamIndex []        showIdx,
@@ -442,7 +442,7 @@ makeLeagueTeamListOnMatrixHeader(
 **
 **/
 private  void
-makeTeamListOnMatrixHeader(
+MakeTeamListOnMatrixHeader(
         MatrixInfo          destMatrix,
         TeamIndex           numShow,
         TeamIndex []        bufShowIndex,
